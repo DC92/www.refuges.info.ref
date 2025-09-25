@@ -1,0 +1,58 @@
+<?php
+
+header("Content-disposition: filename=contributions.rss");
+header("Content-Type: application/xml; UTF-8"); // rajout du charset
+header("Content-Transfer-Encoding: binary");
+headers_cors_par_default();
+headers_cache_api();
+
+?>
+<?='<?'?>xml version="1.0" encoding="UTF-8"<?='?>'?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Refuges.info</title>
+  <link>https://<?=$config_wri['nom_hote']?>/</link>
+  <atom:link href="https://<?=$config_wri['nom_hote'].htmlspecialchars($_SERVER["REQUEST_URI"])?>" rel="self" type="application/rss+xml" />
+  <description><?=$config_wri['copyright_API']?></description>
+  <language>fr</language>
+  <image>
+    <url>https://<?=$config_wri['nom_hote']?>/images/icone-rss.svg</url>
+    <title>Refuges.info</title>
+    <link>https://<?=$config_wri['nom_hote']?>/</link>
+    <height>64</height>
+    <width>64</width>
+  </image>
+
+  <?php foreach ($news AS $nouvelle) { ?>
+      <item>
+        <title><?=$nouvelle['categorie']?> : <?=$nouvelle['nom_point']?></title>
+        <link><?=$nouvelle['lien']?></link>
+        <guid><?=$nouvelle['lien'].rand(1,10000)?></guid>
+        <pubDate><?=date('r',$nouvelle['date'])?></pubDate>
+        <description><![CDATA[
+          <b><big><?=$nouvelle['texte']?></big></b><br>
+            <?php switch ($nouvelle['categorie']) {
+                    case 'Commentaire':
+            ?>
+            <p style='color:grey;'><?=$nouvelle['texte']?>
+              <?php if (!empty($nouvelle['photo'])) { ?>
+              <br><a href="https://<?=$config_wri['nom_hote'].$nouvelle['photo_originale']?>"><img src="https://<?=$config_wri['nom_hote'].$nouvelle['photo_mini']?>" /></a>
+              <?php } ?>
+            </p>
+            
+            <?php   break;
+                    case 'Point':
+            ?>
+            <p style='color:grey;'><b>Remarques :</b> <?=$nouvelle['remarques']?><br><b>Accès :</b> <?=$nouvelle['acces']?></p>
+            <?php     break; 
+            }
+            ?>
+              ]]></description>
+      </item> 
+  <?php } ?>
+
+</channel>
+</rss>
+
+

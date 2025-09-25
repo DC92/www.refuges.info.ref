@@ -1,0 +1,13 @@
+<?php
+
+header("Content-disposition: filename=contributions.csv");
+header("Content-Type: text/csv; UTF-8"); // rajout du charset
+header("Content-Transfer-Encoding: binary");
+headers_cors_par_default();
+headers_cache_api();
+?>
+"date;categorie;lien;titre;auteur;Avec photo"
+<?php foreach ($news AS $nouvelle) { ?>
+<?=$nouvelle['date_formatee']?>;<?=$nouvelle['categorie']?>;<?=$nouvelle['lien']?>;"<?=$nouvelle['titre']?>";"<?=($nouvelle['auteur'] ?? 'utilisateur supprimé')?>";<?=$nouvelle['photo']?>
+
+<?php } ?>

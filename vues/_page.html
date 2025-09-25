@@ -1,0 +1,69 @@
+<?php
+// Affichage de l'entête des pages de refuges.info
+
+// $vue contient les données passées par le fichier PHP
+// $config_wri les données communes à tout WRI
+// Ce fichier est l'unique endroit ou peuvent se trouver des balises HTML
+// Un couple <ouverture de balise> </fermeture de balise> doit se trouver dans le même fichier et avec la même indentation
+// Ce fichier ne contient que des balises HTML et des balises de contrôle PHP
+
+// Ici on permet de changer le code http qui, par défaut est 200
+if (!empty($vue->http_status_code)) 
+    switch ($vue->http_status_code) 
+    {
+        case 403:
+            header("HTTP/1.0 403 Forbidden");
+            break;
+
+        case 404:
+            header("HTTP/1.0 404 Not Found");
+        
+        default:
+            break;
+    }
+
+// On inclue les fichiers communs
+add_lib('style.css.php');
+add_lib('_bandeau.js');
+
+// Includes cartes
+if(!empty($vue->carte)) {
+  add_lib(
+    empty($config_wri['debug_ol']) ? 'myol-min.css' : 'myol.css',
+    'chemin_ol',
+    true
+  );
+  add_lib(
+    empty($config_wri['debug_ol']) ? 'myol.js' : 'myol-debug.js',
+    'chemin_ol'
+  );
+  add_lib('_cartes.js');
+}
+?>
+<!doctype html>
+<html lang="fr">
+  <head>
+    <title><?=$vue->titre ?? ''?></title>
+    <link rel="icon" type="image/png" href="<?=$config_wri['url_chemin_icones']?>favicon.png">
+    <link rel="icon" type="image/svg+xml" href="<?=$config_wri['url_chemin_icones']?>favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php if (isset ($vue->css)) { ?>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <?php } ?>
+    
+    <meta http-equiv="Content-Type" content="text/html;charset=<?=$config_wri['encodage_des_contenu_web']?>">
+
+    <?php if (isset ($vue->css_lib_head))
+        foreach ($vue->css_lib_head as $css_lib) {?>
+            <link type="text/css" rel="stylesheet" href="<?=$css_lib?>">
+    <?php } ?>
+  </head>
+
+	<body>
+		<?php
+			include(fichier_vue('_bandeau.html'));
+			include(fichier_vue($vue->type.'.html'));
+			include(fichier_vue('_pied.html'));
+		?>
+	</body>
+</html>
