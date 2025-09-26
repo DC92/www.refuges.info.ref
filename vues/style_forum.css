@@ -16,8 +16,20 @@
   color: black !important;
 }
 
-#phpbb .wri-link {
-  font-size: 70%;
+/* J'intègre également les class des liens du forum
+en gros je veux tout de la même couleur */
+a.mainmenu,
+a.nav,
+a.forumlink,
+a.cattitle,
+a.topictitle,
+a.postlink,
+a.gen,
+a.genmed,
+a.gensmall,
+.bandeau-haut a {
+  color: var(--couleur_lien);
+  text-decoration: none;
 }
 
 /* Zones masquées */

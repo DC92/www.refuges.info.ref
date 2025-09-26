@@ -354,21 +354,8 @@ a:hover {
   text-decoration: none;
 }
 
-/*
-J'intègre également les class des liens du forum
-en gros je veux tout de la même couleur
-*/
-
 body:not(#phpbb) a,
-a.mainmenu,
-a.nav,
-a.forumlink,
-a.cattitle,
-a.topictitle,
-a.postlink,
-a.gen,
-a.genmed,
-a.gensmall {
+a.mainmenu, {
   color: #<?=$couleur_lien?>;
   /* en accord avec le thème du forum, et moins agressif */
   text-decoration: none;
@@ -800,6 +787,11 @@ form {
 
 .point_forum em {
   color: black !important;
+}
+
+/* Lien pour retourner à la fiche depuis le forum */
+.wri-link {
+  font-size: 70%;
 }
 
 /*==================================================================*/
