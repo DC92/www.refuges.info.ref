@@ -1,0 +1,8 @@
+services:
+    RefugesInfo.trace.listener:
+        class: RefugesInfo\trace\event\listener
+        tags:
+            - { name: event.listener }
+
+    RefugesInfo.trace.controller.mcp:
+        class: RefugesInfo\trace\controller\mcp_controller

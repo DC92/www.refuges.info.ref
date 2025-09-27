@@ -1,0 +1,27 @@
+En utilisant l'outil "linkchecker" (installé sur le serveur) on peut détecter, sur le site de refuges.info les liens qui pointent vers des page en erreur (404 500
+résolution dns impossible, 301, mailto: non valide, etc.)
+Cet outil test la syntaxe des liens, le pointage du lien.
+
+J'utilise maintenant une nouvelle méthode, un poil plus longue à préparer mais exhaustive et plus rapide à faire tourner :
+
+On génère un fichier avec les urls de toutes les fiches à vérifier, au format :
+https://www.refuges.info/point/45 https://www.refuges.info/point/46 https://www.refuges.info/point/47 ...
+
+Ce genre de ligne de commande devrait faire le job, sans tenir compte des fiches cachées que l'outil ne peut pas atteindre :
+for id in $(echo "select id_point from points where cache='f';" | psql refuges -t -A -U refuges) ; do echo -n "https://www.refuges.info/point/$id " >> urls_a_tester ; done
+
+
+et on le passe au linkchecker :
+
+cat "urls_a_tester" | linkchecker -r1 -t 32 -o csv --check-extern --ignore="www.refuges.info" --stdin > liste-brute.csv
+
+Note :
+Avec le --ignore="www.refuges.info" j'ignore toutes les urls qui pointe vers nous même, en partant du principe que nos liens internes ne sont pas foireux
+Ça exclus le forum, donc si on veut quand même s'attaquer aux messages sur le forum
+(franchement, je ne vois pas l'intérêt d'un travail pareil !) , on peut adapter le "ignore" et enlever le -r1 qui limite la récursion à 1
+
+
+Pour rendre le résultat plus lisible, on peut lancer :
+./lien-erreur-liste-lisible.sh ./liste-brute.csv > version-un-peu-plus-lisible-et-apres-nettoyage.txt
+
+

@@ -63,6 +63,97 @@ switch ($periode)
 
 ?>
 /*==================================================================*/
+/* Modification du style du nouveau forum PhpBB3-prosilver          */
+/*==================================================================*/
+/* Pas de ligne vide en haut */
+#phpbb {
+  padding: 0;
+}
+
+/* Forum de la largeur de la page */
+#phpbb .wrap {
+  max-width: 100%;
+}
+
+/* Titre des forums de refuges */
+#phpbb .section-viewtopic .topic-title a:first-child {
+  color: black !important;
+}
+
+#phpbb .wri-link {
+  font-size: 70%;
+}
+
+/* Zones masquées */
+#phpbb .headerbar,
+#phpbb .navbar .avatar,
+/* Personnalisation des couleurs */
+#phpbb .navbar,
+#phpbb #basdepage {
+  background-color: #<?=$couleur_fond?>;
+}
+
+#phpbb .headerbar,
+.forumbg,
+#phpbb .headerbar,
+.forabg,
+#phpbb h3 {
+  background-color: #<?=$couleur_lien?>;
+  background-image: none;
+}
+
+#phpbb .panel h3,
+#phpbb .alert_text h3,
+#phpbb .stat-block h3,
+#phpbb .stat-block h3 a,
+#phpbb .headerspace h3,
+#phpbb .headerspace h3 a,
+#phpbb .postbody h3,
+#phpbb .postbody h3 a,
+#phpbb #postform .review,
+#phpbb #postform .review a {
+  color: white;
+}
+
+#phpbb .stat-block strong a {
+  color: #a00;
+}
+
+#phpbb .bg1,
+#phpbb .bg2,
+#phpbb .bg3,
+#phpbb .forabg .forums,
+#phpbb .forumbg .topics>li {
+  background-color: #<?=$couleur_fond?>;
+  background-image: none;
+}
+
+#phpbb dl a.row-item-link:hover {
+  background-color: transparent !important;
+}
+
+/* Masquage lien vers la page contact qui fait doublon avec le bandeau WRI du bas */
+#nav-footer li:last-child,
+/* Masquage login rapide en bas de page */
+#page-body>form>h3,
+.quick-login {
+  display: none;
+}
+/* Masquage du lien "Nous Contacter" qui fait croire à un contact avec les refuges */
+ul#nav-main > li > a[href*="contactadmin"] {
+	display: none;
+}
+
+.section-posting #attach-panel-multi::after {
+  content: "Attendre la fin du chargement des fichiers pour enregistrer le sujet.";
+  background: yellow;
+}
+
+.text-strong {
+  color: initial;
+}
+
+/*==================================================================*/
 /* Mise en page générales des types                                 */
 /*==================================================================*/
 /*===== Général =======*/
@@ -354,8 +445,21 @@ a:hover {
   text-decoration: none;
 }
 
+/*
+J'intègre également les class des liens du forum
+en gros je veux tout de la même couleur
+*/
+
 body:not(#phpbb) a,
-a.mainmenu, {
+a.mainmenu,
+a.nav,
+a.forumlink,
+a.cattitle,
+a.topictitle,
+a.postlink,
+a.gen,
+a.genmed,
+a.gensmall {
   color: #<?=$couleur_lien?>;
   /* en accord avec le thème du forum, et moins agressif */
   text-decoration: none;
@@ -787,11 +891,6 @@ form {
 
 .point_forum em {
   color: black !important;
-}
-
-/* Lien pour retourner à la fiche depuis le forum */
-.wri-link {
-  font-size: 70%;
 }
 
 /*==================================================================*/

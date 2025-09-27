@@ -1,0 +1,71 @@
+#A renommer en .htaccess
+
+# Blocage de l'accès au site pour maintenance urgente (bug grave, piratage, tout est cassé) : Décommentez les lignes suivantes pour bloquer l'accès au site
+#order deny,allow
+#deny from all
+#ErrorDocument 403 /maintenance.html
+#allow from 2001:cb00:... # Mettre l'adresse du développeur qui veut y accéder ici, ou plusieurs ligne possible (format ipv6 oiu ipv4
+#allow from 2001:bc8:37ca:101::1 # Mettre l'adresse du serveur (pour les requetes AJAX intra-site)
+#<FilesMatch "^maintenance.html$">
+#  Allow from all
+#</FilesMatch>
+
+#Notre code est public, c'est donc pas vraiment par sécurité mais parce que ça met dans lignes d'erreur dans nos logs (Et au cas où on commiterait par erreur un mot de passe). Ces pirates, ils tentent vraiment n'importe quoi...
+RedirectMatch 403 ^/.git/.*$
+
+
+AddDefaultCharset UTF-8
+
+RewriteEngine On
+
+#Blocage d'une liste UserAgent (parfois y'a tellement d'abus depuis certains bots qu'on en arrive à là, en voici 3 pourtant issues de maisons célèbres qui abusent parfois)
+#RewriteCond %{HTTP_USER_AGENT} ^.*(facebookexternalhit|Amazonbot|AhrefsBot).*$ [NC]
+#RewriteRule .* - [F,L]
+
+# Ici on détecte si la connexion a lieu par http ou https et on stock dans la variable "proto"
+RewriteCond %{HTTPS} =on
+RewriteRule ^(.*)$ - [env=proto:https]
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ - [env=proto:http]
+
+# On peut ensuite forcer la redirection de refuges.info vers www.refuges.info en préservant le protocol (http ou https)
+RewriteCond %{HTTP_HOST} ^refuges.info$ [NC]
+RewriteRule ^(.*)$ %{ENV:proto}://www.refuges.info/$1 [L,R=301]
+
+#Ces règles de rewrite permettent de faire atterrir tous les appels sur
+#l'unique point d'entrée du site (moins le forum et de vieux truc non
+#converti) sauf ceux pour lesquels il existe un fichier réél ou un dossier
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . ./index.php [L]
+
+#Dans le cas d'utilisation de php en module apache (courant en config mono site ou zone de développement), a noter : ce n'est plus le cas pour le serveur www.refuges.info depuis 2020
+#Dans le cas d'utilisation de php en mode php-fpm, si vous avez besoin de changer des options de php, ajouter les au .user.ini à la place
+<ifmodule mod_php.c>
+  php_value short_open_tag 1
+
+  #A décommenter pour les développeurs : ça affiche les erreurs à l'écran même celle de parse error (uniquement si on utilise mod_php, ce qui, en 09/02/2021 n'est plus le cas)
+  #php_value display_errors 1
+</ifmodule>
+
+#Ces options de mise en cache navigateur ne pas une nécessité, mais pour le css et le js ça accélère quand même bigrement la navigation sur le site
+#Si le module n'existe pas avec apache, tant pis, ça ne fera rien (mais c'est dommage !)
+<ifmodule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 6 hours"
+  ExpiresByType application/javascript "access plus 6 hours"
+  ExpiresByType image/png "access plus 12 hours"
+  ExpiresByType image/jpg "access plus 6 hours"
+  ExpiresByType image/jpeg "access plus 6 hours"
+</ifmodule>
+
+#On demande la compression gzip des contenu suivants, ça gagnent vraiment de la bande passante sur les json (l'api) les xml (parfois) et l'export kml
+<IfModule mod_deflate.c>
+  <IfModule mod_filter.c>
+    AddOutputFilterByType DEFLATE application/rss+xml application/xml application/json application/vnd.google-earth
+  </IfModule>
+</IfModule>
+
+<FilesMatch "^COPYING$">
+    ForceType text/plain
+</FilesMatch>

@@ -1,0 +1,28 @@
+# Lorsque la ligne commence par "/" cela permet de cibler un fichier bien particulier de wri
+# Lorsque la ligne ne commence pas par un "/" tous les fichiers de wri portant ce nom seront ignorés
+/.htaccess
+/.user.ini
+/config_privee.php
+/photos_points/*
+!/photos-points/index.html
+/vues/api/doc/mails.txt # Fichier contenant les mails de la newsletter API
+*.sublime-workspace
+*.sublime-project
+/ressources/outils/scan_liens/nosqldata.txt
+/forum/config.php
+/forum/cache/*
+!/forum/cache/.htaccess
+!/forum/cache/index.htm
+/forum/files/*
+!/forum/files/.htaccess
+!/forum/files/index.htm
+/forum/images/avatars/upload/*
+!/forum/images/avatars/upload/.htaccess
+!/forum/images/avatars/upload/index.htm
+/forum/photos-points/*
+!/forum/photos-points/index.html
+/forum/store/*
+!/forum/store/.htaccess
+!/forum/store/index.htm
+/myol/node_modules/*
+/ressources/geoip/*.dat

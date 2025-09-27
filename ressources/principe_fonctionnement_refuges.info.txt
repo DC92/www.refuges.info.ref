@@ -1,0 +1,185 @@
+Ce fichier texte, non protégé et accessible aussi par Internet tente d'être une première approche pour qui voudrait
+comprendre comment s'articule le site refuges.info au niveau logiciel.
+
+Comme le code est sous WTFPL (voir fichier licence.txt), il n'y a pas de problème à que n'importe qui trouve le comment ça marche
+Cependant, merci de n'indiquer ici aucun mot de passe du site.
+création le 28/10/2008 par sly sylvain@refuges.info
+Mise à jour quand j'y pense et en fonction de la modif :
+02/2019 : qualite_suppossee de 'commentaire' disparait
+02/2019 : raison
+
+Historique et dernières modifications visible ici :
+https://github.com/sletuffe/www.refuges.info/blob/dev/ressources/principe_fonctionnement_refuges.info.txt
+
+
+Structure SQL
+-------------
+Une première bonne étape est de comprendre la structure de la base de donnée et le pourquoi des champs et de ce qu'elle contient
+(Tout n'est pas présent, surtout dans le cas où le nom du champs se comprend de lui même)
+
+phpbb3_* -> toutes les tables du forum phpBB (version 3.2 ou +)
+========
+Tout est d'origine ou presque. Ce qui a été ajouté est uniquement une extension au sens PhpBB 3.1+ dans /forum/ext/RefugesInfo/couplage/...
+
+!! ATENTION !!
+Le site et le forum ne sont pas disociables car les utilisateurs du forum sont ceux utilisés par le site
+
+commentaires
+============
+La table des commentaires des internautes sur un point de la base
+* id_point : pour faire le lien vers la table point
+* demande_correction : un champ à 1 quand un modérateur doit être prévenu que ce commnetaire est jugé utile à la fiche par celui qui l'a mis
+-- C'est un peu tordu comme méthode mais cela peut limiter un peu le nombre de controles à faire par les modérateurs en évitant qu'un commentaire jugé utiles par
+-- plein de gens ne soit considéré comme "non utile" par un seul.
+* raison_demande_correction : un champ libre pour que l'internaute explique ses raisons de penser que le commentaire est périmé ou très intéressant
+* auteur : le nom de l'auteur (c'est un champs laissé libre pour que les internautes non connectés puissent mettre ce qu'il veulent)
+* id_createur : Le numéro, dans la table phpbb3_users de l'internaute, connecté ayant mis ce commentaire, qui outrepasse "auteur" (on peut être non connecté ou connecté, auquel cas, l'auteur est vide car on le récupère des infos dans phpBB)
+
+points
+======
+la table des points du site (refuge, cabanes, grottes, ...)
+A noter qu'une seule table regroupe tous les points quels qu'ils soient, même s'ils ne partagent pas forcément les mêmes champs de description, il est donc normal par exemple
+de trouver un nombre de place vide pour un point d'eau.
+Cette notion de mutation des propriétés des points (icones, champs) est géré par la table point_type
+
+* id_point_type, un lien vers la table point_type (refuge ou abri ou ...)
+* auteur_derniere_modification (le nom de l'auteur qui l'a créé si celui ci est anonyme)
+et/ou
+* id_createur, l'id de l'utilisateur qui est modérateur de cette fiche (il peut la modifier), par défaut, lors de la création, c'est celui qui la créé qui devient id_createur
+* places : un champs qui indique le nombre de places prévues pour dormir.
+  s'il s'agit d'un entier c'est le nombre de place
+  si vaut NULL c'est que cette information n'est pas connue
+* places_matelas : idem que places, mais sur des matelas
+* topic_id, lien vers le sujet du forum qui traite de ce point.
+* altitude : facultatif
+* accès : facultatif = manière physique d'accéder à ce point (du texte de blabla)
+* id_type_precision_gps : la qualité du relevé de ce point (selon table type_precision_gps)
+* geom -> la géométrie GIS du point de type POINT
+
+
+point_type
+==========
+la table des types possibles pour un point et des informations mutantes s'y rapportant
+
+* id_point_type -> l'identifiant unique du type de point
+* article_demonstratif, article_definif, article_partitif -> des champs pour faire du joli français tout au long du site selon le nom du point.
+exemple : une cabane, mais un refuge.
+* nom_type -> le nom de ce que c'est "refuge gardé", "cabane non gardée", ...
+* equivalent_XY -> ceci et un champs mutant, dans le XY se cache le nom du champs que l'on trouve dans la table points. Si sa valeur est vide
+c'est que ce type de point n'a pas cette propriété (un point d'eau n'a pas de personne à contacter par exemple) si il est non vide, c'est que ce type de point a cette propriété et que cette
+propriété porte le nom indiqué. Cela donne lieu est des champs mutant comme par exemple la notion de fermeture pour une cabane et pour un point d'eau. Un point d'eau n'a pas de sens à être fermé
+on réutilisera toutefois son champs "fermé" lorsque celui-ci est tari par exemple, et le "mot tari" se trouve dans le champs equivalent_ferme
+* nom_icone, le nom de l'icone a aller chercher pour le représenter. (Au dernière nouvelles se trouve dans /images/icones/$nom.png )
+* nom_icone_ferme, le nom de l'icone a aller chercher si ce point à l'attibut ferme à 1
+* nom_icone_sommaire, le nom de l'icone a aller chercher si ce point à l'attibut sommaire ou manque un mur à 1
+
+Cette manière de faire est assez peu extensible car il devient dur de spécifier l'icône d'un abri sommaire fermé, mais permet un mi-chemin entre usine à gaz et trop grosse rendondance
+
+* FIXME ech_max (plus utilisé je crois ?)
+* importance : un entier variable de 0 à 100 pour ordonner selon l'importante, la recherche, la légende de la carte, l'export
+* pas_affiche -> un type de point que je ne veux plus voir (pour l'abandonner) Toujours visible, mais il devient plus difficile de le saisir car non proposé par défaut.
+
+polygones
+=========
+la table des polygones du site (les massifs, les cartes géographiques, pays, départements...)
+* id_polygone sont identifiant unique
+* id_polygone_type : (un lien vers le type de polygone dont il s'agit)
+* article_partitif -> pour faire du français (massif des belledonnes mais massif de la chartreuse, y'a un bug quand même avec le massif du massif central ;-))
+* nom_polygone -> son nom
+* source : un champ texte pour dire où cela a été pris (vide=fait à la main, non vide=source (swisstopo, OSM, ..)
+* url_exterieure -> une URL externe pour avoir des informations sur la réglemenation particulière à suivre quand on se trouve dans ce polygone 
+* site_web -> Url vers une information globale sur ce polygone
+* message_information_polygone -> un message texte indiquant un résumé simple des restrictions s'appliquant (pas de feu, pas de bicouac, : utile pour les réserves)
+* geom -> la géométrie GIS du polygone de type MULTIPOLYGON
+
+polygone_type
+=============
+catégorie des types de polygones possible du site  (massif, carte géographique, pays, départements...)
+* id_polygone_type -> identifiant unique
+* art_dem_poly -> du français "article démonstratif", (cette carte, mais ce massif)
+* art_def_poly -> du français, "article définitif" (la carte, mais le massif)
+* type_polygone, le nom du type "massif" "carte"..
+* ordre_taille -> Je ne sais pas à quoi ça sert
+* categorie_polygone_type -> une catégorie de polygone en texte libre (actuellement "montagnarde" et "administrative")
+
+type_precision_gps
+==================
+les catégories possibles pour un point GPS ( lue sur une carte, pris sur le terrain, au pif,...)
+
+code php
+--------
+
+Modèle MVC
+----------
+
+Depuis début 2013, on a entrepris un nettoyage de fond du code afin de tenter de mieux ranger les fichiers, les fonctions, mieux définir et mieux factoriser
+afin de s'y retrouver (et préparer l'avenir) au fûr et à mesure que la taille du code grandie.
+
+On a choisi quelque chose au plus proche de "Modèle, Vue, Controlleurs"
+http://fr.wikipedia.org/wiki/Modèle-vue-contrôleur
+Les grands axes de notre choix de rangement sont :
+
+Le dossier /modeles -> on trouve les modeles (des fonctions et des classes pour manipuler, récupérer, modifier les données de la base)
+Le dossier /vues -> les vues (templates html, css, gml, xml, js, gpx, formulaires html)
+Le dossier /controlleurs -> les controlleurs qui font le lien entre les deux précédents
+Le dossier /routes -> les "routes" qui listent pour chaque URL appelée quel contrôleur doit être contacté.
+Le fichier /index.php -> C'est le chef d'orchestre qui fait correspondre une URL du site vers un controlleur,
+il gère les pages non trouvées, inclus, si besoin, les menus que l'on retrouve partout et lance des traitements dont 
+tous les controlleurs ont besoin. (Idéalement, ça pourrait être lui qui appel de manière générique une gestion de cache)
+
+Le dossier /includes contient la config.php du site et quelques fonctions génériques de mise en forme, traitement d'erreur qui ne 
+trouverait pas leur place dans le modèle.
+
+Exemple, pour afficher la fiche d'un 'point, on trouvera par exemple :
+/controlleurs/point.php
+/modeles/point.php
+/vues/point.html
+/vue/point.js
+
+
+En 2020, tout sauf /gps et /mobile /forum et /ol utilisent le format MVC
+
+Une API pour refuges.info
+-------------------------
+pourquoi faire ?
+----------------
+Nous utilisons une carte interactive sur notre site (avec OpenLayers) et le besoin que la partie javascript intérroge 
+notre base existe depuis longtemps, nous avons donc codé une sorte d'API assez spécifique au besoin d'affichage sur carte, et 
+conçue dans le but de bien marcher avec Leaflet.
+Par la suite, une version mobile du site a été créé qui devrait pouvoir s'installer de manière indépendante comme application html5
+et là, c'est un peu la bidouille pour l'instant. 
+Des sites partenaires (comme chemineur.fr) intègrent ou synchronisent nos contenus (points, commentaires et photos) et pour l'instant
+c'est un peu fait de bric et de broc
+
+Pour tout ça, une API unique (assez stable) fournissant points et commentaires pourrait vraiment servir
+
+existant sur /api
+-----------------
+
+Le débat peut continuer ici :
+http://www.refuges.info/forum/viewtopic.php?t=5259
+Et la doc est ici : https://www.refuges.info/api/doc/
+
+
+Structure de donnée des objects point, polygone, commentaire dans le code
+------------------------------------------------------------------------
+Dans le code, j'utilise souvent la notion de pseudo object afin de transmettre comme structure de donnée 
+les infos sur un point de la base, comme c'est un peu dur à imaginer à quoi ressemble chaque "objet", vous trouverez en début
+de fonction qui sert à les charger une print_r de sa structure.
+
+note sur la programmation orienté objet : le code n'utilise pas ce type de programmation, mais quelque chose qui commence
+à s'en rapprocher, les divers "objets" du site (points, commentaires, utilisateurs, polygones,...) sont de simples structures
+de donnée que l'on retrouve tout au long du code est que l'on peut manipuler, non pas avec des méthodes de la classe, mais 
+avec des fonctions procédurales qui prennent en paramètre l'objet.
+
+On retrouve donc des :
+$point1 = new stdclass;
+$point1 = infos_point($id_point1);
+$point1->nom="nouveau nom";
+modifier_point($point1);
+
+
+là où on aurait pû trouver, en objet, quelque chose comme :
+$point1 = new point($id_point1);
+$point1->nom="nouveau nom";
+$point1->enregistrement();
