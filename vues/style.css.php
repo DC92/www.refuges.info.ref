@@ -14,7 +14,7 @@ Sommaire:
     -3 classes speciales (sur-mesure, googmaps, fiche, ...)
     -4 PUB
 
-Notes de sly en 2023: ce style a évolué au fil des années et je suis sûr qu'il y a plusieurs classes 
+Notes de sly en 2023: ce style a évolué au fil des années et je suis sûr qu'il y a plusieurs classes
 qui ne servent nulle part, pas mal de redondance, un manque de cohérence sur le style au niveau des formulaires.
 Un support parfois médiocre des petites écrans, des adressages par id, par class. Bref, ça mériterait vraiment un coup de neuf.
 Celui qui a le courage à bien sûr mon feu vert !
@@ -67,6 +67,7 @@ switch ($periode)
   --couleur_titre: white;
   --couleur_fond: #<?=$couleur_fond?>;
   --couleur_lien: #<?=$couleur_lien?>;
+  --couleur_fond_titre: #<?=$couleur_lien?>;
   --couleur_decoration_titres: #<?=$couleur_decoration_titres?>;
   --couleur_legende: #<?=$couleur_legende?>;
   --couleur_fond_amplifiee: #cef99c;
@@ -109,7 +110,7 @@ switch ($periode)
 #phpbb .headerbar,
 .forabg,
 #phpbb h3 {
-  background-color: var(--couleur_lien);
+  background-color: var(--couleur_fond_titre);
   background-image: none;
 }
 
@@ -152,7 +153,7 @@ switch ($periode)
 }
 /* Masquage du lien "Nous Contacter" qui fait croire à un contact avec les refuges */
 ul#nav-main > li > a[href*="contactadmin"] {
-	display: none;
+  display: none;
 }
 
 .section-posting #attach-panel-multi::after {
@@ -179,12 +180,14 @@ body {
   width: 100%;
   height: 100%;
   background-color: var(--couleur_fond);
+  color: var(--couleur_texte);
 }
 
 /* zone de contenu */
 .contenu {
   margin: 0.5%;
   margin-top: 3px;
+  color: var(--couleur_texte);
 }
 
 .couleur_fond_amplifiee {
@@ -253,7 +256,7 @@ h3 {
   text-align: center;
   margin-bottom: 3px;
   color: var(--couleur_titre);
-  background-color: var(--couleur_lien);
+  background-color: var(--couleur_fond_titre);
 }
 
 h4 {
@@ -265,13 +268,13 @@ h4 {
   font-size: large;
   margin: 0px;
   /* sous FF, la padding par defo est immense */
-  border-bottom: 2px solid #<?=$couleur_decoration_titres?>;
-  border-left: 2px solid #<?=$couleur_decoration_titres?>;
+  border-bottom: 2px solid var(--couleur_decoration_titres);
+  border-left: 2px solid var(--couleur_decoration_titres);
 }
 
 h5 {
   /* sou-sou titre, pour l'instant que dans les fiches de refuges */
-  border-bottom: thin solid #<?=$couleur_decoration_titres?> ;
+  border-bottom: thin solid var(--couleur_decoration_titres);
   font-size: medium;
   /* sinon H5 cest tout petit ... */
   margin-top: 15px;
@@ -312,14 +315,14 @@ li {
 }
 
 /*====== Formulaires======*/
-/* 
-  Utilisé pour le formulaire de création ou modification ainsi que l'ajout de commentaires. 
-  J'aimerais pouvoir rendre un peu plus cohérent (factoriser) les style de la plupart des formulaires du site (zone modérateur, modif fiche, ajout commentaires) 
+/*
+  Utilisé pour le formulaire de création ou modification ainsi que l'ajout de commentaires.
+  J'aimerais pouvoir rendre un peu plus cohérent (factoriser) les style de la plupart des formulaires du site (zone modérateur, modif fiche, ajout commentaires)
   mais ça demande un peu de tests, je (sly 2024) le fais au fûr et à mesure.
 */
 
 /* Pour faire disparaitre un élément au bout de 5 secondes*/
-.fade-out { 
+.fade-out {
   opacity: 0; /* l'état par défaut est d'être invisible */
   animation-iteration-count: 1;
   animation: fade;
@@ -471,14 +474,11 @@ a.topictitle,
 a.postlink,
 a.gen,
 a.genmed,
-a.gensmall {
+a.gensmall,
+body:not(#phpbb) a:visited {
   color: var(--couleur_lien);
   /* en accord avec le thème du forum, et moins agressif */
   text-decoration: none;
-}
-
-body:not(#phpbb) a:visited {
-  color: #<?=$couleur_lien?>;
 }
 
 /*========= Erreurs ==========*/
@@ -489,7 +489,7 @@ body:not(#phpbb) a:visited {
 }
 
 /*==================================================================*/
-/*  Entête de page : Logo, menus, identification                    */
+/* Entête de page : Logo, menus, identification                     */
 /*==================================================================*/
 .bandeau-haut * {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -509,7 +509,7 @@ body:not(#phpbb) a:visited {
 
   /* Le bandeau */
   .bandeau-haut {
-    background-image: var(--image_bandeau);
+    background-image: url(../images/bandeau-haut/titrehorizontal_<?=date('m')?>.png);
     background-repeat: no-repeat;
   }
 
@@ -582,7 +582,7 @@ body:not(#phpbb) a:visited {
 
   .menu-touch,
   .menu-hover {
-    border-color: #<?=$couleur_decoration_titres?>  !important;
+    border-color: var(--couleur_decoration_titres) !important;
   }
 
   /* Blocs rétractables en dessous des boutons */
@@ -591,7 +591,7 @@ body:not(#phpbb) a:visited {
     position: absolute;
     margin: 2px 0 0 -4px;
     border-radius: 0 10px 10px 10px;
-    border: 2px solid #<?=$couleur_decoration_titres?>;
+    border: 2px solid var(--couleur_decoration_titres);
     background: var(--couleur_fond);
     padding: 0 4px;
     opacity: 0;
@@ -694,7 +694,8 @@ body:not(#phpbb) a:visited {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    background: var(--couleur_lien);
+    background: var(--couleur_fond_titre);
+    color: var(--couleur_texte);
   }
 
   /* Boutons */
@@ -719,7 +720,7 @@ body:not(#phpbb) a:visited {
   .menu-connexion ul {
     position: absolute;
     border-radius: 0 0 10px 10px;
-    border: 2px solid #<?=$couleur_decoration_titres?>;
+    border: 2px solid var(--couleur_decoration_titres);
     padding: 0 4px;
     background: var(--couleur_fond);
     white-space: nowrap;
@@ -828,7 +829,7 @@ form {
 .liens_avec_decoration {
   border-style: solid;
   background-color: var(--couleur_fond);
-  border-color: #<?=$couleur_decoration_titres?>;
+  border-color: var(--couleur_decoration_titres);
   padding-right: 0.5em;
   padding-left: 0.5em;
 }
@@ -840,7 +841,7 @@ form {
 
 /* concernant la disposition des commentaires */
 .bloc_liens_haut_droit {
-  display: block; 
+  display: block;
   float: right;
   margin: -0.6em 1em 0em 1em;
 }
@@ -851,12 +852,12 @@ form {
 }
 
 .commentaire_metainfo {
-  background-color: var(--couleur_legende) ;
-  border: thin solid black;
+  background-color: var(--couleur_legende);
+  border: thin solid var(--couleur_texte);
   font-weight: bold;
   float: left;
   margin: -0.6em 1em 0em 1em;
-  border: thin solid black;
+  border: thin solid var(--couleur_texte);
 }
 
 .spacer {
@@ -879,10 +880,11 @@ form {
   float: left;
   position: relative;
   max-width: 100%;
+  color: initial;
 }
 
 .texte_sur_image {
-  color: white;
+  color: initial;
   text-shadow: 2px 0 #555, -2px 0 #555, 0 2px #555, 0 -2px #555,
     1px 1px #555, -1px -1px #555, 1px -1px #555, -1px 1px #555;
   position: absolute;
@@ -901,31 +903,40 @@ form {
   margin-inline-end: 0;
 }
 
+/* Lien pour retourner à la fiche depuis le forum */
+.wri-link {
+  font-size: 70%;
+}
+
+.traces,
 .point_forum em {
-  color: black !important;
+  color: var(--couleur_texte) !important;
 }
 
 /*==================================================================*/
 /*                              Cartes                              */
 /*==================================================================*/
-.carte
-
 /* utilisé par toutes les images cartes */
-  {
+.carte {
   background-image: url(../images/sablier.png);
   background-position: center center;
   background-repeat: no-repeat;
 }
 
+.ol-viewport * {
+  color: initial;
+}
+
 /* Carte de l'accueil */
 #carte-accueil {
+  margin-top: 5px;
   width: 750px;
   height: 600px;
 }
 
 .accueil-switcher {
   float: right !important;
-  background: white !important;
+  background: var(--couleur_titre) !important;
 }
 
 .accueil-switcher:not(.myol-button-selected) button {
@@ -946,22 +957,22 @@ form {
   /* Pour ne pas trop déborder en bas */
 }
 
-#selecteur-carte-edit {
+.selecteur-carte-edit {
   padding-left: 1px;
 }
 
-#selecteur-carte-edit p {
+.selecteur-carte-edit p {
   margin-top: 0;
   margin-bottom: 5px;
 }
 
-#selecteur-carte-edit span {
+.selecteur-carte-edit span {
   font-size: .8em;
   font-style: oblique;
 }
 
-#selecteur-carte-edit input,
-#selecteur-carte-edit label {
+.selecteur-carte-edit input,
+.selecteur-carte-edit label {
   text-align: justify;
   cursor: pointer;
 }
@@ -981,7 +992,7 @@ form {
     max-height: calc(100% - 75px);
   }
 
-  #selecteur-carte-edit {
+  .selecteur-carte-edit {
     display: table-cell;
     width: 33%;
   }
@@ -995,7 +1006,7 @@ form {
     height: 75vw;
   }
 
-  #selecteur-carte-edit {
+  .selecteur-carte-edit {
     display: table-cell;
     width: 33%;
     padding-left: 5px;
@@ -1114,9 +1125,8 @@ form {
   border-bottom: 1px dotted;
 }
 
-
 .autocomplete {
-  /*the container must be positioned relative:*/
+  /* the container must be positioned relative */
   position: relative;
   display: inline-block;
 }
@@ -1127,7 +1137,7 @@ form {
   border-bottom: none;
   border-top: none;
   z-index: 99;
-  /*position the autocomplete items to be the same width as the container:*/
+  /* position the autocomplete items to be the same width as the container */
   top: 100%;
   left: 0;
   right: 0;
@@ -1139,7 +1149,7 @@ form {
   border-bottom: 1px solid #d4d4d4;
 }
 .autocomplete-items div:hover {
-  /*when hovering an item:*/
+  /* when hovering an item */
   background-color: #e9e9e9;
 }
 .autocomplete-active {
