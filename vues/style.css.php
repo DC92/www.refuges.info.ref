@@ -1,7 +1,8 @@
+/*==================================================================*/
+/* La seule et unique feuille de style CSS du site refuges.info     */
+/*==================================================================*/
 <?php
 /***********************************************************************************************
-La seule et unique feuille de style CSS du site refuges.info
-
 Pourquoi une feuille de style en .php ?
 - le but c'est de faire un style dynamique selon la saison pour changer les couleurs ;-)
 ouais je sais, c'est franchement de la frime et ça sert à rien, mais si on ne peut plus s'amuser sur une projet
@@ -41,29 +42,39 @@ switch ($periode)
   case "hiver":
     $couleur_fond="f2f2f2";
     $couleur_lien="006699";
-    $couleur_lien_visite="006699";
-    $couleur_decoration_titres="A6CEE7";
-    $couleur_legende="EEF";
+    $couleur_decoration_titres="a6cee7";
+    $couleur_legende="eef";
     break;
   case "printemps":case "été":
     $couleur_fond="f5fde8";
     $couleur_lien="5f8c11";
-    $couleur_lien_visite="5f8c11";
     $couleur_decoration_titres="77dc63";
     $couleur_legende="d1f0d0";
     break;
   case "automne":
     $couleur_fond="f6e8c2";
     $couleur_lien="cf5d32";
-    $couleur_lien_visite=$couleur_lien;
     $couleur_decoration_titres="bd742c";
     $couleur_legende="c1ac96";
     break;
 }
 
 ?>
+
+/* DOM 09/2025 on passe des constantes PHP aux constantes CSS */
+:root {
+  --couleur_texte: black;
+  --couleur_titre: white;
+  --couleur_fond: #<?=$couleur_fond?>;
+  --couleur_lien: #<?=$couleur_lien?>;
+  --couleur_decoration_titres: #<?=$couleur_decoration_titres?>;
+  --couleur_legende: #<?=$couleur_legende?>;
+  --couleur_fond_amplifiee: #cef99c;
+  --image_bandeau: url(../images/bandeau-haut/titrehorizontal_<?=date('m')?>.png);
+}
+
 /*==================================================================*/
-/* Modification du style du nouveau forum PhpBB3-prosilver          */
+/* Modification du style du forum PhpBB3-prosilver                  */
 /*==================================================================*/
 /* Pas de ligne vide en haut */
 #phpbb {
@@ -77,7 +88,7 @@ switch ($periode)
 
 /* Titre des forums de refuges */
 #phpbb .section-viewtopic .topic-title a:first-child {
-  color: black !important;
+  color: var(--couleur_texte) !important;
 }
 
 #phpbb .wri-link {
@@ -89,8 +100,8 @@ switch ($periode)
 #phpbb .navbar .avatar,
 /* Personnalisation des couleurs */
 #phpbb .navbar,
-#phpbb #basdepage {
-  background-color: #<?=$couleur_fond?>;
+#phpbb .basdepage {
+  background-color: var(--couleur_fond);
 }
 
 #phpbb .headerbar,
@@ -98,7 +109,7 @@ switch ($periode)
 #phpbb .headerbar,
 .forabg,
 #phpbb h3 {
-  background-color: #<?=$couleur_lien?>;
+  background-color: var(--couleur_lien);
   background-image: none;
 }
 
@@ -112,7 +123,7 @@ switch ($periode)
 #phpbb .postbody h3 a,
 #phpbb #postform .review,
 #phpbb #postform .review a {
-  color: white;
+  color: var(--couleur_titre);
 }
 
 #phpbb .stat-block strong a {
@@ -124,7 +135,7 @@ switch ($periode)
 #phpbb .bg3,
 #phpbb .forabg .forums,
 #phpbb .forumbg .topics>li {
-  background-color: #<?=$couleur_fond?>;
+  background-color: var(--couleur_fond);
   background-image: none;
 }
 
@@ -167,7 +178,7 @@ body {
   margin: 0px;
   width: 100%;
   height: 100%;
-  background-color: #<?=$couleur_fond?>;
+  background-color: var(--couleur_fond);
 }
 
 /* zone de contenu */
@@ -177,7 +188,7 @@ body {
 }
 
 .couleur_fond_amplifiee {
-  background-color: #cef99c;
+  background-color: var(--couleur_fond_amplifiee);
 }
 
 /*=====TEXTE=======*/
@@ -241,8 +252,8 @@ h3 {
   margin: 0em;
   text-align: center;
   margin-bottom: 3px;
-  color: white;
-  background-color: #<?=$couleur_lien?>;
+  color: var(--couleur_titre);
+  background-color: var(--couleur_lien);
 }
 
 h4 {
@@ -309,14 +320,14 @@ li {
 
 /* Pour faire disparaitre un élément au bout de 5 secondes*/
 .fade-out { 
-  opacity: 0; // l'état par défaut est d'être invisible
+  opacity: 0; /* l'état par défaut est d'être invisible */
   animation-iteration-count: 1;
   animation: fade;
   animation-duration: 8s;
 }
 @keyframes fade {
-  0% { opacity: 1; filter:alpha(opacity=100); } // première frame, 100% visible
-  100% { opacity: 0; filter:alpha(opacity=0); } // dernière, 100% invisible
+  0% { opacity: 1; filter:alpha(opacity=100); } /* première frame, 100% visible */
+  100% { opacity: 0; filter:alpha(opacity=0); } /* dernière, 100% invisible */
 }
 
 form#form_point fieldset {
@@ -366,7 +377,7 @@ form#form_export label {
 
 #form_export fieldset fieldset:hover {
   /* deco sur le fieldset actif, pour bien le differencier des autres */
-  border: thin dotted black;
+  border: thin dotted var(--couleur_texte);
 }
 
 form.wri label {
@@ -441,7 +452,7 @@ img {
 /*=========liens==========*/
 a:hover {
   /*met en valeur les liens qd on est dessus */
-  background-color: #<?=$couleur_legende?>;
+  background-color: var(--couleur_legende);
   text-decoration: none;
 }
 
@@ -451,6 +462,7 @@ en gros je veux tout de la même couleur
 */
 
 body:not(#phpbb) a,
+.bandeau-haut a,
 a.mainmenu,
 a.nav,
 a.forumlink,
@@ -460,13 +472,13 @@ a.postlink,
 a.gen,
 a.genmed,
 a.gensmall {
-  color: #<?=$couleur_lien?>;
+  color: var(--couleur_lien);
   /* en accord avec le thème du forum, et moins agressif */
   text-decoration: none;
 }
 
 body:not(#phpbb) a:visited {
-  color: #<?=$couleur_lien_visite?>;
+  color: #<?=$couleur_lien?>;
 }
 
 /*========= Erreurs ==========*/
@@ -497,7 +509,7 @@ body:not(#phpbb) a:visited {
 
   /* Le bandeau */
   .bandeau-haut {
-    background-image: url(../images/bandeau-haut/titrehorizontal_<?=date('m')?>.png);
+    background-image: var(--image_bandeau);
     background-repeat: no-repeat;
   }
 
@@ -580,7 +592,7 @@ body:not(#phpbb) a:visited {
     margin: 2px 0 0 -4px;
     border-radius: 0 10px 10px 10px;
     border: 2px solid #<?=$couleur_decoration_titres?>;
-    background: #<?=$couleur_fond?>;
+    background: var(--couleur_fond);
     padding: 0 4px;
     opacity: 0;
     z-index: -10;
@@ -620,7 +632,7 @@ body:not(#phpbb) a:visited {
   }
 
   .menu-bouton:not(.menu-liste) {
-    background: #<?=$couleur_fond?>;
+    background: var(--couleur_fond);
   }
 
   .menu-connexion ul {
@@ -682,7 +694,7 @@ body:not(#phpbb) a:visited {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    background: #<?=$couleur_lien?>;
+    background: var(--couleur_lien);
   }
 
   /* Boutons */
@@ -692,14 +704,14 @@ body:not(#phpbb) a:visited {
     padding: 0 8px 2px 8px;
     font-size: 20px;
     font-weight: 700;
-    color: white !important;
+    color: var(--couleur_titre) !important;
     cursor: pointer;
   }
 
   .menu-titre * {
     padding-top: 4px;
     font-size: 18px;
-    color: white !important;
+    color: var(--couleur_titre) !important;
   }
 
   /* Blocs rétractables en dessous des boutons */
@@ -709,7 +721,7 @@ body:not(#phpbb) a:visited {
     border-radius: 0 0 10px 10px;
     border: 2px solid #<?=$couleur_decoration_titres?>;
     padding: 0 4px;
-    background: #<?=$couleur_fond?>;
+    background: var(--couleur_fond);
     white-space: nowrap;
     z-index: -10;
     opacity: 0;
@@ -762,7 +774,7 @@ body:not(#phpbb) a:visited {
 /* ========== Menu du bas ========== */
 
 /* en bas, il y a un gros div "basdepage" qui englobe la fin */
-#basdepage {
+.basdepage {
   clear: both;
   padding-top: 15px;
   text-align: center;
@@ -771,24 +783,24 @@ body:not(#phpbb) a:visited {
 }
 
 /* c'est la liste en bas de page */
-#basdepage #racourcismenus {
+.basdepage #racourcismenus {
   clear: both;
   border: dashed thin #096Ea1;
   text-align: center;
   margin: 0px;
 }
 
-#basdepage ul {
+.basdepage ul {
   clear: both;
   text-align: center;
 }
 
-#basdepage li {
+.basdepage li {
   display: inline;
   margin-right: 2em;
 }
 
-#basdepage img,
+.basdepage img,
 form {
   /* tout le bazar de pub de bas de page, en ligne! */
   display: inline;
@@ -815,7 +827,7 @@ form {
 
 .liens_avec_decoration {
   border-style: solid;
-  background-color: #<?=$couleur_fond?>;
+  background-color: var(--couleur_fond);
   border-color: #<?=$couleur_decoration_titres?>;
   padding-right: 0.5em;
   padding-left: 0.5em;
@@ -834,12 +846,12 @@ form {
 }
 
 .bloc_commentaire {
-  border: thin solid black;
+  border: thin solid var(--couleur_texte);
   margin-top: 1em;
 }
 
 .commentaire_metainfo {
-  background-color: #<?=$couleur_legende?> ;
+  background-color: var(--couleur_legende) ;
   border: thin solid black;
   font-weight: bold;
   float: left;
@@ -1085,7 +1097,7 @@ form {
   font-size: x-small;
 }
 
-// css pour se comporter comme une table
+/* css pour se comporter comme une table */
 .table {
   display: table;
 }
@@ -1134,15 +1146,4 @@ form {
   /*when navigating through the items using the arrow keys:*/
   background-color: DodgerBlue !important;
   color: #ffffff;
-}
-
-/* Debug PHP, style de var_dump() */
-.xdebug-var-dump {
-  background-color:black;
-  color:white;
-  font-size:14px
-}
-.xdebug-var-dump > small:first-child {
-	display: block;
-	border-top: solid white;
 }
