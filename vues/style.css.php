@@ -81,10 +81,6 @@ switch ($periode)
   padding: 0;
 }
 
-#phpbb .wri-link {
-  font-size: 70%;
-}
-
 /* Forum de la largeur de la page */
 #phpbb .wrap {
   max-width: 100%;
@@ -93,6 +89,10 @@ switch ($periode)
 /* Titre des forums de refuges */
 #phpbb .section-viewtopic .topic-title a:first-child {
   color: black !important;
+}
+
+#phpbb .wri-link {
+  font-size: 70%;
 }
 
 /* Zones masquées */
