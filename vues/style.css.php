@@ -13,7 +13,7 @@ Sommaire:
     -3 classes speciales (sur-mesure, googmaps, fiche, ...)
     -4 PUB
 
-Notes de sly en 2023: ce style a évolué au fil des années et je suis sûr qu'il y a plusieurs classes 
+Notes de sly en 2023: ce style a évolué au fil des années et je suis sûr qu'il y a plusieurs classes
 qui ne servent nulle part, pas mal de redondance, un manque de cohérence sur le style au niveau des formulaires.
 Un support parfois médiocre des petites écrans, des adressages par id, par class. Bref, ça mériterait vraiment un coup de neuf.
 Celui qui a le courage à bien sûr mon feu vert !
@@ -148,7 +148,7 @@ switch ($periode)
 }
 /* Masquage du lien "Nous Contacter" qui fait croire à un contact avec les refuges */
 ul#nav-main > li > a[href*="contactadmin"] {
-	display: none;
+  display: none;
 }
 
 .section-posting #attach-panel-multi::after {
@@ -506,7 +506,7 @@ body:not(#phpbb) a:visited {
 
   /* Le bandeau */
   .bandeau-haut {
-    background-image: url(../images/bandeau-haut/titrehorizontal_<?=date('m')?>.png);
+    background-image: var(--image_bandeau);
     background-repeat: no-repeat;
   }
 
@@ -691,7 +691,7 @@ body:not(#phpbb) a:visited {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    background: var(--couleur_fond_titre);
+    background: var(--couleur_lien);
     color: var(--couleur_texte);
   }
 
@@ -838,7 +838,7 @@ form {
 
 /* concernant la disposition des commentaires */
 .bloc_liens_haut_droit {
-  display: block; 
+  display: block;
   float: right;
   margin: -0.6em 1em 0em 1em;
 }
@@ -877,7 +877,6 @@ form {
   float: left;
   position: relative;
   max-width: 100%;
-  color: initial;
 }
 
 .texte_sur_image {
@@ -904,7 +903,6 @@ form {
   font-size: 70%;
 }
 
-.traces,
 .point_forum em {
   color: var(--couleur_texte) !important;
 }
