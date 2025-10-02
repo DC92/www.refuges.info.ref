@@ -1,8 +1,7 @@
-/*==================================================================*/
-/* La seule et unique feuille de style CSS du site refuges.info     */
-/*==================================================================*/
 <?php
 /***********************************************************************************************
+La seule et unique feuille de style CSS du site refuges.info
+
 Pourquoi une feuille de style en .php ?
 - le but c'est de faire un style dynamique selon la saison pour changer les couleurs ;-)
 ouais je sais, c'est franchement de la frime et ça sert à rien, mais si on ne peut plus s'amuser sur une projet
@@ -14,7 +13,7 @@ Sommaire:
     -3 classes speciales (sur-mesure, googmaps, fiche, ...)
     -4 PUB
 
-Notes de sly en 2023: ce style a évolué au fil des années et je suis sûr qu'il y a plusieurs classes
+Notes de sly en 2023: ce style a évolué au fil des années et je suis sûr qu'il y a plusieurs classes 
 qui ne servent nulle part, pas mal de redondance, un manque de cohérence sur le style au niveau des formulaires.
 Un support parfois médiocre des petites écrans, des adressages par id, par class. Bref, ça mériterait vraiment un coup de neuf.
 Celui qui a le courage à bien sûr mon feu vert !
@@ -42,8 +41,8 @@ switch ($periode)
   case "hiver":
     $couleur_fond="f2f2f2";
     $couleur_lien="006699";
-    $couleur_decoration_titres="a6cee7";
-    $couleur_legende="eef";
+    $couleur_decoration_titres="A6CEE7";
+    $couleur_legende="EEF";
     break;
   case "printemps":case "été":
     $couleur_fond="f5fde8";
@@ -66,16 +65,16 @@ switch ($periode)
   --couleur_texte: black;
   --couleur_titre: white;
   --couleur_fond: #<?=$couleur_fond?>;
-  --couleur_lien: #<?=$couleur_lien?>;
-  --couleur_fond_titre: #<?=$couleur_lien?>;
+  --couleur_lien: var(--couleur_lien);
+  --couleur_fond_titre: var(--couleur_lien);
   --couleur_decoration_titres: #<?=$couleur_decoration_titres?>;
-  --couleur_legende: #<?=$couleur_legende?>;
+  --couleur_legende: var(--couleur_legende);
   --couleur_fond_amplifiee: #cef99c;
   --image_bandeau: url(../images/bandeau-haut/titrehorizontal_<?=date('m')?>.png);
 }
 
 /*==================================================================*/
-/* Modification du style du forum PhpBB3-prosilver                  */
+/* Modification du style du forum PhpBB3-prosilver_fr               */
 /*==================================================================*/
 /* Pas de ligne vide en haut */
 #phpbb {
@@ -89,11 +88,7 @@ switch ($periode)
 
 /* Titre des forums de refuges */
 #phpbb .section-viewtopic .topic-title a:first-child {
-  color: var(--couleur_texte) !important;
-}
-
-#phpbb .wri-link {
-  font-size: 70%;
+  color: black !important;
 }
 
 /* Zones masquées */
@@ -101,7 +96,7 @@ switch ($periode)
 #phpbb .navbar .avatar,
 /* Personnalisation des couleurs */
 #phpbb .navbar,
-#phpbb .basdepage {
+#phpbb #basdepage {
   background-color: var(--couleur_fond);
 }
 
@@ -110,7 +105,7 @@ switch ($periode)
 #phpbb .headerbar,
 .forabg,
 #phpbb h3 {
-  background-color: var(--couleur_fond_titre);
+  background-color: var(--couleur_lien);
   background-image: none;
 }
 
@@ -124,7 +119,7 @@ switch ($periode)
 #phpbb .postbody h3 a,
 #phpbb #postform .review,
 #phpbb #postform .review a {
-  color: var(--couleur_titre);
+  color: white;
 }
 
 #phpbb .stat-block strong a {
@@ -153,7 +148,7 @@ switch ($periode)
 }
 /* Masquage du lien "Nous Contacter" qui fait croire à un contact avec les refuges */
 ul#nav-main > li > a[href*="contactadmin"] {
-  display: none;
+	display: none;
 }
 
 .section-posting #attach-panel-multi::after {
@@ -180,18 +175,16 @@ body {
   width: 100%;
   height: 100%;
   background-color: var(--couleur_fond);
-  color: var(--couleur_texte);
 }
 
 /* zone de contenu */
 .contenu {
   margin: 0.5%;
   margin-top: 3px;
-  color: var(--couleur_texte);
 }
 
 .couleur_fond_amplifiee {
-  background-color: var(--couleur_fond_amplifiee);
+  background-color: #cef99c;
 }
 
 /*=====TEXTE=======*/
@@ -255,8 +248,8 @@ h3 {
   margin: 0em;
   text-align: center;
   margin-bottom: 3px;
-  color: var(--couleur_titre);
-  background-color: var(--couleur_fond_titre);
+  color: white;
+  background-color: var(--couleur_lien);
 }
 
 h4 {
@@ -317,7 +310,9 @@ li {
 /*====== Formulaires======*/
 /*
   Utilisé pour le formulaire de création ou modification ainsi que l'ajout de commentaires.
-  J'aimerais pouvoir rendre un peu plus cohérent (factoriser) les style de la plupart des formulaires du site (zone modérateur, modif fiche, ajout commentaires)
+  J'aimerais pouvoir rendre un peu plus cohérent (factoriser)
+  les style de la plupart des formulaires du site
+  (zone modérateur, modif fiche, ajout commentaires)
   mais ça demande un peu de tests, je (sly 2024) le fais au fûr et à mesure.
 */
 
@@ -465,7 +460,6 @@ en gros je veux tout de la même couleur
 */
 
 body:not(#phpbb) a,
-.bandeau-haut a,
 a.mainmenu,
 a.nav,
 a.forumlink,
@@ -474,11 +468,14 @@ a.topictitle,
 a.postlink,
 a.gen,
 a.genmed,
-a.gensmall,
-body:not(#phpbb) a:visited {
+a.gensmall {
   color: var(--couleur_lien);
   /* en accord avec le thème du forum, et moins agressif */
   text-decoration: none;
+}
+
+body:not(#phpbb) a:visited {
+  color: var(--couleur_lien);
 }
 
 /*========= Erreurs ==========*/
@@ -775,7 +772,7 @@ body:not(#phpbb) a:visited {
 /* ========== Menu du bas ========== */
 
 /* en bas, il y a un gros div "basdepage" qui englobe la fin */
-.basdepage {
+#basdepage {
   clear: both;
   padding-top: 15px;
   text-align: center;
@@ -784,24 +781,24 @@ body:not(#phpbb) a:visited {
 }
 
 /* c'est la liste en bas de page */
-.basdepage #racourcismenus {
+#basdepage #racourcismenus {
   clear: both;
   border: dashed thin #096Ea1;
   text-align: center;
   margin: 0px;
 }
 
-.basdepage ul {
+#basdepage ul {
   clear: both;
   text-align: center;
 }
 
-.basdepage li {
+#basdepage li {
   display: inline;
   margin-right: 2em;
 }
 
-.basdepage img,
+#basdepage img,
 form {
   /* tout le bazar de pub de bas de page, en ligne! */
   display: inline;
@@ -841,7 +838,7 @@ form {
 
 /* concernant la disposition des commentaires */
 .bloc_liens_haut_droit {
-  display: block;
+  display: block; 
   float: right;
   margin: -0.6em 1em 0em 1em;
 }
@@ -884,7 +881,7 @@ form {
 }
 
 .texte_sur_image {
-  color: initial;
+  color: white;
   text-shadow: 2px 0 #555, -2px 0 #555, 0 2px #555, 0 -2px #555,
     1px 1px #555, -1px -1px #555, 1px -1px #555, -1px 1px #555;
   position: absolute;
@@ -903,7 +900,6 @@ form {
   margin-inline-end: 0;
 }
 
-/* Lien pour retourner à la fiche depuis le forum */
 .wri-link {
   font-size: 70%;
 }
@@ -924,7 +920,7 @@ form {
 }
 
 .ol-viewport * {
-  color: initial;
+  color: white;
 }
 
 /* Carte de l'accueil */
@@ -957,22 +953,22 @@ form {
   /* Pour ne pas trop déborder en bas */
 }
 
-.selecteur-carte-edit {
+#selecteur-carte-edit {
   padding-left: 1px;
 }
 
-.selecteur-carte-edit p {
+#selecteur-carte-edit p {
   margin-top: 0;
   margin-bottom: 5px;
 }
 
-.selecteur-carte-edit span {
+#selecteur-carte-edit span {
   font-size: .8em;
   font-style: oblique;
 }
 
-.selecteur-carte-edit input,
-.selecteur-carte-edit label {
+#selecteur-carte-edit input,
+#selecteur-carte-edit label {
   text-align: justify;
   cursor: pointer;
 }
@@ -992,7 +988,7 @@ form {
     max-height: calc(100% - 75px);
   }
 
-  .selecteur-carte-edit {
+  #selecteur-carte-edit {
     display: table-cell;
     width: 33%;
   }
@@ -1006,7 +1002,7 @@ form {
     height: 75vw;
   }
 
-  .selecteur-carte-edit {
+  #selecteur-carte-edit {
     display: table-cell;
     width: 33%;
     padding-left: 5px;
@@ -1153,7 +1149,7 @@ form {
   background-color: #e9e9e9;
 }
 .autocomplete-active {
-  /*when navigating through the items using the arrow keys:*/
+  /* when navigating through the items using the arrow keys */
   background-color: DodgerBlue !important;
   color: #ffffff;
 }
