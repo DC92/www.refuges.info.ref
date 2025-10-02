@@ -81,6 +81,10 @@ switch ($periode)
   padding: 0;
 }
 
+#phpbb .wri-link {
+  font-size: 70%;
+}
+
 /* Forum de la largeur de la page */
 #phpbb .wrap {
   max-width: 100%;
@@ -897,10 +901,6 @@ form {
   margin-block-end: 0;
   margin-inline-start: 0;
   margin-inline-end: 0;
-}
-
-.wri-link {
-  font-size: 70%;
 }
 
 .point_forum em {
