@@ -100,7 +100,7 @@ switch ($periode)
 #phpbb .navbar .avatar,
 /* Personnalisation des couleurs */
 #phpbb .navbar,
-#phpbb #basdepage {
+#phpbb .basdepage {
   background-color: var(--couleur_fond);
 }
 
@@ -776,7 +776,7 @@ body:not(#phpbb) a:visited {
 /* ========== Menu du bas ========== */
 
 /* en bas, il y a un gros div "basdepage" qui englobe la fin */
-#basdepage {
+.basdepage {
   clear: both;
   padding-top: 15px;
   text-align: center;
@@ -785,24 +785,24 @@ body:not(#phpbb) a:visited {
 }
 
 /* c'est la liste en bas de page */
-#basdepage #racourcismenus {
+.basdepage #racourcismenus {
   clear: both;
   border: dashed thin #096Ea1;
   text-align: center;
   margin: 0px;
 }
 
-#basdepage ul {
+.basdepage ul {
   clear: both;
   text-align: center;
 }
 
-#basdepage li {
+.basdepage li {
   display: inline;
   margin-right: 2em;
 }
 
-#basdepage img,
+.basdepage img,
 form {
   /* tout le bazar de pub de bas de page, en ligne! */
   display: inline;
@@ -951,22 +951,22 @@ form {
   /* Pour ne pas trop déborder en bas */
 }
 
-#selecteur-carte-edit {
+.selecteur-carte-edit {
   padding-left: 1px;
 }
 
-#selecteur-carte-edit p {
+.selecteur-carte-edit p {
   margin-top: 0;
   margin-bottom: 5px;
 }
 
-#selecteur-carte-edit span {
+.selecteur-carte-edit span {
   font-size: .8em;
   font-style: oblique;
 }
 
-#selecteur-carte-edit input,
-#selecteur-carte-edit label {
+.selecteur-carte-edit input,
+.selecteur-carte-edit label {
   text-align: justify;
   cursor: pointer;
 }
@@ -986,7 +986,7 @@ form {
     max-height: calc(100% - 75px);
   }
 
-  #selecteur-carte-edit {
+  .selecteur-carte-edit {
     display: table-cell;
     width: 33%;
   }
@@ -1000,7 +1000,7 @@ form {
     height: 75vw;
   }
 
-  #selecteur-carte-edit {
+  .selecteur-carte-edit {
     display: table-cell;
     width: 33%;
     padding-left: 5px;
