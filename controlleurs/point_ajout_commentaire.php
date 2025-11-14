@@ -26,16 +26,16 @@ $point=infos_point($commentaire->id_point,true);
 if (empty($point->erreur))
 {
   // on force la demande de correction
-  if (!empty($_REQUEST['correction'])) 
+  if (!empty($_REQUEST['correction']))
       $vue->correction=true;
   else
       $vue->correction=False;
-  
+
 
   // on vient de valider notre formulaire, faisons le nécessaire
   $vue->banni=False;
   $vue->erreur_captcha=False;
-  if (!empty($_REQUEST['action'])) 
+  if (!empty($_REQUEST['action']))
   {
     $commentaire->texte=stripslashes($_REQUEST['texte']);
 
@@ -44,7 +44,7 @@ if (empty($point->erreur))
     $vue->lettre_verification=$_REQUEST["lettre_verification"] ?? '';
 
     $commentaire->texte_propre=protege($commentaire->texte);
-    
+
     // peut être un robot ?
     if ( ($vue->lettre_verification != $config_wri['captcha_reponse']) AND !est_connecte() )
     {
@@ -59,7 +59,7 @@ if (empty($point->erreur))
         $commentaire->photo['originale']=$file_path;
 
       $commentaire->demande_correction=$_REQUEST['demande_correction'] ?? '';
-      
+
       // Et si on trouve un mot clé "censuré" on accepte le message mais on averti les modérateurs qu'il faut aller vérifier le commentaire
       if (isset ($config_wri['censure']) && preg_match ('/'.$config_wri['censure'].'/i', retrait_accents ($commentaire->texte)))
         $commentaire->demande_correction=4;
@@ -70,7 +70,7 @@ if (empty($point->erreur))
 
       if (est_connecte() and est_entier_positif($infos_identification->user_id)) // l'utilisateur est connecté, il n'est pas anonyme (0) et y'a pas un user_id bizarre
         $commentaire->id_createur_commentaire=$infos_identification->user_id;
-        
+
       // Et si on trouve un mot clé "interdit" on refuse le commentaire complètement
       if ($config_wri['mots_interdits'] && preg_match ('/'.$config_wri['mots_interdits'].'/i', $commentaire->texte))
       {
@@ -98,10 +98,10 @@ if (empty($point->erreur))
         $commentaire->texte_propre="";
         $vue->succes_ajout_commentaire=True;
       }
-      else 
+      else
       {
         $vue->type = "page_simple";
-        $vue->contenu="Impossible d'ajouter ce commentaire car : ".$vue->messages->message;   
+        $vue->contenu="Impossible d'ajouter ce commentaire car : ".$vue->messages->message;
         return;
       }
 

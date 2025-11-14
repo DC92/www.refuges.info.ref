@@ -1,5 +1,5 @@
-<?php 
-/* 
+<?php
+/*
  * Page d'affichage des news
 */
 

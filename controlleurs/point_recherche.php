@@ -36,24 +36,24 @@ if (!empty($_REQUEST))
   // les cases à cocher qui peuvent être soit "cochée" = true, pas cochée = (vide)
   if (!empty($_REQUEST['champs_trinaires']))
     foreach ( $_REQUEST['champs_trinaires'] as $c )
-      $conditions->trinaire->$c = true ; 
+      $conditions->trinaire->$c = true ;
 
   //  ou la case rouge ajoutée en javascript "cochées spécialement" avec l'option "état inconnu" qui ne sert qu'aux modérateurs pour l'entretient des fiches
   if (!empty($_REQUEST['champs_null']))
     foreach ( $_REQUEST['champs_null'] as $c )
-      $conditions->trinaire->$c = NULL; 
+      $conditions->trinaire->$c = NULL;
 
   // Un peu spécial pour cette option, personne ne souhaite chercher les cabanes dont il manque des murs, par contre, on cherche celle qui sont bien isolées.
   if (isset($_REQUEST['ne_manque_pas_un_mur']))
     $conditions->trinaire->manque_un_mur=false;
-      
+
   // Le rangement par pays/département (administrative) ou massif/réserves naturelle (montagnarde) n'est plus une condition de la recherche, car tout est toujours renvoyé, mais lors de l'affichage par la vue, on peut inclure juste l'une des deux catégories souhaités, Par défaut, on veut afficher zones, massifs, régions, réserves naturelles :
   $vue->condition_categorie_polygone = $_REQUEST['condition_categorie_polygone'] ?? 'montagnarde';
 
 
   //======================================
   // C'est LA que ca cherche
-  
+
   $points = infos_points ($conditions);
   if (!empty($points->erreur))
   {
@@ -76,17 +76,17 @@ if (!empty($_REQUEST))
     //en PG, pas moyen de savoir si on a tapé la limite. Je dis que si on a pile poile le nombre de points, c'est qu'on l'a atteinte
     if (!empty($conditions->limite) && $vue->nombre_points == $conditions->limite)
       $vue->limite_atteinte = $conditions->limite;
-    
+
     //-----------------------------------------------------------------------------------------------------
     // Recherche de points sur nominatim.openstreetmap.org à condition d'avoir coché la case ET avoir fourni un nom à chercher
-      
+
     if (!empty($_REQUEST['avec_point_osm']) and !empty($_REQUEST['nom']) )
     {
       $nominatim = new stdClass();
       $vue->recherche_osm_active=True;
-      $appel_nominatim = $config_wri['url_appel_nominatim'] .http_build_query 
+      $appel_nominatim = $config_wri['url_appel_nominatim'] .http_build_query
       (
-      array 
+      array
       (
       'email' => $config_wri['email_contact_nominatim'],
         'format' => 'xml',
@@ -98,7 +98,7 @@ if (!empty($_REQUEST))
         );
         // Récupération du contenu
       $cache = file_get_contents ($_SERVER['REQUEST_SCHEME'].':'.$appel_nominatim);
-      
+
       // Extraction de l'arbre xml
       $nominatim->xml = simplexml_load_string ($cache);
       $nominatim->nb_points = count($nominatim->xml);
@@ -106,7 +106,7 @@ if (!empty($_REQUEST))
         $nominatim->pluriel="s";
       else
         $nominatim->pluriel="";
-      
+
       $nominatim->url_site=$config_wri['url_nominatim'];
       $vue->nominatim=$nominatim;
     }
