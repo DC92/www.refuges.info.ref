@@ -47,6 +47,7 @@ else // le point est valide
     $vue->nom_debut_majuscule = protege(mb_ucfirst($point->nom));
     $vue->lien_wiki_explication_type=lien_wiki("fiche-".replace_url($point->nom_type));
     $vue->lien_wiki_explication_geo=lien_wiki("geo-uri");
+    $vue->lien_wiki_explication_proprio=lien_wiki("informations_proprietaires");
     $vue->titre = "$vue->nom_debut_majuscule $point->altitude m ($point->nom_type)";
     
     $vue->localisation_point = array();
@@ -57,7 +58,7 @@ else // le point est valide
     }
     if ($point->modele!=1)
       $vue->forum_point = infos_point_forum ($point);
-    $vue->lienforum=$config_wri['forum_refuge'].$point->topic_id;
+    $vue->lienforum=$config_wri['forum_refuge']."?t=".$point->topic_id;
 
     $conditions_commentaires = new stdClass();
     $conditions_commentaires->ids_points = $id_point;

@@ -477,15 +477,16 @@ car requête de moins
 function lien_point($point,$lien_local=false)
 {
   global $config_wri;
+
   if (isset($_SERVER['HTTPS']))
       $schema="https";
   else
       $schema="http";
 
   if ($lien_local)
-      $url_complete=$config_wri['sous_dossier_installation'];
+      $url_complete="/";
   else
-      $url_complete="$schema://".$config_wri['nom_hote'].$config_wri['sous_dossier_installation'];
+      $url_complete="$schema://".$config_wri['nom_hote']."/";
 
    return $url_complete."point/$point->id_point/".replace_url($point->nom_type)."/".replace_url($point->nom)."/";
 }
@@ -652,7 +653,7 @@ function modification_ajout_point($point,$id_utilisateur_qui_modifie=0)
 
   //On a bien reçu une altitude, mais c'est une valeur vraiment improbable
   if ($point->altitude>8848 or $point->altitude<0)
-    return erreur("$point->altitude"."m comme altitude du point, vraiment ?");
+    return erreur($point->altitude."m comme altitude du point, vraiment ?");
 
   if (!empty($point->geojson))
     $champs_sql['geom']="ST_SetSRID(ST_GeomFromGeoJSON('$point->geojson'), 4326)";

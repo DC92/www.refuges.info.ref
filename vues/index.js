@@ -1,5 +1,5 @@
 var map = mapIndex({
   target: 'carte-accueil',
-  host: '<?=$config_wri["sous_dossier_installation"]?>',
+  host: '/',
   extent: [<?=$vue->bbox?>],
 });

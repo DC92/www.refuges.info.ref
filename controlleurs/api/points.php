@@ -15,26 +15,6 @@ include_once("entetes_http.php");
 ini_set('memory_limit','256M');
 
 /****************************************/
-// Ça permet de mettre convertir tout un objet
-function updatebbcode2html(&$html, $key) {
-    if (!($html === FALSE OR $html === TRUE OR $html === NULL) && $key != 'url') 
-        $html=bbcode2html($html,0,1,0); 
-}
-function updatebbcode2markdown(&$html, $key) {
-    if (!($html === FALSE OR $html === TRUE OR $html === NULL) && $key != 'url')
-        $html=bbcode2markdown($html);
-}
-function updatebbcode2txt(&$html, $key) {
-    if (!($html === FALSE OR $html === TRUE OR $html === NULL) && $key != 'url')
-        $html=bbcode2txt($html);
-}
-function updatebool2char(&$html) { 
-    if($html===FALSE) 
-        $html='0';  
-    elseif($html===TRUE) 
-        $html='1'; 
-}
-/****************************************/
 
 $vue = new stdClass();
 // Dans un premier temps on met en place l'objet contenant la requête
@@ -45,6 +25,7 @@ $req->massif = $_REQUEST['massif'] ?? '';
 $req->id = $_REQUEST['id'] ?? '';
 $req->format = $_REQUEST['format'] ?? '';
 $req->detail = $_REQUEST['detail'] ?? '';
+$req->commentaires = $_REQUEST['commentaires'] ?? '';
 $req->format_texte = $_REQUEST['format_texte'] ?? '';
 $req->nb_points = $_REQUEST['nb_points'] ?? '';
 $req->cluster = $_REQUEST['cluster'] ?? '';

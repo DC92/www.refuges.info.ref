@@ -43,8 +43,9 @@ if ( !empty($_REQUEST["id_point"]) )
   if ( est_autorise($point->id_createur) )
   {
     /* boutton "supprimer" uniquement pour les modérateurs globaux
-       sly 09/2025 : A DÉBATTRE, Voulons nous interdire la suppression d'une fiche à son auteur ? je peux comprendre que dans le cas du gérant de gîte excédé par les commentaires peut glorieux, il puisse être tenté de supprimer la fiche ce que nous ne voulons peut-être pas, mais pour celui qui ajoute une fiche de cabane, constate après coup qu'il s'est trompé, il ne peut alors, sans l'aide de modérateurs, supprimer et recommencer ?
+       sly 09/2025 : A DÉBATTRE, Voulons nous interdire la suppression d'une fiche à son auteur ? je peux comprendre que dans le cas du gérant de gîte excédé par les commentaires peu glorieux, il puisse être tenté de supprimer la fiche ce que nous ne voulons peut-être pas, mais pour celui qui ajoute une fiche de cabane, constate après coup qu'il s'est trompé, il ne peut alors, sans l'aide de modérateurs, supprimer et recommencer ?
        Du pour et du contre...
+       Ou alors ce serait plus subtile (au risque d'être difficile à comprendre comme ergonomie) mais une fiche pourrait n'être supprimable par son modérateur actuel uniquement si aucun commentaires autres que les siens ne sont présents. En gros, dès que quelqu'un participe à la fiche par un commentaire, celle-ci ne devient supprimable que des modérateurs globaux ?
     */
     if ( est_moderateur() and !$point->modele)
     {
@@ -94,6 +95,8 @@ elseif ( !empty($_REQUEST["id_point_type"]))
     unset($point->id_point);
     // et pareil pour le modérateur actuel du point qui sera alors choisi directement car l'utilisateur est authentifié (ou pas, mais alors ça sera 0)
     unset($point->id_createur);
+    // et on retire le flag "est un modèle" car on s'est servit du modèle, mais ce n'en est plus un
+    unset($point->modele);
     
     // cosmétique
     $icone="&amp;iconecenter=".choix_icone($point);
