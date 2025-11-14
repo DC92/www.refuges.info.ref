@@ -1,7 +1,6 @@
 <?php
 /**********************************************************************************************
-Préparer un lien d'exportation direct de nos données vers plein de formats pour être
-ré-utiliser.
+Préparer un lien d'exportation direct de nos données vers plein de formats pour êtreré-utiliser.
 Le traitement proprement dit est dans exportations.php
 **********************************************************************************************/
 
@@ -28,6 +27,4 @@ if (!empty($_REQUEST['types_de_nouvelles']) and !empty($_REQUEST['id_massif']) )
     $vue->url="/nouvelles/?quoi=$types_de_nouvelles&amp;ids_polygones=$liste_id_massif";
     $vue->titre_lien="Lien vers les nouvelles personnalisées (vous pouvez la placer en marque page)";
   }
-
 }
-

@@ -1,8 +1,9 @@
 <?php
 /********************************************************************************************************
 Préparer des liens d'accès direct de nos nouvelles sous différents formats.
-Paramétrer son flux RSS ou paramétrer sa page des nouvelles sont tellemnet proches comme fonctionnalités
-que j'ai un seul contrôleur et une seule vue pour les deux avec un switch. J'aurais aussi pû n'avoir qu'un seul contrôleur et 2 vues
+Paramétrer son flux RSS ou paramétrer sa page des nouvelles sont tellement proches comme fonctionnalités
+que j'ai un seul contrôleur et une seule vue pour les deux avec un switch.
+J'aurais aussi pû n'avoir qu'un seul contrôleur et 2 vues
 que plutôt que faire 2 controlleurs identiques
 Depuis 2008 : un flux RSS
 Depuis 2025 : la page des nouvelles "customisable"
@@ -24,7 +25,6 @@ else
  $vue->titre="Choisissez ce que vous souhaitez afficher pour votre page des nouvelles";
  $vue->titre_bouton="Obtenir un lien vers les nouvelles demandées";
 }
-
 
 $vue->massifs = new stdClass;
 

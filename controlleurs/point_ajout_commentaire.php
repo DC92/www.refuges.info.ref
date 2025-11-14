@@ -17,7 +17,7 @@ $vue->succes_ajout_commentaire=False;
 setlocale(LC_TIME, "fr_FR");
 // les modérateurs ont droit d'ajouter des commentaires aux points cachés
 if ( est_moderateur() )
-    $conditions_commentaire->avec_points_caches=True;
+  $conditions_commentaire->avec_points_caches=True;
 
 $commentaire->id_point=$controlleur->url_decoupee[1];
 $conditions_commentaire->ids_points=$commentaire->id_point;
@@ -27,10 +27,9 @@ if (empty($point->erreur))
 {
   // on force la demande de correction
   if (!empty($_REQUEST['correction']))
-      $vue->correction=true;
+    $vue->correction=true;
   else
-      $vue->correction=False;
-
+    $vue->correction=False;
 
   // on vient de valider notre formulaire, faisons le nécessaire
   $vue->banni=False;
@@ -54,7 +53,6 @@ if (empty($point->erreur))
     else
     {
       // Variables du commentaire à ajouter, presque plus de tests à faire (sauf ceux de contrôle qu'on aurait pas imposé par exemple aux modérateurs), tout est dans la fonction d'ajout de commentaires
-
       if (is_uploaded_file  ( $file_path=$_FILES['comment_photo']['tmp_name']  ) )
         $commentaire->photo['originale']=$file_path;
 
@@ -79,15 +77,15 @@ if (empty($point->erreur))
         $commentaire->message="Il contient un ou des mots clés interdits. En cas de doute venez en parler sur le forum";
       }
       else
-      // On tente d'ajouter le commentaire, qui peut retourner une erreur au besoin (point supprimé, erreur technique, ...)
+        // On tente d'ajouter le commentaire, qui peut retourner une erreur au besoin (point supprimé, erreur technique, ...)
         $vue->messages=modification_ajout_commentaire($commentaire);
 
       // Traces
       $mode = 'Ajout commentaire';
       $vars = [
-          'mode',
-          'point',
-          'commentaire',
+        'mode',
+        'point',
+        'commentaire',
       ];
       // Hook ext/RefugesInfo/trace/listener.php log_request_context
       extract($phpbb_dispatcher->trigger_event('refugesinfo.trace.log_request_context', compact($vars)));
@@ -102,14 +100,15 @@ if (empty($point->erreur))
       {
         $vue->type = "page_simple";
         $vue->contenu="Impossible d'ajouter ce commentaire car : ".$vue->messages->message;
-        return;
+		return;
       }
 
       // Nettoyage de la photo envoyée qu'elle fût ou non insérée correctement comme commentaire
-      if (is_uploaded_file  ( $file_path))
+      if (is_uploaded_file ( $file_path))
         unlink($file_path);
     }
   }
+
   // Qu'on arrive juste ou que l'on vienne déjà de rentrer un premier commentaire, on affiche le formulaire (rappel paramètres si erreur, vide si nouveau commentaire de +)
   $vue->nom_point=protege($point->nom);
   $vue->lien_point=lien_point($point);

@@ -28,26 +28,26 @@ $val->format = array("geojson", "gml");
 
 // On teste chaque champ pour voir si la valeur est correcte, sinon valeur par défaut
 if(!in_array($req->format,$val->format))
-    $req->format = "geojson";
+  $req->format = "geojson";
 // On vérifie que la liste de massif est correcte
 $temp = explode(",", $req->massif);
 foreach ($temp as $massif) {
-    if(!is_numeric($massif)) { $req->massif = ""; }
+  if(!is_numeric($massif)) { $req->massif = ""; }
 }
 // On vérifie que la liste des types de polygones est correcte
 $temp = explode(",", $req->type_polygones);
 foreach ($temp as $type_polygone) {
-    if(!is_numeric($type_polygone)) { $req->type_polygones = ""; }
+  if(!is_numeric($type_polygone)) { $req->type_polygones = ""; }
 }
 // On vérifie que la bbox est correcte
 $temp = explode(",", $req->bbox);
 if(!((count($temp)==4 &&
-    is_numeric($temp[0]) &&
-    is_numeric($temp[1]) &&
-    is_numeric($temp[2]) &&
-    is_numeric($temp[3])) ||
-    $req->bbox == "world")) {
-    $req->bbox = "world";
+  is_numeric($temp[0]) &&
+  is_numeric($temp[1]) &&
+  is_numeric($temp[2]) &&
+  is_numeric($temp[3])) ||
+  $req->bbox == "world")) {
+  $req->bbox = "world";
 }
 
 /****************************** REQUÊTE RÉCUPÉRATION POLYS ******************************/
@@ -96,10 +96,10 @@ if ($nb_coul) {
       $polygones->$i->type['type'] = $polygone->type_polygone;
       $polygones->$i->type['categorie'] = $polygone->categorie_polygone_type;
       //if (!empty($_GET['type_geom']))
-        $polygones->$i->geometrie =
-                $_GET['type_geom'] ?? '' =='polylines'
-                  ? str_replace (array('MultiPolygon','[[[',']]]'), array('MultiLineString','[[',']]'), $polygone->$geo)
-                  : $polygone->$geo;
+      $polygones->$i->geometrie =
+        $_GET['type_geom'] ?? '' =='polylines'
+          ? str_replace (array('MultiPolygon','[[[',']]]'), array('MultiLineString','[[',']]'), $polygone->$geo)
+          : $polygone->$geo;
       $polygones->$i->partitif = $polygone->article_partitif;
       $polygones->$i->lien = lien_polygone($polygone,False);
       $polygones->$i->couleur = $couleur;
@@ -116,11 +116,11 @@ array_walk_recursive($polygones, 'updatebool2char'); // Remplace les False et Tr
 /****************************** FORMAT VUE ******************************/
 
 switch ($req->format) {
-    case 'gml':
-        include($config_wri['chemin_vues'].'/api/polygones.vue.gml.php');
-        break;
-    default:
-        include($config_wri['chemin_vues'].'/api/polygones.vue.json.php');
-        break;
+  case 'gml':
+    include($config_wri['chemin_vues'].'/api/polygones.vue.gml.php');
+    break;
+  default:
+    include($config_wri['chemin_vues'].'/api/polygones.vue.json.php');
+    break;
 }
 

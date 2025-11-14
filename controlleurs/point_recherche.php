@@ -53,7 +53,6 @@ if (!empty($_REQUEST))
 
   //======================================
   // C'est LA que ca cherche
-
   $points = infos_points ($conditions);
   if (!empty($points->erreur))
   {
@@ -73,30 +72,27 @@ if (!empty($_REQUEST))
         $point->lien=lien_point($point,true);
         $vue->points[]=$point;
       }
+
     //en PG, pas moyen de savoir si on a tapé la limite. Je dis que si on a pile poile le nombre de points, c'est qu'on l'a atteinte
     if (!empty($conditions->limite) && $vue->nombre_points == $conditions->limite)
       $vue->limite_atteinte = $conditions->limite;
 
     //-----------------------------------------------------------------------------------------------------
     // Recherche de points sur nominatim.openstreetmap.org à condition d'avoir coché la case ET avoir fourni un nom à chercher
-
     if (!empty($_REQUEST['avec_point_osm']) and !empty($_REQUEST['nom']) )
     {
       $nominatim = new stdClass();
       $vue->recherche_osm_active=True;
-      $appel_nominatim = $config_wri['url_appel_nominatim'] .http_build_query
-      (
-      array
-      (
+      $appel_nominatim = $config_wri['url_appel_nominatim'] .http_build_query ([
       'email' => $config_wri['email_contact_nominatim'],
         'format' => 'xml',
         'countrycodes' => 'fr,ch,it,es',
         'accept-language' => 'fr',
         'q' => $_REQUEST['nom'],
         'limit' => 20,
-        )
-        );
-        // Récupération du contenu
+      ]);
+
+      // Récupération du contenu
       $cache = file_get_contents ($_SERVER['REQUEST_SCHEME'].':'.$appel_nominatim);
 
       // Extraction de l'arbre xml

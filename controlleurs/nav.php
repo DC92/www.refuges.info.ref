@@ -120,5 +120,6 @@ if (!empty($id_polygone))
 }
 else
   $vue->titre="Selecteur de refuges, point d'eau et cabane sur les cartes";
+
 $vue->types_point_affichables=types_point_affichables();
 

@@ -1,7 +1,6 @@
 <?php
 /**********************************************************************************************
-Permettre à n'importe qui d'indiquer qu'un commentaire à pas, peu, un peu, ou beaucoup d'intérêt,
-J'avais imaginé un système sophistiqué de scoring mais en fait c'est très peu utilisé, là ou
+Permettre à n'importe qui d'indiquer qu'un commentaire à pas, peu, un peu, ou beaucoup d'intérêt,J'avais imaginé un système sophistiqué de scoring mais en fait c'est très peu utilisé, là ou
 c'est utile, c'est que si un internaute trouve un commentaire inutile ça l'indique à un modérateur
 **********************************************************************************************/
 require_once ("bdd.php");
@@ -20,13 +19,13 @@ else
 {
   $vue->commentaire=$commentaire;
   $vue->commentaire->texte_affichage=bbcode2html($commentaire->texte,FALSE,FALSE);
-
   $vue->commentaire->lien=lien_point($commentaire,True);
 
   /**************************** l'action  ******************************/
   if (!empty($_REQUEST['valider']))
   {
     $vue->type="page_simple";
+
     // Si l'internaute est connecté au forum ou qu'il a saisi la lettre anti-robot
     if (est_connecte() or $_REQUEST['anti_robot'] == $config_wri['captcha_reponse'])
     {
