@@ -58,7 +58,8 @@ class listener implements EventSubscriberInterface
 		// Liste les colonnes pour ne prendre que les arguments qui correspondent
 		include __DIR__.'/../migrations/config.php';
 		$this->table_name = array_key_first($config['tables']);
-		$this->columns_names = array_keys($config['tables'][$this->table_name]['COLUMNS']);
+		$this->columns_names = ['trace_id', 'ext_error', 'uri', 'browser_operator', 'checked', 'group_id', 'asn_id', 'user_id'];
+    array_keys($config['tables'][$this->table_name]['COLUMNS']);
 	}
 
 	static public function getSubscribedEvents()
@@ -207,7 +208,6 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Liste les colonnes pour ne prendre que les arguments qui correspondent
-		$this->columns_names[] = 'group_id'; // Ajoute ce crtière de la table phpbb users
 		foreach($this->columns_names as $column_name)
 			// Multicriteria on one column
 			foreach(explode(',', $this->get[$column_name] ?? '') as $sub_colomn) {
@@ -228,26 +228,29 @@ class listener implements EventSubscriberInterface
 		// Liste des traces affichables
 		$tables = $this->table_name.
 		 	' LEFT JOIN '.USERS_TABLE.' ON '.$this->table_name.'.creator_id = '.USERS_TABLE.'.user_id';
-
 		$where = $conditions ? ' WHERE '.implode(' AND ', $conditions) : '';
-		$sql = 'SELECT *'.
+		$sql = 'SELECT '.$this->table_name.'.*, '.USERS_TABLE.'.group_id'.
 			' FROM '.$tables.
 			$where.
 			' ORDER BY trace_id DESC'.
 			' LIMIT '.($this->get['limit'] ?? 250).
 			(!empty($this->get['offset']) ? ' OFFSET '.$this->get['offset'] : '');
 		$result = $db->sql_query($sql);
+
+		$lignes_traces_html[] = 'ICI';////////////////////DCMMZ
+
+
 		while($row = $db->sql_fetchrow($result))
 			$lignes_traces_html[] = $this->display_one_trace(array_map('trim', $row));
 
 		$db->sql_freeresult($result);
 
-//TODO revoir indentation des ligens modifiées
+//TODO revoir indentation des lignes modifiées
 //TODO fichiers de la base geo???
 
 		// Nombre de traces répondant aux critères
-		$sql_nb = 'SELECT COUNT(trace_id) FROM '.$tables.$where;
-		$result = $db->sql_query($sql_nb);
+		$sql_count = 'SELECT COUNT(trace_id) FROM '.$tables.$where;
+		$result = $db->sql_query($sql_count);
 		$row_count = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
 
@@ -417,6 +420,8 @@ class listener implements EventSubscriberInterface
 					'passant par '.$row['asn_name'].
 				'</a>';
 
+		//TODO 1 critère pas colonne $this->columns_names = ['trace_id', 'ext_error', 'uri', 'browser_operator', 'checked', 'group_id', 'asn_id', 'user_id'];
+
 		$lignes_traces = [
 			'date' => 'date',
 			'machine' => 'browser_operator',
@@ -482,6 +487,7 @@ class listener implements EventSubscriberInterface
 	private function save_full_row($row)
 	{
 		global $db, $config_wri;
+    //TODO BUG : en cas de modif, enregitre le ùauvais user_id
 
 		// Purge empty values
 		$row = array_filter($row);
@@ -530,12 +536,13 @@ class listener implements EventSubscriberInterface
 			if (!empty($sql_row['wri_id_point']))
 				$row['id_point'] = $sql_row['wri_id_point'];
 
-			// On ne garde que les valeurs qui ont changé
 			$delta_row = array_filter(
 				$row,
 				function($v, $k) use($sql_row) {
 					return
+						// Seulement les colonnes sql
 						in_array($k, $this->columns_names) &&
+						// On ne garde que les valeurs qui ont changé
 						isset ($v) && isset ($sql_row[$k]) &&
 						!($v === null && $sql_row[$k] === null) &&
 						$v !== trim ($sql_row[$k]);
