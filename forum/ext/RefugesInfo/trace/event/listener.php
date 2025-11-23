@@ -169,9 +169,8 @@ class listener implements EventSubscriberInterface
 
 				// Infos enregistrées à la création du user
 				// Sont gardées dans la table au cas où on supprimerait le user
-        'creator_id' => $post_data['poster_id'],
-        'creator_name' => $event['username'],
-        'user_moderator' => $auth->acl_get('m_'),
+				'creator_id' => $post_data['poster_id'],
+				'creator_name' => $event['username'],
 				'user_id' => $user_data['user_id'] ?? $event['user_id'] ?? null,
 				'user_name' => $this->post['username'] ??
 					$this->post['nom_createur'] ??
@@ -208,12 +207,12 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Liste les colonnes pour ne prendre que les arguments qui correspondent
+		$this->columns_names[] = 'group_id'; // Ajoute ce crtière de la table phpbb users
 		foreach($this->columns_names as $column_name)
 			// Multicriteria on one column
 			foreach(explode(',', $this->get[$column_name] ?? '') as $sub_colomn) {
 				// Separate the ! at the beginning
 				$scs = array_reverse(explode('!', $sub_colomn));
-        if($scs[0])
 
 				if($scs[0] === 'null')
 					$conditions[] = $column_name.(isset($scs[1])?' IS NOT NULL':' IS NULL');
@@ -227,9 +226,12 @@ class listener implements EventSubscriberInterface
 		$lignes_traces_html = [];
 
 		// Liste des traces affichables
+		$tables = $this->table_name.
+		 	' LEFT JOIN '.USERS_TABLE.' ON '.$this->table_name.'.creator_id = '.USERS_TABLE.'.user_id';
+
 		$where = $conditions ? ' WHERE '.implode(' AND ', $conditions) : '';
 		$sql = 'SELECT *'.
-			' FROM '.$this->table_name.
+			' FROM '.$tables.
 			$where.
 			' ORDER BY trace_id DESC'.
 			' LIMIT '.($this->get['limit'] ?? 250).
@@ -237,11 +239,15 @@ class listener implements EventSubscriberInterface
 		$result = $db->sql_query($sql);
 		while($row = $db->sql_fetchrow($result))
 			$lignes_traces_html[] = $this->display_one_trace(array_map('trim', $row));
+
 		$db->sql_freeresult($result);
 
+//TODO revoir indentation des ligens modifiées
+//TODO fichiers de la base geo???
+
 		// Nombre de traces répondant aux critères
-		$sql = 'SELECT COUNT(trace_id) FROM '.$this->table_name.$where;
-		$result = $db->sql_query($sql);
+		$sql_nb = 'SELECT COUNT(trace_id) FROM '.$tables.$where;
+		$result = $db->sql_query($sql_nb);
 		$row_count = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
 
@@ -351,10 +357,10 @@ class listener implements EventSubscriberInterface
 
 		if(strpos($row['uri'] ?? '', 'mode=register') === false &&
 			!empty($row['user_id'])) {
-        if(isset($row['creator_id']) &&
-          $row['creator_id'] != $row['user_id']
-        )
-          $ligne1[] = '(créé par '.$row['creator_name'].') ';
+				if(isset($row['creator_id']) &&
+					$row['creator_id'] != $row['user_id']
+				)
+					$ligne1[] = '(créé par '.$row['creator_name'].') ';
 
 				if($row['user_id'] > 1)
 					$ligne1[] = 'par <a '.
@@ -392,9 +398,9 @@ class listener implements EventSubscriberInterface
 					),
 				);
 
-    // Début de bloc rétracté
-    if(!isset($_GET['trace_id']))
-	    $lignes_html[] = '<div class="more" onclick="this.className=\'more-deployed\'"><span>Plus d\'infos...</span><div>';
+		// Début de bloc rétracté
+		if(!isset($_GET['trace_id']))
+			$lignes_html[] = '<div class="more" onclick="this.className=\'more-deployed\'"><span>Plus d\'infos...</span><div>';
 
 		if(!empty($row['ip']))
 			$lignes_html[] =
@@ -430,7 +436,6 @@ class listener implements EventSubscriberInterface
 			'texte' => 'text',
 			'id utilisateur' => 'user_id',
 			'nom utilisateur' => 'user_name',
-			'est modérateur' => 'user_moderator',
 			'id créateur' => 'creator_id',
 			'nom créateur' => 'creator_name',
 		];
@@ -467,9 +472,9 @@ class listener implements EventSubscriberInterface
 			$lignes_html[] = '<a href="https://cleantalk.org/email-checker/'.
 				$row['user_email'].'">CleanTalk</a> de '.$row['user_email'];
 
-    // Fin de bloc rétracté
-    if(!isset($_GET['trace_id']))
-      $lignes_html[] = '</div></div>';
+		// Fin de bloc rétracté
+		if(!isset($_GET['trace_id']))
+			$lignes_html[] = '</div></div>';
 
 		return '<p>'.implode('</p>'.PHP_EOL.'<p>', $lignes_html).'</p>';
 	}
@@ -478,7 +483,7 @@ class listener implements EventSubscriberInterface
 	{
 		global $db, $config_wri;
 
-    // Purge empty values
+		// Purge empty values
 		$row = array_filter($row);
 
 		if(!empty($row['ip'])) {

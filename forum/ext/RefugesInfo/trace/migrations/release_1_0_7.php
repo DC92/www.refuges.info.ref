@@ -16,9 +16,9 @@ class release_1_0_7 extends \phpbb\db\migration\migration
 		return [
 			'add_columns' => [
 				$table_name => [
-					'creator_id' => ['CHAR:32', NULL],
+					'creator_id' => ['UINT', NULL],
 					'creator_name' => ['CHAR:128', NULL],
-					'user_moderator' => ['UINT', NULL],
+					'checked' => ['BOOL', 0],
 				],
 			],
 		];
