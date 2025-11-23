@@ -68,3 +68,18 @@ a[href*="contactadmin"],
 .style-switch {
   display: none;
 }
+
+/* Utilitaires de traces */
+.traces .more {
+  color: var(--couleur_lien);
+  cursor: pointer;
+}
+
+.traces .more div,
+.traces .more-deployed > span {
+  display: none;
+}
+
+.traces hr {
+  border-top: 1px solid var(--couleur_texte);
+}

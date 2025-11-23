@@ -4,7 +4,7 @@
  * This package adds many features to Openlayer https://openlayers.org/
  * https://github.com/Dominique92/myol#readme
  * Based on https://openlayers.org
- * Built 18/11/2025 18:23:40 using npm run build from the src/... sources
+ * Built 20/11/2025 21:33:25 using npm run build from the src/... sources
  * Please don't modify this file : best is to modify src/... & npm run build !
  */
 (function (global, factory) {
@@ -76172,6 +76172,7 @@
     sphere: sphere$1,
     style: style,
     tilegrid: {
+      TileGrid: TileGrid,
       WMTS: WMTSTileGrid,
     },
     util: {
@@ -76982,12 +76983,12 @@
       }),
 
       /* //BEST Cassini ? clé
-  	'IGN Cassini': new IGN({
+    'IGN Cassini': new IGN({
         ...options.ign,
         layer: 'GEOGRAPHICALGRIDSYSTEMS.CASSINI',
         key: 'an7nvfzojv5wa96dsga5nk8w', //BEST use owner key
       }),
-  	*/
+    */
     };
   }
 
@@ -77436,7 +77437,7 @@
       const fileExtent = gpxSource.getExtent();
 
       if (isEmpty(fileExtent))
-        alert(url + ' ne comporte pas de point ni de trace.');
+        alert(url + ' ne comporte pas de point ni de traces.');
       else {
         // Add received features to the layer defined in potion
         if (this.options.receivingLayer)
@@ -77482,38 +77483,38 @@
   var inputQueryId = "gcd-input-query";
   var inputSearchId = "gcd-input-search";
   var cssClasses = {
-  	namespace: "ol-geocoder",
-  	spin: "gcd-pseudo-rotate",
-  	hidden: "gcd-hidden",
-  	country: "gcd-country",
-  	city: "gcd-city",
-  	road: "gcd-road",
-  	olControl: "ol-control",
-  	glass: {
-  		container: "gcd-gl-container",
-  		control: "gcd-gl-control",
-  		button: "gcd-gl-btn",
-  		input: "gcd-gl-input",
-  		expanded: "gcd-gl-expanded",
-  		search: "gcd-gl-search",
-  		result: "gcd-gl-result"
-  	},
-  	inputText: {
-  		container: "gcd-txt-container",
-  		control: "gcd-txt-control",
-  		label: "gcd-txt-label",
-  		input: "gcd-txt-input",
-  		search: "gcd-txt-search",
-  		icon: "gcd-txt-glass",
-  		result: "gcd-txt-result"
-  	}
+    namespace: "ol-geocoder",
+    spin: "gcd-pseudo-rotate",
+    hidden: "gcd-hidden",
+    country: "gcd-country",
+    city: "gcd-city",
+    road: "gcd-road",
+    olControl: "ol-control",
+    glass: {
+      container: "gcd-gl-container",
+      control: "gcd-gl-control",
+      button: "gcd-gl-btn",
+      input: "gcd-gl-input",
+      expanded: "gcd-gl-expanded",
+      search: "gcd-gl-search",
+      result: "gcd-gl-result"
+    },
+    inputText: {
+      container: "gcd-txt-container",
+      control: "gcd-txt-control",
+      label: "gcd-txt-label",
+      input: "gcd-txt-input",
+      search: "gcd-txt-search",
+      icon: "gcd-txt-glass",
+      result: "gcd-txt-result"
+    }
   };
   var VARS = {
-  	containerId: containerId,
-  	buttonControlId: buttonControlId,
-  	inputQueryId: inputQueryId,
-  	inputSearchId: inputSearchId,
-  	cssClasses: cssClasses
+    containerId: containerId,
+    buttonControlId: buttonControlId,
+    inputQueryId: inputQueryId,
+    inputSearchId: inputSearchId,
+    cssClasses: cssClasses
   };
 
   const EVENT_TYPE = {
@@ -89971,7 +89972,7 @@
           }
       });
 
-      // Compute properties when the layer is loaded & before the cluster layer is computed
+      // Compute properties when one request is loaded & before the cluster layer is computed
       this.on('change', () => {
         this.logs ??= {};
         if (this.options.debug)
@@ -89984,6 +89985,7 @@
             .join('°E/') + '°N'
           );
 
+        //TODO move feature.getProperties() in hover
         this.getFeatures().forEach(f => {
           if (!f.yetAdded) {
             f.yetAdded = true;
@@ -91161,33 +91163,41 @@
     vector: vectorLayerCollection,
   };
 
-  /**
-   * Display misc values
-   */
+  /* global map */
 
 
-  const VERSION = '1.1.2.dev 18/11/2025 18:23:40';
+  const VERSION = '1.1.2.dev 20/11/2025 21:33:25';
 
-  async function trace() {
-    const data = [
-      'Ol v' + VERSION$1,
-      'MyOl ' + VERSION,
-      'Geocoder 4.3.3-4',
-      'Proj4 2.19.10',
-      'language ' + navigator.language,
-    ];
+  async function traces(options) {
+    const debug = {
+        versions: true,
+        storages: true,
+        serviceWorkers: true,
+        ...options
+      },
+      data = [];
+
+    if (debug.versions)
+      data.push(...[
+        'Ol v' + VERSION$1,
+        'MyOl ' + VERSION,
+        'Geocoder 4.3.3-4',
+        'Proj4 2.19.10',
+        'language ' + navigator.language,
+      ]);
 
     // Storages in the subdomain
-    ['localStorage', 'sessionStorage'].forEach(s => {
-      if (window[s].length)
-        data.push(s + ':');
+    if (debug.storages)
+      ['localStorage', 'sessionStorage'].forEach(s => {
+        if (window[s].length)
+          data.push(s + ':');
 
-      Object.keys(window[s])
-        .forEach(k => data.push('  ' + k + ': ' + window[s].getItem(k)));
-    });
+        Object.keys(window[s])
+          .forEach(k => data.push('  ' + k + ': ' + window[s].getItem(k)));
+      });
 
     // Registered service workers in the scope
-    if ('serviceWorker' in navigator)
+    if (debug.serviceWorkers && 'serviceWorker' in navigator)
       await navigator.serviceWorker.getRegistrations().then(registrations => {
         if (registrations.length) {
           data.push('service-workers:');
@@ -91200,31 +91210,41 @@
 
     // Registered caches in the scope
     if (typeof caches === 'object')
-      await caches.keys().then(names => {
-        if (names.length) {
+      await caches.keys().then(async keys => {
+        if (keys.length) {
           data.push('caches:');
 
-          for (const name of names)
-            data.push('  ' + name);
+          for (const key of keys) {
+            // Cache name
+            data.push('  ' + key);
+
+            // File names
+            await caches
+              .open(key)
+              .then(cache => cache.keys())
+              .then(requests =>
+                requests.forEach(request =>
+                  data.push('  ' + request.url)
+                )
+              );
+          }
         }
       });
 
-    // Log all the traces
+    // Display all the traces
     console.info(data.join('\n'));
   }
 
-  /* global map */
   // Zoom & resolution
   function traceZoom() {
-    if (map.debug)
-      console.info(
-        'zoom ' + map.getView().getZoom().toFixed(2) + ', ' +
-        'resolution ' + map.getView().getResolution().toPrecision(4) + ' m/pix'
-      );
+    console.info(
+      'zoom ' + map.getView().getZoom().toFixed(2) + ', ' +
+      'resolution ' + map.getView().getResolution().toPrecision(4) + ' m/pix'
+    );
   }
 
   window.addEventListener('load', () => { // Wait for document load
-    if (typeof map === 'object' && map.once)
+    if (typeof map === 'object' && map.once && map.debug)
       map.once('precompose', () => { // Wait for view load
         traceZoom();
         map.getView().on('change:resolution', traceZoom);
@@ -91241,7 +91261,7 @@
     layer: layer,
     Selector: layer.Selector,
     stylesOptions: stylesOptions,
-    trace: trace,
+    traces: traces,
     VERSION: VERSION,
   };
 

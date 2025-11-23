@@ -7,6 +7,7 @@ import Feature from 'ol/Feature';
 import Geolocation from 'ol/Geolocation';
 import Map from 'ol/Map';
 import OSMXML from 'ol/format/OSMXML';
+import TileGrid from 'ol/tilegrid/TileGrid';
 import View from 'ol/View';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import * as condition from 'ol/events/condition';
@@ -71,6 +72,7 @@ const ol = {
   sphere: sphere,
   style: style,
   tilegrid: {
+    TileGrid: TileGrid,
     WMTS: WMTSTileGrid,
   },
   util: {

@@ -79,7 +79,7 @@ class Load extends Button {
     const fileExtent = gpxSource.getExtent();
 
     if (isEmpty(fileExtent))
-      alert(url + ' ne comporte pas de point ni de trace.');
+      alert(url + ' ne comporte pas de point ni de traces.');
     else {
       // Add received features to the layer defined in potion
       if (this.options.receivingLayer)
