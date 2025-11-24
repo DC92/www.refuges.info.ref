@@ -70,6 +70,7 @@ a[href*="contactadmin"],
 }
 
 /* Utilitaires de traces */
+#edit-requete a,
 .traces .more {
   color: var(--couleur_lien);
   cursor: pointer;
@@ -82,4 +83,22 @@ a[href*="contactadmin"],
 
 .traces hr {
   border-top: 1px solid var(--couleur_texte);
+}
+
+#edit-requete.edit-form a,
+#edit-requete:not(.edit-form) form {
+  display: none;
+}
+
+#edit-requete input[type="text"] {
+  width: 30em !important;
+}
+
+#edit-requete input[type="number"] {
+  width: 7em;
+}
+
+.report-trace td {
+  border: 1px solid grey;
+  padding: 3px;
 }

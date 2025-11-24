@@ -27,55 +27,64 @@
 		<a href="{U_MCP_ACTION}&browser_operator=!serve">
 			{LIMIT} dernières contributions (sauf bots)
 		</a>
-		<a href="{U_MCP_ACTION}&search=advanced">
-			Recherche avancée
-		</a>
 		<hr/>
-
-		<!-- IF SEARCH == "advanced" -->
-			<p class="mcp-trace-title">Sélection manuelle</p>
-			<form method="get" action="{U_MCP_ACTION}">
-				<div>Syntaxe : chaine (contient) , !chaine (ne contient pas) , null , !null</div>
-				<label>N° trace <input type="number" name="trace_id" value="{TRACE_ID}" /></label>
-				<label>Erreur inclue <input type="text" size="50" name="ext_error" value="{EXT_ERROR}" /></label>
-				<label>Fournisseur inclue <input type="text" name="asn" value="{ASN}" /></label>
-				<label>Host inclue <input type="text" name="host" value="{HOST}" /></label>
-				<label>
-					<input type="text" size="5" name="limit" value="{LIMIT}" /> traces,
-					en sautant <input type="text" size="5" name="offset" value="{OFFSET}" /> traces
-				</label>
-				<input type="hidden" name="i" value="{I}" />
-				<input type="hidden" name="search" value="advanced" />
-				<button type="submit" id="advanced_traces_search_submit">Filtrer</button>
-			</form>
-			<hr/>
-			<script>
-				// Submit while pressing enter
-				const atcssEl = document.getElementById('advanced_traces_search_submit');
-				if (atcssEl)
-					window.addEventListener('keypress', () => {
-						atcssEl.click();
-					});
-			</script>
-		<!-- ENDIF -->
 
 		<h4>
 			<!-- IF NOMBRE_TRACES -->
-				Historique de {NOMBRE_LIGNES} traces
-				sur {NOMBRE_TRACES}
-				<!-- IF OFFSET -->
-					à partir de la {OFFSET} ième
-				<!-- ENDIF -->
+				Historique de {NOMBRE_LIGNES} traces sur {NOMBRE_TRACES}
+				<!-- IF OFFSET -->à partir de la {OFFSET} ième<!-- ENDIF -->
 			<!-- ELSE -->
 				Pas de trace correspondant à ces critères
 			<!-- ENDIF -->
 		</h4>
-		<!-- IF REQUETE_SQL -->
-			<p>{REQUETE_SQL}</p><hr/>
-		<!-- ENDIF -->
+
+		<div>{REQUETE_SQL}</div>
+    <div id="edit-requete">
+      <a>Edit...</a>
+      <form method="get" action="{U_MCP_ACTION}">
+        <p>chaine (contient) , !chaine (ne contient pas) , null , !null</p>
+        <table>
+          <tr>
+            <!-- BEGIN inputs_requete -->
+              <tr>
+                <td>{inputs_requete.NAME} &nbsp;</td>
+                <td>
+                  <input
+                    type="{inputs_requete.TYPE}"
+                    name="ext_error"
+                    value="{inputs_requete.VALUE}"
+                  />
+                </td>
+              </tr>
+            <!-- END inputs_requete -->
+          </tr>
+
+          <input type="hidden" name="i" value="-RefugesInfo-trace-mcp-main_module" />
+          <!--input type="hidden" name="search" value="advanced" /-->
+        </table>
+        <button type="submit">Filtrer</button>
+      </form>
+    </div>
+
+		<script>
+      document.getElementById('edit-requete').onclick = evt => {
+        evt.target.parentNode.classList.add('edit-form');
+      }
+		</script>
+		<hr/>
 	<!-- ENDIF -->
 
-	{TRACES}
+  <table class="report-trace">
+    <tr>
+      <!-- BEGIN output_requetes_raw -->
+        <tr>
+          <!-- BEGIN output_requetes_col -->
+            <td>{output_requetes_raw.output_requetes_col.VALUE}</td>
+          <!-- END output_requetes_col -->
+        </tr>
+      <!-- END output_requetes_raw -->
+    </tr>
+  </table>
 </div>
 
 {% include 'mcp_footer.html' %}

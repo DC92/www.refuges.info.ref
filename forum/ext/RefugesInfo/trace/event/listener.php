@@ -35,7 +35,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
 	protected $server, $post, $get;
-	protected $forum_root, $u_action, $columns_names;
+	protected $forum_root, $u_action, $column_names;
 	protected $reader_asn, $reader_city;
 
 	public function __construct()
@@ -56,10 +56,22 @@ class listener implements EventSubscriberInterface
 		$this->u_action = $this->forum_root.'mcp.php?i=-'.$ns[0].'-'.$ns[1].'-mcp-main_module';
 
 		// Liste les colonnes pour ne prendre que les arguments qui correspondent
-		include __DIR__.'/../migrations/config.php';
-		$this->table_name = array_key_first($config['tables']);
-		$this->columns_names = ['trace_id', 'ext_error', 'uri', 'browser_operator', 'checked', 'group_id', 'asn_id', 'user_id'];
-    array_keys($config['tables'][$this->table_name]['COLUMNS']);
+		//include __DIR__.'/../migrations/config.php';
+		//'trace_requettes' = array_key_first($config['tables']);
+		$this->column_names = [
+      'ext_error' => 'text',
+      'browser_operator' => 'text',
+      'trace_id' => 'number',
+      'user_id' => 'number',
+      'host' => 'text',
+      'asn_id' => 'number',
+      'uri' => 'text',
+      'checked' => 'number',
+      'group_id' => 'text',
+      'limit' => 'number',
+      'offset' => 'number',
+    ];
+    //TODO ????     array_keys($config['tables']['trace_requettes']['COLUMNS']);
 	}
 
 	static public function getSubscribedEvents()
@@ -190,6 +202,8 @@ class listener implements EventSubscriberInterface
 
 	// Affichage des traces
 	//BEST statistique sur les posts/comptes supprimés
+  //TODO revoir indentation des lignes modifiées
+  //TODO fichiers de la base geo???
 	public function display_traces($event, $eventName)
 	{
 		global $db, $template, $auth;
@@ -197,6 +211,24 @@ class listener implements EventSubscriberInterface
 		if(!$auth->acl_get('m_')) // Uniquement pour les modérateurs
 			return;
 
+    // Edition de la requette
+		//TODO ??? $template->assign_vars(array_change_key_case($this->get, CASE_UPPER));
+    foreach (array_keys($this->column_names) as $column_name)
+      $template->assign_block_vars('inputs_requete', [
+        'NAME' => $column_name,
+        'TYPE' => $this->column_names[$column_name],
+        'VALUE' => $this->get[$column_name] ?? '',
+      ]);
+
+    // Titre des colonnes du tableau des traces
+    $titre_colonnes = ['Trace', 'Statut', 'Raison', 'FAI', 'Auteur', 'Utilisateur'];
+    $template->assign_block_vars('output_requetes_raw', []);
+    foreach ($titre_colonnes as $titre)
+			$template->assign_block_vars('output_requetes_raw.output_requetes_col',[
+        'VALUE' => $titre,
+      ]);
+
+    // LECTURE DE LA TABLE DES REQUETTES
 		$conditions = [];
 
 		// Arguments pour mcp_post_additional_options & core.memberlist_view_profile
@@ -208,7 +240,7 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Liste les colonnes pour ne prendre que les arguments qui correspondent
-		foreach($this->columns_names as $column_name)
+		foreach($this->column_names as $column_name)
 			// Multicriteria on one column
 			foreach(explode(',', $this->get[$column_name] ?? '') as $sub_colomn) {
 				// Separate the ! at the beginning
@@ -221,15 +253,19 @@ class listener implements EventSubscriberInterface
 				elseif($scs[0])
 					$conditions[] = $column_name.(isset($scs[1])?' NOT':'').' LIKE \'%'.$scs[0].'%\'';
 			}
-		//TODO afficher les critères sélectionnés
 
-		$lignes_traces_html = [];
-
-		// Liste des traces affichables
-		$tables = $this->table_name.
-		 	' LEFT JOIN '.USERS_TABLE.' ON '.$this->table_name.'.creator_id = '.USERS_TABLE.'.user_id';
 		$where = $conditions ? ' WHERE '.implode(' AND ', $conditions) : '';
-		$sql = 'SELECT '.$this->table_name.'.*, '.USERS_TABLE.'.group_id'.
+		$tables = 'trace_requettes'.
+		 	' LEFT JOIN '.USERS_TABLE.' ON trace_requettes.creator_id = '.USERS_TABLE.'.user_id';
+
+		// Nombre de traces répondant aux critères
+		$sql_count = 'SELECT COUNT(trace_id) FROM '.$tables.$where;
+		$result = $db->sql_query($sql_count);
+		$row_count = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+    
+		// Liste des traces affichables
+		$sql = 'SELECT trace_requettes.*, '.USERS_TABLE.'.group_id'.
 			' FROM '.$tables.
 			$where.
 			' ORDER BY trace_id DESC'.
@@ -237,26 +273,17 @@ class listener implements EventSubscriberInterface
 			(!empty($this->get['offset']) ? ' OFFSET '.$this->get['offset'] : '');
 		$result = $db->sql_query($sql);
 
-		$lignes_traces_html[] = 'ICI';////////////////////DCMMZ
-
-
+    // Affichage de la table
+		$lignes_traces_html = [];
 		while($row = $db->sql_fetchrow($result))
 			$lignes_traces_html[] = $this->display_one_trace(array_map('trim', $row));
-
 		$db->sql_freeresult($result);
-
-//TODO revoir indentation des lignes modifiées
-//TODO fichiers de la base geo???
-
-		// Nombre de traces répondant aux critères
-		$sql_count = 'SELECT COUNT(trace_id) FROM '.$tables.$where;
-		$result = $db->sql_query($sql_count);
-		$row_count = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
-
-		// S'il n'y a pas de trace dans la table, décode l'IP utilisée.
-		$event_ip = $event['post_info']['poster_ip'] ??
+ 
+		// S'il n'y a pas de trace dans la table, simplement décode l'IP utilisée.
+		$event_ip =
+      $event['post_info']['poster_ip'] ??
 			$event['member']['user_ip'] ?? null;
+
 		if(!count($lignes_traces_html) && $event_ip)
 			$lignes_traces_html[] = $this->display_one_trace([
 				'ip' => $event_ip,
@@ -264,19 +291,32 @@ class listener implements EventSubscriberInterface
 
 		$template->assign_vars([
 			'REQUETE_SQL' => $sql,
-			'TRACES' => implode('<hr/>'.PHP_EOL, $lignes_traces_html),
 			'NOMBRE_LIGNES' => count($lignes_traces_html),
 			'NOMBRE_TRACES' => $row_count['count'] ?? 0,
 		]);
-		$template->assign_vars(array_change_key_case($this->get, CASE_UPPER));
 	}
 
 	// Affichage d'une trace
 	private function display_one_trace($row)
 	{
-		global $db;
+		global $db, $template;
 
 		$row = $this->save_full_row($row);
+   
+//TODO A FAIRE TODO A FAIRE TODO A FAIRE TODO A FAIRE TODO A FAIRE 
+
+// lines 283 / 284: Trying to access array offset on value of type bool ($row)
+    $template->assign_block_vars('output_requetes_raw', []);
+			$template->assign_block_vars('output_requetes_raw.output_requetes_col', ['VALUE' => 
+        '<a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'"'.
+				'>'.$row['trace_id'].'</a>'
+        ]);
+
+/*
+		if(!empty($row['trace_id']) && empty($this->get['trace_id']))
+			$ligne1[] = 
+				;
+*/
 
 		// Construction de la première ligne
 		$ligne1 = [];
@@ -379,15 +419,17 @@ class listener implements EventSubscriberInterface
 		if(count($ligne1))
 			$ligne1[count($ligne1) - 1] .= '. ';
 
-		if(!empty($row['trace_id']) && empty($this->get['trace_id']))
-			$ligne1[] =
-				'<sup><a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'"'.
-				'>'.$row['trace_id'].'</a></sup>';
-
 		// Construction des lignes du rapport
 		$lignes_html = [];
+    $template->assign_block_vars('output_requetes_raw', []);
+
 		if(count($ligne1))
 			$lignes_html[] = ucfirst(implode(' ', $ligne1)) ;
+
+		if(count($ligne1))
+			$template->assign_block_vars('output_requetes_raw.output_requetes_col',[
+        'VALUE' => ucfirst(implode(' ', $ligne1)),
+      ]);
 
 		if(!empty($row['ext_error']))
 			$lignes_html[] =
@@ -420,7 +462,7 @@ class listener implements EventSubscriberInterface
 					'passant par '.$row['asn_name'].
 				'</a>';
 
-		//TODO 1 critère pas colonne $this->columns_names = ['trace_id', 'ext_error', 'uri', 'browser_operator', 'checked', 'group_id', 'asn_id', 'user_id'];
+		//TODO 1 critère pas colonne $this->column_names = ['trace_id', 'ext_error', 'uri', 'browser_operator', 'checked', 'group_id', 'asn_id', 'user_id'];
 
 		$lignes_traces = [
 			'date' => 'date',
@@ -481,6 +523,19 @@ class listener implements EventSubscriberInterface
 		if(!isset($_GET['trace_id']))
 			$lignes_html[] = '</div></div>';
 
+/*
+    $template->assign_block_vars('output_requetes',[
+      'Trace' => 'Trace n°',
+      'Date' => 'Date',
+      'Statut' => 'Statut',
+      'Raison' => 'Raison',
+      'FAI' => 'FAI',
+      'Auteur' => 'Auteur',
+      'Utilisateur' => 'Utilisateur',
+    ]);
+    $template->assign_block_vars('output_requetes', $output_requete);
+    */
+
 		return '<p>'.implode('</p>'.PHP_EOL.'<p>', $lignes_html).'</p>';
 	}
 
@@ -523,9 +578,9 @@ class listener implements EventSubscriberInterface
 		if(!empty($row['trace_id'])) {
 			// On récupère la trace existante
 			$sql_row = [];
-			$sql = 'SELECT '.$this->table_name.'.*'.
+			$sql = 'SELECT trace_requettes.*'.
 				(isset($config_wri) ? ',points.id_point AS wri_id_point' : '').
-				' FROM '.$this->table_name.
+				' FROM trace_requettes'.
 				(isset($config_wri) ? ' LEFT JOIN points USING(topic_id)' : '').
 				' WHERE trace_id = '.$row['trace_id'];
 			$result = $db->sql_query($sql);
@@ -541,7 +596,7 @@ class listener implements EventSubscriberInterface
 				function($v, $k) use($sql_row) {
 					return
 						// Seulement les colonnes sql
-						in_array($k, $this->columns_names) &&
+						in_array($k, $this->column_names) &&
 						// On ne garde que les valeurs qui ont changé
 						isset ($v) && isset ($sql_row[$k]) &&
 						!($v === null && $sql_row[$k] === null) &&
@@ -551,7 +606,7 @@ class listener implements EventSubscriberInterface
 			);
 
 			if(count($delta_row)) {
-				$sql = 'UPDATE '.$this->table_name.' SET '.
+				$sql = 'UPDATE trace_requettes SET '.
 					$db->sql_build_array('UPDATE', $delta_row).
 					' WHERE trace_id = '.$row['trace_id'];
 				$db->sql_query($sql);
@@ -559,7 +614,7 @@ class listener implements EventSubscriberInterface
 		}
 		// Nouvelle trace
 		elseif(!empty($row['uri'])) { // Pas pour les vieux posts ou users qui n'ont pas de trace
-			$sql = 'INSERT INTO '.$this->table_name.$db->sql_build_array('INSERT', $row);
+			$sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $row);
 			$db->sql_query($sql);
 		}
 
