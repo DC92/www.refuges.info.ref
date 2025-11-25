@@ -15,7 +15,7 @@ class mcp_controller
 	public function display_options() {
 		global $template, $phpbb_dispatcher;
 
-		// Set get variables for display in the template
+		// Set variables for display in the template
 		$template->assign_var('U_MCP_ACTION', str_replace ('&mode=front', '', $this->u_action));
 
 		// Hook ext/RefugesInfo/trace/listener.php

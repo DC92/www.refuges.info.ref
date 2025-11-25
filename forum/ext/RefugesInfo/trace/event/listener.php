@@ -42,22 +42,15 @@ class listener implements EventSubscriberInterface
 	{
 		global $request, $db;
 
-		$this->server = $request->get_super_global(\phpbb\request\request_interface::SERVER);
-		$this->post = $request->get_super_global(\phpbb\request\request_interface::POST);
-		$this->get = $request->get_super_global(\phpbb\request\request_interface::GET) +
-			[ // Default url args
-				'limit' => 250,
-			];
+    $request->enable_super_globals();
 
 		// Calcul de la racine du forum
-		preg_match('|'.$this->server['DOCUMENT_ROOT'].'(.*/)ext/|', __DIR__, $forum_dirs);
+		preg_match('|'.$_SERVER['DOCUMENT_ROOT'].'(.*/)ext/|', __DIR__, $forum_dirs);
 		$this->forum_root = $forum_dirs[1];
 		$ns = explode('\\', __NAMESPACE__);
 		$this->u_action = $this->forum_root.'mcp.php?i=-'.$ns[0].'-'.$ns[1].'-mcp-main_module';
 
 		// Liste les colonnes pour ne prendre que les arguments qui correspondent
-		//include __DIR__.'/../migrations/config.php';
-		//'trace_requettes' = array_key_first($config['tables']);
 		$this->column_names = [
       'ext_error' => 'text',
       'browser_operator' => 'text',
@@ -67,11 +60,10 @@ class listener implements EventSubscriberInterface
       'asn_id' => 'number',
       'uri' => 'text',
       'checked' => 'number',
-      'group_id' => 'text',
+      'group_id' => 'number',
       'limit' => 'number',
       'offset' => 'number',
     ];
-    //TODO ????     array_keys($config['tables']['trace_requettes']['COLUMNS']);
 	}
 
 	static public function getSubscribedEvents()
@@ -94,7 +86,7 @@ class listener implements EventSubscriberInterface
 	// Log le contexte d'une création de user rejetée
 	public function ucp_register_modify_template_data($event, $eventName)
 	{
-		if(isset($this->post['new_password'])) { // Except when load the registration page
+		if(isset($_POST['new_password'])) { // Except when load the registration page
 			$error = $event['error'];
 			$error[] = 'Création d\'un compte rejetée sans erreur documentée';
 			$event['error'] = $error;
@@ -122,9 +114,9 @@ class listener implements EventSubscriberInterface
 	{
 		global $user, $auth;
 
-		if(count($this->post) && // Except when load a post page
-			//strpos($this->server['REQUEST_URI'], 'mode=edit') === false && // Edit is not traced
-			!isset($this->post['preview'])) // Post preview is not traced
+		if(count($_POST) && // Except when load a post page
+			//strpos($_SERVER['REQUEST_URI'], 'mode=edit') === false && // Edit is not traced
+			!isset($_POST['preview'])) // Post preview is not traced
 		{
 			$post_data = array_filter(
 				$event['data'] ??
@@ -133,7 +125,7 @@ class listener implements EventSubscriberInterface
 			$user_data = array_filter(
 				$event['user_row'] ??
 				$user->data ??
-				$this->post ?? []
+				$_POST ?? []
 			);
 
 			// Données à archiver
@@ -145,37 +137,37 @@ class listener implements EventSubscriberInterface
 				'ext_error' => !empty($event['error']) ? json_encode($event['error']) : null,
 
 				// Server
-				'ip' => $this->server['REMOTE_ADDR']??null,
-				'uri' => isset($this->server['HTTP_HOST']) ? (
-						($this->server['REQUEST_SCHEME']??'').'://'.
-						$this->server['HTTP_HOST'].
-						($this->server['REQUEST_URI']??'')
+				'ip' => $_SERVER['REMOTE_ADDR']??null,
+				'uri' => isset($_SERVER['HTTP_HOST']) ? (
+						($_SERVER['REQUEST_SCHEME']??'').'://'.
+						$_SERVER['HTTP_HOST'].
+						($_SERVER['REQUEST_URI']??'')
 					) : null,
-				'referer' => $this->server['HTTP_REFERER']??null,
-				'user_agent' => $this->server['HTTP_USER_AGENT']??null,
-				'language' => $this->server['HTTP_ACCEPT_LANGUAGE']??null,
+				'referer' => $_SERVER['HTTP_REFERER']??null,
+				'user_agent' => $_SERVER['HTTP_USER_AGENT']??null,
+				'language' => $_SERVER['HTTP_ACCEPT_LANGUAGE']??null,
 				'date' => date('r'),
 
 				// Navigateur
-				'browser_operator' => $this->post['browser_operator']??null,
-				'browser_referer' => $this->post['browser_referer']??null,
-				'browser_locale' => $this->post['browser_locale']??null,
-				'browser_timezone' => $this->post['browser_timezone']??null,
+				'browser_operator' => $_POST['browser_operator']??null,
+				'browser_referer' => $_POST['browser_referer']??null,
+				'browser_locale' => $_POST['browser_locale']??null,
+				'browser_timezone' => $_POST['browser_timezone']??null,
 
 				// Post & Point
 				'topic_id' => $event['topic_id'] ??
 					$post_data['topic_id'] ??
-					$this->post['topic_id'] ?? null,
+					$_POST['topic_id'] ?? null,
 				'post_id' => $event['post_id'] ??
 					$post_data['post_id'] ??
-					$this->post['post_id'] ?? null,
+					$_POST['post_id'] ?? null,
 				'id_point' => $event['point']->id_point ?? null,
 				'id_commentaire' => $event['commentaire']->id_commentaire ?? null,
 				'title' => $event['subject'] ??
 					$post_data['topic_title'] ??
 					$event['point']->nom ?? null,
 				'text' => mb_substr(
-					$this->post['message'] ??
+					$_POST['message'] ??
 					$event['commentaire']->texte ?? '',
 					0, 256
 				),
@@ -185,8 +177,8 @@ class listener implements EventSubscriberInterface
 				'creator_id' => $post_data['poster_id'],
 				'creator_name' => $event['username'],
 				'user_id' => $user_data['user_id'] ?? $event['user_id'] ?? null,
-				'user_name' => $this->post['username'] ??
-					$this->post['nom_createur'] ??
+				'user_name' => $_POST['username'] ??
+					$_POST['nom_createur'] ??
 					$user_data['username'] ?? null,
 				'user_email' => $user_data['user_email'] ??
 					$user_data['email'] ?? null,
@@ -200,7 +192,9 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
-	// Affichage des traces
+	/*
+   * Affichage des traces
+   */
 	//BEST statistique sur les posts/comptes supprimés
   //TODO revoir indentation des lignes modifiées
   //TODO fichiers de la base geo???
@@ -211,115 +205,95 @@ class listener implements EventSubscriberInterface
 		if(!$auth->acl_get('m_')) // Uniquement pour les modérateurs
 			return;
 
-    // Edition de la requette
-		//TODO ??? $template->assign_vars(array_change_key_case($this->get, CASE_UPPER));
-    foreach (array_keys($this->column_names) as $column_name)
-      $template->assign_block_vars('inputs_requete', [
-        'NAME' => $column_name,
-        'TYPE' => $this->column_names[$column_name],
-        'VALUE' => $this->get[$column_name] ?? '',
-      ]);
+    // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
+		if(!empty($_GET['p']))
+			$_GET['post_id'] = $_GET['p'];
 
-    // Titre des colonnes du tableau des traces
-    $titre_colonnes = ['Trace', 'Statut', 'Raison', 'FAI', 'Auteur', 'Utilisateur'];
-    $template->assign_block_vars('output_requetes_raw', []);
-    foreach ($titre_colonnes as $titre)
-			$template->assign_block_vars('output_requetes_raw.output_requetes_col',[
-        'VALUE' => $titre,
-      ]);
-
-    // LECTURE DE LA TABLE DES REQUETTES
-		$conditions = [];
-
-		// Arguments pour mcp_post_additional_options & core.memberlist_view_profile
-		if(!empty($this->get['p']))
-			$conditions[] = 'post_id = '.$this->get['p'];
-		if(!empty($this->get['u'])) {
-			$conditions[] = 'uri LIKE \'%register%\'';
-			$conditions[] = 'user_id = '.$this->get['u'];
+		if(!empty($_GET['u'])) {
+			$_GET['uri'] = 'register';
+			$_GET['user_id'] = $_GET['u'];
 		}
 
-		// Liste les colonnes pour ne prendre que les arguments qui correspondent
-		foreach($this->column_names as $column_name)
-			// Multicriteria on one column
-			foreach(explode(',', $this->get[$column_name] ?? '') as $sub_colomn) {
-				// Separate the ! at the beginning
-				$scs = array_reverse(explode('!', $sub_colomn));
+    // Requetes dans la table des traces
+		$conditions = [];
+		foreach($this->column_names as $name => $type) {
+      $arg = $_GET[$name] ?? '';
+			$scs = array_reverse(explode('!', $arg)); // Separate the ! at the beginning
 
-				if($scs[0] === 'null')
-					$conditions[] = $column_name.(isset($scs[1])?' IS NOT NULL':' IS NULL');
-				elseif(is_numeric($scs[0]))
-					$conditions[] = $column_name.(isset($scs[1])?'!=':'=').$scs[0];
-				elseif($scs[0])
-					$conditions[] = $column_name.(isset($scs[1])?' NOT':'').' LIKE \'%'.$scs[0].'%\'';
-			}
+      // Edition de la requette
+      $template->assign_block_vars('inputs_requete', [
+        'NAME' => $name,
+        'TYPE' => $type,
+        'VALUE' => $arg,
+      ]);
+
+      if (strlen ($arg) && $type === 'number'  & !in_array($name, ['limit','offset']))
+        $conditions[] = $name.(isset($scs[1]) ? '!=' : '=').$arg;
+      if (strlen ($arg) && $type === 'text')
+        $conditions[] = $name.(isset($scs[1]) ? ' NOT':'').' LIKE \'%'.$scs[0].'%\'';
+    }
 
 		$where = $conditions ? ' WHERE '.implode(' AND ', $conditions) : '';
-		$tables = 'trace_requettes'.
-		 	' LEFT JOIN '.USERS_TABLE.' ON trace_requettes.creator_id = '.USERS_TABLE.'.user_id';
 
 		// Nombre de traces répondant aux critères
-		$sql_count = 'SELECT COUNT(trace_id) FROM '.$tables.$where;
+		$sql_count = 'SELECT COUNT(trace_id) FROM trace_requettes'.
+		 	' LEFT JOIN '.USERS_TABLE.' ON trace_requettes.creator_id = '.USERS_TABLE.'.user_id'.
+      $where;
 		$result = $db->sql_query($sql_count);
 		$row_count = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
-    
+
 		// Liste des traces affichables
-		$sql = 'SELECT trace_requettes.*, '.USERS_TABLE.'.group_id'.
-			' FROM '.$tables.
+		$sql = 'SELECT *'.
+      ' FROM trace_requettes'.
+		 	' LEFT JOIN '.USERS_TABLE.' ON trace_requettes.creator_id = '.USERS_TABLE.'.user_id'.
 			$where.
 			' ORDER BY trace_id DESC'.
-			' LIMIT '.($this->get['limit'] ?? 250).
-			(!empty($this->get['offset']) ? ' OFFSET '.$this->get['offset'] : '');
+			' LIMIT '.($_GET['limit'] ?? 10). //TODO 100 ???
+			(!empty($_GET['offset']) ? ' OFFSET '.$_GET['offset'] : '');
 		$result = $db->sql_query($sql);
 
     // Affichage de la table
-		$lignes_traces_html = [];
-		while($row = $db->sql_fetchrow($result))
-			$lignes_traces_html[] = $this->display_one_trace(array_map('trim', $row));
+    $this->affiche_une_ligne (['Trace', 'Statut', 'Auteur', 'Modif par', 'Machine', 'IP', 'FAI', 'Contenu']);
+
+		$nb_traces = 0;
+		while($row = $db->sql_fetchrow($result)) {
+//*DCMM*/var_dump($row['user_email']);
+			$this->affiche_une_trace (array_map('trim', $row));
+      $nb_traces++;
+    }
 		$db->sql_freeresult($result);
- 
+
 		// S'il n'y a pas de trace dans la table, simplement décode l'IP utilisée.
 		$event_ip =
       $event['post_info']['poster_ip'] ??
 			$event['member']['user_ip'] ?? null;
 
-		if(!count($lignes_traces_html) && $event_ip)
-			$lignes_traces_html[] = $this->display_one_trace([
+		if(!$nb_traces && $event_ip) {
+			$this->affiche_une_trace ([
 				'ip' => $event_ip,
 			]);
+      $nb_traces++;
+    }
 
 		$template->assign_vars([
-			'REQUETE_SQL' => $sql,
-			'NOMBRE_LIGNES' => count($lignes_traces_html),
+			'REQUETE_SQL' => 'SELECT * FROM trace_requettes'.$where,
+			'NOMBRE_LIGNES' => $nb_traces,
 			'NOMBRE_TRACES' => $row_count['count'] ?? 0,
 		]);
 	}
 
-	// Affichage d'une trace
-	private function display_one_trace($row)
+	/*
+   * Affichage d'une trace
+   */
+	private function affiche_une_trace($row)
 	{
 		global $db, $template;
 
 		$row = $this->save_full_row($row);
-   
-//TODO A FAIRE TODO A FAIRE TODO A FAIRE TODO A FAIRE TODO A FAIRE 
 
-// lines 283 / 284: Trying to access array offset on value of type bool ($row)
-    $template->assign_block_vars('output_requetes_raw', []);
-			$template->assign_block_vars('output_requetes_raw.output_requetes_col', ['VALUE' => 
-        '<a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'"'.
-				'>'.$row['trace_id'].'</a>'
-        ]);
-
-/*
-		if(!empty($row['trace_id']) && empty($this->get['trace_id']))
-			$ligne1[] = 
-				;
-*/
-
-		// Construction de la première ligne
-		$ligne1 = [];
+    // Calcul du statut
+		$colonne_statut = [];
 
 		if(!empty($row['appel'])) {
 			preg_match('/(.*) ([a-z_]*)/', $row['appel'], $modes);
@@ -337,54 +311,53 @@ class listener implements EventSubscriberInterface
 		}
 
 		if(!empty($row['ext_error']))
-			$ligne1[] = 'REJET '.($appel ?? '');
-		else
-		if(!empty($row['uri'])) {
+			$colonne_statut[] = 'REJET '.($appel ?? '');
+		elseif(!empty($row['uri'])) {
 			//BEST lien vers un post mis en approbation
 			if(strpos($row['uri'], 'point_modification') !== false) {
 				if(!empty($row['id_point']))
-					$ligne1[] = 'création d\'un <a '.
+					$colonne_statut[] = 'création d\'un <a '.
 						'href="'.$this->forum_root.'../point/'.$row['id_point'].'"'.
 					'>point</a>';
 				elseif(!empty($row['post_id']))
-					$ligne1[] = 'création d\'un point et de son <a '.
+					$colonne_statut[] = 'création d\'un point et de son <a '.
 						'href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'"'.
 					'>forum</a>';
 				else
-					$ligne1[] = 'erreur modification point sans id_point ni post_id';
+					$colonne_statut[] = 'erreur modification point sans id_point ni post_id';
 			}
 			elseif(strpos($row['uri'], 'ajout_commentaire') !== false) {
 				if(!empty($row['id_point']))
-					$ligne1[] = 'création d\'un <a '.
+					$colonne_statut[] = 'création d\'un <a '.
 						'href="'.$this->forum_root.'../point/'.$row['id_point'].'#C'.@$row['id_commentaire'].'"'.
 					'>commentaire</a>';
 				else
-					$ligne1[] = 'erreur ajout commentaire sans id_point';
+					$colonne_statut[] = 'erreur ajout commentaire sans id_point';
 			}
 			elseif(strpos($row['uri'], 'mode=register') !== false) {
 				if(!empty($row['user_id']))
-					$ligne1[] = 'création du compte <a '.
+					$colonne_statut[] = 'création du compte <a '.
 						'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'"'.
 					'>'.($row['user_name']??'NONAME').'</a>';
 				else
-					$ligne1[] = 'erreur création du compte sans user_id';
+					$colonne_statut[] = 'erreur création du compte sans user_id';
 			}
 			elseif(strpos($row['uri'], 'mode=post') !== false ||
 				strpos($row['uri'], 'contactadmin') !== false) {
 				if(!empty($row['post_id']))
-					$ligne1[] = 'création d\'un <a '.
+					$colonne_statut[] = 'création d\'un <a '.
 						'href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'"'.
 					'>sujet</a>';
 				elseif(!empty($row['topic_id']))
-					$ligne1[] = 'création d\'un <a '.
+					$colonne_statut[] = 'création d\'un <a '.
 						'href="'.$this->forum_root.'viewtopic.php?t='.$row['topic_id'].'"'.
 					'>sujet</a>';
 				else
-					$ligne1[] = 'erreur création d\'un post sans topic_id ni post_id';
+					$colonne_statut[] = 'erreur création d\'un post sans topic_id ni post_id';
 			}
 			elseif(strpos($row['uri'], 'posting.php') !== false) { // reply, quote, edit
 				if(!empty($row['post_id']))
-					$ligne1[] = str_replace(
+					$colonne_statut[] = str_replace(
 						'post',
 						'<a href="'.$this->forum_root.'viewtopic.php?'.
 							'p='.$row['post_id'].'#p'.$row['post_id'].'">post'.
@@ -392,10 +365,10 @@ class listener implements EventSubscriberInterface
 						($appel ?? '')
 					);
 				else
-					$ligne1[] = 'erreur posting sans post_id';
+					$colonne_statut[] = 'erreur posting sans post_id';
 			}
 			else
-				$ligne1[] = 'erreur url inconnue';
+				$colonne_statut[] = 'erreur url inconnue';
 		}
 
 		if(strpos($row['uri'] ?? '', 'mode=register') === false &&
@@ -403,88 +376,93 @@ class listener implements EventSubscriberInterface
 				if(isset($row['creator_id']) &&
 					$row['creator_id'] != $row['user_id']
 				)
-					$ligne1[] = '(créé par '.$row['creator_name'].') ';
+					$colonne_statut[] = '(créé par '.$row['creator_name'].') ';
 
 				if($row['user_id'] > 1)
-					$ligne1[] = 'par <a '.
+					$colonne_statut[] = 'par <a '.
 						'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'"'.
 					'>'.($row['user_name']??'NONAME').'</a>'.
 					' (toutes <a '.
 						'href="'.$this->u_action.'&user_id='.$row['user_id'].'"'.
 					'>ses contributions</a>)';
 				elseif (isset($row['user_name']))
-					$ligne1[] = 'par '.$row['user_name'];
+					$colonne_statut[] = 'par '.$row['user_name'];
 			}	
 
-		if(count($ligne1))
-			$ligne1[count($ligne1) - 1] .= '. ';
+    $colonne_statut[] =
+      str_replace( // Split encoded lines
+        ['","', '["', '"]', 'posting_modify_template_vars : ', 'ucp_register_modify_template_data : '],
+        ['<br/>- ', '- ', '', '', ''],
+        preg_replace( // Décode unicode if such returned by extensions
+          '/\\\\u([a-e0-9]{4})/',
+          '&#x$1;',
+          $row['ext_error'] ?? '',
+        ),
+      );
 
+    // Affiche une ligne du tableau
+    //TODO reprendre tous les $row[] par défaut
+    $this->affiche_une_ligne([
+      [ // Trace
+        $row['date'],
+        'Trace n° <a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'">'.$row['trace_id'].'</a>',
+        isset($row['checked']) ? 'Checked' :
+          '<a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&checked=1">Check</a>',
+      ],
+      $colonne_statut,
+      [ // Auteur
+        $row['creator_name'] ?? $row['user_name'] ?? 'Anonymous',
+        $row['creator_id'] ?? 0 > 1 ?
+          '<a href="'.$this->u_action.'&creator_id='.$row['creator_id'].'">Ses contributions</a>' : '',
+      ],[ // Modif par
+        $row['user_name'] ?? 'Anonymous',
+        $row['user_id'] ?? 0 > 1 ?
+          '<a href="'.$this->u_action.'&user_id='.$row['user_id'].'">Ses contributions</a>' : '',
+      ],[ // Machine
+        'Langue: '.($row['browser_locale'] ?? 'inconnue'),
+        'Timezone: '.($row['browser_timezone'] ?? 'inconnue'),
+      ],[ // IP
+        '//TODO',
+      ],[ // FAI
+        $row['host'],
+        '<a href="https://ipinfo.io/'.($row['asn_id'] ?? $row['ip'] ?? '').'">'.
+          ($row['asn_name'] ?? $row['host'] ?? $row['ip'] ?? '').'</a>',
+        ($row['country_name'] ?? '').' / '.($row['city'] ?? ''),
+        '<a href="'.$this->u_action.'&asn_id='.$row['asn_id'].'">Les contributions</a>',
+      ],[ // Contenu
+        '<b>'.($row['title'] ?? '').'</b>',
+        mb_substr($row['text'] ?? '', 0, 240),
+      ],
+    ]);
+
+    return;
+
+
+//TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 		// Construction des lignes du rapport
 		$lignes_html = [];
-    $template->assign_block_vars('output_requetes_raw', []);
-
-		if(count($ligne1))
-			$lignes_html[] = ucfirst(implode(' ', $ligne1)) ;
-
-		if(count($ligne1))
-			$template->assign_block_vars('output_requetes_raw.output_requetes_col',[
-        'VALUE' => ucfirst(implode(' ', $ligne1)),
-      ]);
-
-		if(!empty($row['ext_error']))
-			$lignes_html[] =
-				str_replace( // Split encoded lines
-					['","', '["', '"]', 'posting_modify_template_vars : ', 'ucp_register_modify_template_data : '],
-					['<br/>- ', '- ', '', '', ''],
-					preg_replace( // Décode unicode if such returned by extensions
-						'/\\\\u([a-e0-9]{4})/',
-						'&#x$1;',
-						$row['ext_error'],
-					),
-				);
-
-		// Début de bloc rétracté
-		if(!isset($_GET['trace_id']))
-			$lignes_html[] = '<div class="more" onclick="this.className=\'more-deployed\'"><span>Plus d\'infos...</span><div>';
-
-		if(!empty($row['ip']))
-			$lignes_html[] =
-				'Fournisseur d\'Accès Internet: '.
-				'<a href="https://ipinfo.io/'.($row['asn_id'] ?? $row['ip']).'">'.
-					($row['asn_name'] ?? $row['host'] ?? $row['ip']).
-				'</a>'.
-				(!empty($row['country_name']) ? ' - '.$row['country_name'] : '').
-				(!empty($row['city']) ? ' / '.$row['city'] : '');
-
-		if(!empty($row['asn_id']) && !empty($row['asn_name']))
-			$lignes_html[] = 'Toutes les contributions '.
-				'<a href="'.$this->u_action.'&asn_id='.$row['asn_id'].'">'.
-					'passant par '.$row['asn_name'].
-				'</a>';
-
-		//TODO 1 critère pas colonne $this->column_names = ['trace_id', 'ext_error', 'uri', 'browser_operator', 'checked', 'group_id', 'asn_id', 'user_id'];
 
 		$lignes_traces = [
-			'date' => 'date',
+			//'date' => 'date',
 			'machine' => 'browser_operator',
 			'url' => 'uri',
-			'url-1' => 'referer',
-			'url-2' => 'browser_referer',
-			'host' => 'host',
-			'agent' => 'user_agent',
-			'langues supportés' => 'language',
-			'langue' => 'browser_locale',
-			'timezone' => 'browser_timezone',
+        //'url-1' => 'referer',
+        //'url-2' => 'browser_referer',
+			//'host' => 'host',
+        //'agent' => 'user_agent',
+			//'langues supportés' => 'language',
+			//'langue' => 'browser_locale',
+			//'timezone' => 'browser_timezone',
 			'topic' => 'topic_id',
 			'post' => 'post_id',
 			'point' => 'id_point',
 			'commentaire' => 'id_commentaire',
-			'Titre' => 'title',
-			'texte' => 'text',
-			'id utilisateur' => 'user_id',
-			'nom utilisateur' => 'user_name',
-			'id créateur' => 'creator_id',
-			'nom créateur' => 'creator_name',
+			//'Titre' => 'title',
+			//'texte' => 'text',
+			//'id utilisateur' => 'user_id',
+			//'nom utilisateur' => 'user_name',
+			//'id créateur' => 'creator_id',
+			//'nom créateur' => 'creator_name',
 		];
 
 		if(!empty($row['user_email']))
@@ -519,10 +497,6 @@ class listener implements EventSubscriberInterface
 			$lignes_html[] = '<a href="https://cleantalk.org/email-checker/'.
 				$row['user_email'].'">CleanTalk</a> de '.$row['user_email'];
 
-		// Fin de bloc rétracté
-		if(!isset($_GET['trace_id']))
-			$lignes_html[] = '</div></div>';
-
 /*
     $template->assign_block_vars('output_requetes',[
       'Trace' => 'Trace n°',
@@ -538,6 +512,17 @@ class listener implements EventSubscriberInterface
 
 		return '<p>'.implode('</p>'.PHP_EOL.'<p>', $lignes_html).'</p>';
 	}
+
+	private function affiche_une_ligne($values)
+	{
+		global $template;
+
+    $template->assign_block_vars('output_requetes_raw', []);
+    foreach ($values as $v)
+			$template->assign_block_vars('output_requetes_raw.output_requetes_col',[
+        'VALUE' => getType($v) === 'array' ? implode ('<br/>', $v) : $v,
+      ]);
+  }
 
 	private function save_full_row($row)
 	{
@@ -578,9 +563,8 @@ class listener implements EventSubscriberInterface
 		if(!empty($row['trace_id'])) {
 			// On récupère la trace existante
 			$sql_row = [];
-			$sql = 'SELECT trace_requettes.*'.
-				(isset($config_wri) ? ',points.id_point AS wri_id_point' : '').
-				' FROM trace_requettes'.
+			$sql = 'SELECT *'.
+        ' FROM trace_requettes'.
 				(isset($config_wri) ? ' LEFT JOIN points USING(topic_id)' : '').
 				' WHERE trace_id = '.$row['trace_id'];
 			$result = $db->sql_query($sql);
