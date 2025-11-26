@@ -102,6 +102,7 @@ class listener implements EventSubscriberInterface
 	// Log le contexte d'une soumission de post acceptée
 	public function submit_post_end($event, $eventName)
 	{
+     // Cas des mises en approbation
 		if(isset($event['data']['post_visibility']) &&
 			$event['data']['post_visibility'] === ITEM_UNAPPROVED)
 		{
@@ -179,9 +180,9 @@ class listener implements EventSubscriberInterface
 				// Infos enregistrées à la création du user
 				// Sont gardées dans la table au cas où on supprimerait le user
 				'creator_id' => $post_data['poster_id'],
-				'creator_name' => $event['username'],
+				'creator_name' => $post_data['poster_id'] > 1 ? $event['username'] : 'Anonymous',
 				'user_id' => $user_data['user_id'] ?? $event['user_id'] ?? null,
-				'user_name' => $_POST['username'] ??
+				'user_name' => $user_data['username'] ??
 					$_POST['nom_createur'] ??
 					$user_data['username'] ?? null,
 				'user_email' => $user_data['user_email'] ??
@@ -243,7 +244,7 @@ class listener implements EventSubscriberInterface
 //*DCMM*/var_dump($conditions);
 
     $tables = 'trace_requettes AS t'.
-		 	' LEFT JOIN '.USERS_TABLE.' AS u ON t.creator_id = u.user_id';
+		 	' LEFT JOIN '.USERS_TABLE.' AS u USING (user_id)';
 		$where = $conditions ? 'WHERE '.implode(' AND ', $conditions) : '';
 
 		// Nombre de traces répondant aux critères
@@ -296,7 +297,8 @@ class listener implements EventSubscriberInterface
 	{
 		global $db, $template;
 
-		//TODO POURQUOI ??? $row = $this->save_full_row($row);
+		//TODO BUG NE DEVRAIT QU4ËTRE AU RETOUR D4UNE EDITION OU CREATION
+    $row = $this->save_full_row($row);
 
     // Calcul du statut
 		$colonne_statut = [];
@@ -309,8 +311,8 @@ class listener implements EventSubscriberInterface
 				$appel = str_replace(
 					['register', 'post', 'reply',
 						'quote', 'edit', ],
-					['création d\'un user', 'création d\'un sujet', 'réponse à un post',
-						'quote d\'un post', 'èdition d\'un post'],
+					['Création d\'un user', 'Création d\'un sujet', 'Réponse à un post',
+						'Quote d\'un post', 'Edition d\'un post'],
 					$modes[1]
 				);
 			}
@@ -377,24 +379,6 @@ class listener implements EventSubscriberInterface
 				$colonne_statut[] = 'erreur url inconnue';
 		}
 
-		if(strpos($row['uri'] ?? '', 'mode=register') === false &&
-			!empty($row['user_id'])) {
-				if(isset($row['creator_id']) &&
-					$row['creator_id'] != $row['user_id']
-				)
-					$colonne_statut[] = '(créé par '.$row['creator_name'].') ';
-
-				if($row['user_id'] > 1)
-					$colonne_statut[] = 'par <a '.
-						'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'"'.
-					'>'.($row['user_name']??'NONAME').'</a>'.
-					' (toutes <a '.
-						'href="'.$this->u_action.'&user_id='.$row['user_id'].'"'.
-					'>ses contributions</a>)';
-				elseif (isset($row['user_name']))
-					$colonne_statut[] = 'par '.$row['user_name'];
-			}	
-
     $colonne_statut[] =
       str_replace( // Split encoded lines
         ['","', '["', '"]', 'posting_modify_template_vars : ', 'ucp_register_modify_template_data : '],
@@ -416,36 +400,47 @@ class listener implements EventSubscriberInterface
       ],
       $colonne_statut,
       array_merge(
-        true ? [ // Auteur
-          //TODO bug : mélange données auteur et modificateur
-          '<b>Auteur:</b>',
-          $row['creator_name'] ?? $row['user_name'] ?? 'Anonymous',
-          $row['creator_id'] ?? 0 > 1 ?
-            '<a href="'.$this->u_action.'&creator_id='.$row['creator_id'].'">Ses contributions</a>' : '',
-          'USER_ID: '.$row['user_id'],
-          'CREATOR_ID: '.$row['creator_id'],
-          '<hr/><b>Modif par:</b>',
+        // Auteur
+        strpos($row['appel'],'edit') === 0 ? [
+        	'Créé par <a title="Voir son profil"'.
+            'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['creator_id']??0).'">'.
+            ($row['creator_name']??'').'</a>',
+          '<hr/>Modifié par:',
         ] : [],[
-          // Modificateur
-          $row['user_name'] ?? 'Anonymous',
+          // User connecté
+        	'<a title="Voir son profil"'.
+            'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['user_id']??0).'">'.
+            ($row['user_name']??'').'</a>',
           $row['user_id'] ?? 0 > 1 ?
-            '<a href="'.$this->u_action.'&user_id='.$row['user_id'].'">Ses contributions</a>' : '',
+            '<a title="Voir ses traces"'.
+              'href="'.$this->u_action.'&user_id='.$row['user_id'].'">Contributions</a>' : '',
           $row['user_email'] ?? '' ?
-            'Mail: '.$row['user_email'] : '',
+            '<a title="Avis Cleantalk"'.
+              'href="https://cleantalk.org/email-checker/'.$row['user_email'].'">'.$row['user_email'].'</a>' : null,
           $row['user_sig'] ?? '' ?
-            'Signature: '.$row['user_sig'] : '',
+            'Signature: '.$row['user_sig'] : null,
         ]
       ),[ // Machine
         'Langue: '.($row['browser_locale'] ?? 'inconnue'),
         'Timezone: '.($row['browser_timezone'] ?? 'inconnue'),
       ],[ // IP
-        '//TODO',
+        $row['ip'],
+				'<a href="https://ipinfo.io/'.$row['ip'].'">IpInfo</a>',
+				'<a href="https://whatismyipaddress.com/ip/'.$row['ip'].'">WhatIsMyIP</a>',
+				'<a href="https://www.iplocation.net/ip-lookup?query='.$row['ip'].'">IpLocation</a>',
+				'<a href="https://stopforumspam.com/ipcheck/'.$row['ip'].'">StopForumSpam</a>',
+				'<a href="https://www.spamcop.net/w3m?action=checkblock&ip='.
+					$row['ip'].'">SpamCop</a>',
+				'<a href="https://www.abuseipdb.com/check/'.$row['ip'].'">AbuseIPdb</a>',
+				'<a href="https://cleantalk.org/blacklists/'.$row['ip'].'">CleanTalk</a>',
       ],[ // FAI
         $row['host'],
-        '<a href="https://ipinfo.io/'.($row['asn_id'] ?? $row['ip'] ?? '').'">'.
+        '<a title="Fiche de l\'ASN"'.
+          'href="https://ipinfo.io/'.($row['asn_id'] ?? $row['ip'] ?? '').'">'.
           ($row['asn_name'] ?? $row['host'] ?? $row['ip'] ?? '').'</a>',
         ($row['country_name'] ?? '').' / '.($row['city'] ?? ''),
-        '<a href="'.$this->u_action.'&asn_id='.$row['asn_id'].'">Les contributions passant par '.($row['asn_name'] ?? '').'</a>',
+        '<a title="Les contributions passant par '.($row['asn_name'] ?? '').'"'.
+          'href="'.$this->u_action.'&asn_id='.$row['asn_id'].'">Contributions</a>',
       ],[ // Contenu
         '<b>'.($row['title'] ?? '').'</b>',
         mb_substr($row['text'] ?? '', 0, 240).(strlen($row['text'] ?? '') > 239 ? '...' : ''),
@@ -454,40 +449,26 @@ class listener implements EventSubscriberInterface
 
     return $nb_traces + 1;
 
-
+//TODO fonction check / bandeau
+//TODO Tester, user point, commentaire
+//TODO Ajouter des index table traces
+//TODO BUG Edit ajoute arguments
+//TODO tester affichage rejet,test post/ user, edit, point, commentaire,...
 //TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-		// Construction des lignes du rapport
-		$lignes_html = [];
-
-		$lignes_traces = [
-			//'date' => 'date',
+/*
 			'machine' => 'browser_operator',
 			'url' => 'uri',
         //'url-1' => 'referer',
         //'url-2' => 'browser_referer',
-			//'host' => 'host',
         //'agent' => 'user_agent',
 			//'langues supportés' => 'language',
-			//'langue' => 'browser_locale',
-			//'timezone' => 'browser_timezone',
 			'topic' => 'topic_id',
 			'post' => 'post_id',
 			'point' => 'id_point',
 			'commentaire' => 'id_commentaire',
 			//'Titre' => 'title',
 			//'texte' => 'text',
-			//'id utilisateur' => 'user_id',
-			//'nom utilisateur' => 'user_name',
-			//'id créateur' => 'creator_id',
-			//'nom créateur' => 'creator_name',
 		];
-
-		if(!empty($row['user_email']))
-			$lignes_traces += [
-				'email utilisateur' => 'user_email',
-				'langue utilisateur' => 'user_lang',
-				'IP enregistrement' => 'ip_enregistrement',
-			];
 
 		foreach($lignes_traces as $title => $k)
 			if(!empty($row[$k])) {
@@ -497,37 +478,10 @@ class listener implements EventSubscriberInterface
 				$t = ucfirst($title);
 				$lignes_html[] = "<span title='$k'>$t</span>: $r";
 			}
-
-		if(!empty($row['ip']))
-			array_push($lignes_html,
-				'<a href="https://ipinfo.io/'.$row['ip'].'">IpInfo</a> de '.$row['ip'],
-				'<a href="https://whatismyipaddress.com/ip/'.$row['ip'].'">WhatIsMyIP</a> de '.$row['ip'],
-				'<a href="https://www.iplocation.net/ip-lookup?query='.$row['ip'].'">IpLocation</a> de '.$row['ip'],
-				'<a href="https://stopforumspam.com/ipcheck/'.$row['ip'].'">StopForumSpam</a> de '.$row['ip'],
-				'<a href="https://www.spamcop.net/w3m?action=checkblock&ip='.
-					$row['ip'].'">SpamCop</a> de '.$row['ip'],
-				'<a href="https://www.abuseipdb.com/check/'.$row['ip'].'">AbuseIPdb</a> de '.$row['ip'],
-				'<a href="https://cleantalk.org/blacklists/'.$row['ip'].'">CleanTalk</a> de '.$row['ip'],
-			);
-
-		if(!empty($row['user_email']))
-			$lignes_html[] = '<a href="https://cleantalk.org/email-checker/'.
-				$row['user_email'].'">CleanTalk</a> de '.$row['user_email'];
-
-/*
-    $template->assign_block_vars('output_requetes',[
-      'Trace' => 'Trace n°',
-      'Date' => 'Date',
+ 
       'Statut' => 'Statut',
       'Raison' => 'Raison',
-      'FAI' => 'FAI',
-      'Auteur' => 'Auteur',
-      'Utilisateur' => 'Utilisateur',
-    ]);
-    $template->assign_block_vars('output_requetes', $output_requete);
     */
-
-		//return '<p>'.implode('</p>'.PHP_EOL.'<p>', $lignes_html).'</p>';
 	}
 
 	private function affiche_une_ligne($values)
