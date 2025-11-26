@@ -57,9 +57,11 @@ class listener implements EventSubscriberInterface
       't.browser_operator' => 'text',
       't.trace_id' => 'number',
       't.user_id' => 'number',
-      't.host' => 'text',
+      //TODO TEST 't.host' => 'text',
       't.asn_id' => 'number',
-      't.uri' => 'text',
+      //TODO TEST 't.uri' => 'text',
+      //TODO TEST nouveaux index
+      //TODO release_1_0_1 seulement / éliminer config
       't.checked' => 'number',
       't.topic_id' => 'number',
       't.post_id' => 'number',
@@ -202,6 +204,7 @@ class listener implements EventSubscriberInterface
    * Affichage des traces
    */
 	//BEST statistique sur les posts/comptes supprimés
+  //TODO ne pas afficher les <hr/> quand il n'y a pas de trace
   //TODO revoir indentation des lignes modifiées
   //TODO reprendre tous les $row[] par défaut
   //TODO fichiers de la base geo???
@@ -291,7 +294,7 @@ class listener implements EventSubscriberInterface
 	{
 		global $db, $template;
 
-		//TODO BUG NE DEVRAIT QU4ËTRE AU RETOUR D4UNE EDITION OU CREATION
+		//TODO BUG NE DEVRAIT QU'ETRE AU RETOUR D'UNE EDITION OU CREATION
     $row = $this->save_full_row($row);
 
     // Calcul du statut
@@ -316,7 +319,7 @@ class listener implements EventSubscriberInterface
 			$colonne_statut[] = 'REJET '.($appel ?? '');
 		elseif(!empty($row['uri'])) {
 			//BEST lien vers un post mis en approbation
-			if(strpos($row['uri'], 'point_modification') !== false) {
+			if(strpos($row['uri']??'', 'point_modification') !== false) {
 				if(!empty($row['id_point']))
 					$colonne_statut[] = 'création d\'un <a '.
 						'href="'.$this->forum_root.'../point/'.$row['id_point'].'"'.
@@ -328,10 +331,10 @@ class listener implements EventSubscriberInterface
 				else
 					$colonne_statut[] = 'erreur modification point sans id_point ni post_id';
 			}
-			elseif(strpos($row['uri'], 'ajout_commentaire') !== false) {
+			elseif(strpos($row['uri']??'', 'ajout_commentaire') !== false) {
 				if(!empty($row['id_point']))
 					$colonne_statut[] = 'création d\'un <a '.
-						'href="'.$this->forum_root.'../point/'.$row['id_point'].'#C'.@$row['id_commentaire'].'"'.
+						'href="'.$this->forum_root.'../point/'.$row['id_point'].'#C'.($row['id_commentaire']??'').'"'.
 					'>commentaire</a>';
 				else
 					$colonne_statut[] = 'erreur ajout commentaire sans id_point';
@@ -386,16 +389,16 @@ class listener implements EventSubscriberInterface
 
     // Affiche une ligne du tableau
     $this->affiche_une_ligne([
-      [ // Trace
-        $row['date'],
+      isset($row['trace_id']) ? [ // Trace
+        $row['date']??'',
         'Trace n° <a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'">'.$row['trace_id'].'</a>',
         isset($row['checked']) ? 'Checked' :
           '<a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&checked=1">Check</a>',
-      ],
+      ] : [],
       $colonne_statut,
       array_merge(
         // Auteur
-        strpos($row['appel'],'edit') === 0 ? [
+        strpos($row['appel']??'','edit') === 0 ? [
         	'Créé par:'.
           '<a title="Voir son profil"'.
             'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['creator_id']??0).'">'.
