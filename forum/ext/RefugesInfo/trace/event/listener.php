@@ -51,6 +51,7 @@ class listener implements EventSubscriberInterface
 		$this->u_action = $this->forum_root.'mcp.php?i=-'.$ns[0].'-'.$ns[1].'-mcp-main_module';
 
 		// Liste les colonnes pour ne prendre que les arguments qui correspondent
+    //TODO voir les listes qu'on peut centraliser
 		$this->column_names = [
       't.ext_error' => 'text',
       't.browser_operator' => 'text',
@@ -226,8 +227,6 @@ class listener implements EventSubscriberInterface
 		foreach($this->column_names as $name => $type) {
 			$ns = array_reverse(explode('.', $name ?? '')); // Separate the t. at the beginning
 			$vs = array_reverse(explode('!', $_GET[$ns[0]] ?? '')); // Separate the ! at the beginning
-      //$ns[1] = in_array($name, ['user_id']) ? 'u.' : 't.';
-//*DCMM*/var_dump([$ns,$vs,$name,$type]);
 
       // Edition de la requette
       $template->assign_block_vars('inputs_requete', [
@@ -241,7 +240,6 @@ class listener implements EventSubscriberInterface
       if (strlen ($vs[0]) && $type === 'text')
         $conditions[] = $name.(isset($vs[1]) ? ' NOT' : '').' LIKE \'%'.$vs[0].'%\'';
     }
-//*DCMM*/var_dump($conditions);
 
     $tables = 'trace_requettes AS t'.
 		 	' LEFT JOIN '.USERS_TABLE.' AS u USING (user_id)';
@@ -252,8 +250,6 @@ class listener implements EventSubscriberInterface
 		$result = $db->sql_query($sql_count);
 		$row_count = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
-//*DCMM*/var_dump($sql_count);
-//*DCMM*/var_dump($row_count);
 
 		// Liste des traces affichables
 		$sql = "SELECT * FROM $tables $where".
@@ -261,14 +257,12 @@ class listener implements EventSubscriberInterface
 			' LIMIT '.($_GET['limit'] ?? 10). //TODO 100 ???
 			(!empty($_GET['offset']) ? ' OFFSET '.$_GET['offset'] : '');
 		$result = $db->sql_query($sql);
-//*DCMM*/var_dump($sql);
 
     // Affichage de la table
     $this->affiche_une_ligne (['Trace', 'Statut', 'Utilisateur', 'Machine', 'IP', 'ASN (FAI)', 'Contenu']);
 
 		$nb_traces = 0;
 		while($row = $db->sql_fetchrow($result))
-//*DCMM*/var_dump($row);
 			$nb_traces = $this->affiche_une_trace (array_map('trim', $row), $nb_traces);
 		$db->sql_freeresult($result);
 
@@ -402,12 +396,13 @@ class listener implements EventSubscriberInterface
       array_merge(
         // Auteur
         strpos($row['appel'],'edit') === 0 ? [
-        	'Créé par <a title="Voir son profil"'.
+        	'Créé par:'.
+          '<a title="Voir son profil"'.
             'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['creator_id']??0).'">'.
             ($row['creator_name']??'').'</a>',
-          '<hr/>Modifié par:',
-        ] : [],[
-          // User connecté
+          'Modifié par:',
+        ] : [],
+        [ // Utilisateur
         	'<a title="Voir son profil"'.
             'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['user_id']??0).'">'.
             ($row['user_name']??'').'</a>',

@@ -9,24 +9,24 @@
 	<!-- ELSEIF TRACE_ID -->
 		<h4>Trace {TRACE_ID}</h4>
 	<!-- ELSE -->
-		<a href="{U_MCP_ACTION}&ext_error=null">
+		<p><a href="{U_MCP_ACTION}&ext_error=null">
 			{LIMIT} dernières contributions acceptées
-		</a>
-		<a href="{U_MCP_ACTION}&ext_error=null&uri=edit&group_id=199&checked=0">
+		</a></p>
+		<p><a href="{U_MCP_ACTION}&ext_error=null&uri=edit&group_id=199&checked=0">
 			{LIMIT} édition de posts par un utilisateur
-		</a>
-		<a href="{U_MCP_ACTION}&ext_error=!CleanTalk,!No%20soup&browser_operator=!serve">
+		</a></p>
+		<p><a href="{U_MCP_ACTION}&ext_error=!CleanTalk,!No%20soup&browser_operator=!serve">
 			{LIMIT} dernières contributions rejetées pour motif interne
-		</a>
-		<a href="{U_MCP_ACTION}&ext_error=CleanTalk&browser_operator=!serve">
+		</a></p>
+		<p><a href="{U_MCP_ACTION}&ext_error=CleanTalk&browser_operator=!serve">
 			{LIMIT} dernières contributions rejetées par CleanTalk (sauf bots)
-		</a>
-		<a href="{U_MCP_ACTION}&browser_operator=serve">
+		</a></p>
+		<p><a href="{U_MCP_ACTION}&browser_operator=serve">
 			{LIMIT} dernières contributions rejetées (bots)
-		</a>
-		<a href="{U_MCP_ACTION}&browser_operator=!serve">
+		</a></p>
+		<p><a href="{U_MCP_ACTION}&browser_operator=!serve">
 			{LIMIT} dernières contributions (sauf bots)
-		</a>
+		</a></p>
 		<hr/>
 
 		<h4>
@@ -42,9 +42,11 @@
     <div id="edit-requete">
       <a>Edit...</a>
       <form method="get" action="{U_MCP_ACTION}">
-        <p>chaine (contient) , !chaine (ne contient pas) , null , !null</p>
         <table>
-          <tr>
+          <tr><td>
+            </td><td>
+              chaine (contient) , !chaine (ne contient pas), null, !null
+          </td></tr>
             <!-- BEGIN inputs_requete -->
               <tr>
                 <td>{inputs_requete.NAME} &nbsp;</td>
@@ -57,12 +59,13 @@
                 </td>
               </tr>
             <!-- END inputs_requete -->
-          </tr>
-
-          <input type="hidden" name="i" value="-RefugesInfo-trace-mcp-main_module" />
+            <tr><td>
+              </td><td>
+                <input type="hidden" name="i" value="-RefugesInfo-trace-mcp-main_module" />
+                <button type="submit">Filtrer</button>
+            </td></tr>
           <!--input type="hidden" name="search" value="advanced" /-->
         </table>
-        <button type="submit">Filtrer</button>
       </form>
     </div>
 
