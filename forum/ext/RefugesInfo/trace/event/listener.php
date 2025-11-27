@@ -26,24 +26,11 @@ Traces avec tri
 user
 */
 
+//TODO BUG trace modifs dans le bandeau : selection par le group ne marche pas
+//TODO BUG Edit ajoute arguments / PB browser_operator / ne pas envoyer champs vides
+//TODO fonction check / bandeau
 //TODO revoir indentation / tabs
 //TODO fichiers de la base geo
-//TODO BUG trace modifs dans le bandeau : selection par le group ne marche pas
-//TODO fonction check / bandeau
-//TODO BUG affiche colonne : statut REJET null
-//TODO BUG Edit ajoute arguments
-/*//TODO
-  'url' => 'uri',
-    //'url-1' => 'referer',
-    //'url-2' => 'browser_referer',
-    //'agent' => 'user_agent',
-  //'langues supportés' => 'language',
-  'topic' => 'topic_id',
-  'post' => 'post_id',
-  'point' => 'id_point',
-  'commentaire' => 'id_commentaire',
-];
-*/
 
 namespace RefugesInfo\trace\event;
 
@@ -75,7 +62,7 @@ class listener implements EventSubscriberInterface
       't.user_id' => 'number',
       't.asn_id' => 'number',
       't.uri' => 'text', // Pour profile user
-      't.checked' => 'number',
+      't.checked' => 'text', // valeurs possibles 'false' & 'true'
       't.topic_id' => 'number',
       't.post_id' => 'number',
       't.id_point' => 'number',
@@ -256,24 +243,28 @@ class listener implements EventSubscriberInterface
 		$conditions = [];
 		foreach($this->argument_names as $name => $type) {
 			$ns = array_reverse(explode('.', $name ?? '')); // Separate the t. at the beginning
-			$vs = array_reverse(explode('!', $cond[$ns[0]] ?? '')); // Separate the ! at the beginning
 
       // Edition de la requete
       $template->assign_block_vars('inputs_requete', [
         'NAME' => $ns[0],
         'TYPE' => $type,
-        'VALUE' => $vs[0],
+        'VALUE' => $cond[$ns[0]] ?? '',
       ]);
+      
+      if(!empty ($cond[$ns[0]]))
+        foreach (explode(',', $cond[$ns[0]]) as $k => $v) {
+          $vs = array_reverse(explode('!', $v)); // Separate the ! at the beginning
 
-      if($vs[0] === 'false') $vs[0] = 0;
-      if($vs[0] === 'true') $vs[0] = 1;
+          if($vs[0] === 'false') $vs[0] = 0;
+          if($vs[0] === 'true') $vs[0] = 1;
 
-      if($vs[0] === 'null')
-        $conditions[] = isset($vs[1]) ? $name.' IS NOT NULL' : $name.' IS NULL';
-      elseif (strlen ($vs[0]) && $type === 'number' & !in_array($name, ['limit','offset']))
-        $conditions[] = $name.(isset($vs[1]) ? '!=' : '=').$vs[0];
-      elseif (strlen ($vs[0]) && $type === 'text')
-        $conditions[] = $name.(isset($vs[1]) ? ' NOT' : '').' LIKE \'%'.$vs[0].'%\'';
+          if($vs[0] === 'null')
+            $conditions[] = isset($vs[1]) ? $name.' IS NOT NULL' : $name.' IS NULL';
+          elseif (strlen ($vs[0]) && $type === 'number' & !in_array($name, ['limit','offset']))
+            $conditions[] = $name.(isset($vs[1]) ? '!=' : '=').$vs[0];
+          elseif (strlen ($vs[0]) && $type === 'text')
+            $conditions[] = $name.(isset($vs[1]) ? ' NOT' : '').' LIKE \'%'.$vs[0].'%\'';
+        }
     }
 
     $tables = 'trace_requettes AS t'.

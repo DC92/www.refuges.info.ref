@@ -38,33 +38,38 @@
     </h4>
 
     <div id="edit-requete">
-      <p>
-       {WHERE_SQL} <a>Edit...</a>
-      </p>
+      <p>{WHERE_SQL} <a>Edit...</a></p>
       <form method="get" action="{U_MCP_ACTION}">
+        <br/>
         <div>{REQUETE_SQL}</div>
+        <br/>
         <table>
-          <tr><td>
-            </td><td>
-              chaine (contient) , !chaine (ne contient pas), null, !null
-            </td></tr>
-            <!-- BEGIN inputs_requete -->
-              <tr>
-                <td>{inputs_requete.NAME} &nbsp;</td>
-                <td>
-                  <input
-                    type="{inputs_requete.TYPE}"
-                    name="{inputs_requete.NAME}"
-                    value="{inputs_requete.VALUE}"
-                  />
-                </td>
-              </tr>
-            <!-- END inputs_requete -->
-            <tr><td>
-              </td><td>
-                <input type="hidden" name="i" value="-RefugesInfo-trace-mcp-main_module" />
-                <button type="submit">Filtrer</button>
-            </td></tr>
+          <tr>
+            <td></td>
+            <td>
+                <p>chaine (contient) , !chaine (ne contient pas), null, !null</p>
+                <p>On peut mettre plusieurs conditions séparées par une ,</p>
+            </td>
+          </tr>
+          <!-- BEGIN inputs_requete -->
+            <tr>
+              <td>{inputs_requete.NAME} &nbsp;</td>
+              <td>
+                <input
+                  type="{inputs_requete.TYPE}"
+                  name="{inputs_requete.NAME}"
+                  value="{inputs_requete.VALUE}"
+                />
+              </td>
+            </tr>
+          <!-- END inputs_requete -->
+          <tr>
+            <td></td>
+            <td>
+              <input type="hidden" name="i" value="-RefugesInfo-trace-mcp-main_module" />
+              <button type="submit">Filtrer</button>
+            </td>
+          </tr>
           <!--input type="hidden" name="search" value="advanced" /-->
         </table>
       </form>
