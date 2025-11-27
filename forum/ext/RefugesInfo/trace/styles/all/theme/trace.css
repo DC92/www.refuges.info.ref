@@ -20,7 +20,7 @@
   cursor: pointer;
 }
 
-.traces .report-trace td {
+.report-trace td {
   border: 1px solid grey;
   padding: 3px;
 }

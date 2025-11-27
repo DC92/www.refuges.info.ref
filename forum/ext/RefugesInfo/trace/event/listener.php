@@ -34,9 +34,7 @@ use GeoIp2\Database\Reader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
-	protected $server, $post, $get;
-	protected $forum_root, $u_action, $column_names;
-	protected $reader_asn, $reader_city;
+	protected $forum_root, $u_action, $argument_names, $reader_asn, $reader_city;
 
 	public function __construct()
 	{
@@ -51,8 +49,7 @@ class listener implements EventSubscriberInterface
 		$this->u_action = $this->forum_root.'mcp.php?i=-'.$ns[0].'-'.$ns[1].'-mcp-main_module';
 
 		// Liste les colonnes pour ne prendre que les arguments qui correspondent
-    //TODO voir les listes qu'on peut centraliser
-		$this->column_names = [
+		$this->argument_names = [
       't.ext_error' => 'text',
       't.browser_operator' => 'text',
       't.trace_id' => 'number',
@@ -60,7 +57,6 @@ class listener implements EventSubscriberInterface
       //TODO TEST 't.host' => 'text',
       't.asn_id' => 'number',
       //TODO TEST 't.uri' => 'text',
-      //TODO TEST nouveaux index
       //TODO release_1_0_1 seulement / éliminer config
       't.checked' => 'number',
       't.topic_id' => 'number',
@@ -227,7 +223,7 @@ class listener implements EventSubscriberInterface
 
     // Requetes dans la table des traces
 		$conditions = [];
-		foreach($this->column_names as $name => $type) {
+		foreach($this->argument_names as $name => $type) {
 			$ns = array_reverse(explode('.', $name ?? '')); // Separate the t. at the beginning
 			$vs = array_reverse(explode('!', $_GET[$ns[0]] ?? '')); // Separate the ! at the beginning
 
@@ -548,7 +544,7 @@ class listener implements EventSubscriberInterface
 				function($v, $k) use($sql_row) {
 					return
 						// Seulement les colonnes sql
-						in_array($k, $this->column_names) &&
+						in_array($k, $this->argument_names) &&
 						// On ne garde que les valeurs qui ont changé
 						isset ($v) && isset ($sql_row[$k]) &&
 						!($v === null && $sql_row[$k] === null) &&

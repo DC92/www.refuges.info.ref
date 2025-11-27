@@ -1,4 +1,15 @@
 <!-- INCLUDECSS @RefugesInfo_trace/trace.css -->
-<div class="traces">
-<!-- EVENT mcp_display_trace -->
-</div>
+
+<!-- IF NOMBRE_LIGNES -->
+  <table class="report-trace">
+    <tr>
+      <!-- BEGIN output_requetes_raw -->
+        <tr>
+          <!-- BEGIN output_requetes_col -->
+            <td>{output_requetes_raw.output_requetes_col.VALUE}</td>
+          <!-- END output_requetes_col -->
+        </tr>
+      <!-- END output_requetes_raw -->
+    </tr>
+  </table>
+<!-- ENDIF -->
