@@ -54,7 +54,7 @@
                 <td>
                   <input
                     type="{inputs_requete.TYPE}"
-                    name="ext_error"
+                    name="{inputs_requete.NAME}"
                     value="{inputs_requete.VALUE}"
                   />
                 </td>
@@ -81,7 +81,18 @@
     <hr/>
   <!-- ENDIF -->
 
+  <!-- Tableau de résultats -->
   <!-- EVENT mcp_post_additional_options -->
+
+  <!-- Tous le résultats -->
+    <!-- IF full_trace -->
+      <hr/>
+      <h4>Dump de l'enregistrement SQL</h4>
+    <!-- BEGIN full_trace -->
+      <p>{full_trace.NAME} = {full_trace.VALUE}</p>
+    <!-- END full_trace -->
+  <!-- ENDIF -->
+
 </div>
 
 {% include 'mcp_footer.html' %}

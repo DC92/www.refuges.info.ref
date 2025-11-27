@@ -28,8 +28,9 @@ user
 
 //TODO revoir indentation / tabs
 //TODO fichiers de la base geo
+//TODO BUG trace modifs dans le bandeau : selection par le group ne marche pas
 //TODO fonction check / bandeau
-//TODO BUG affiche coonne : statut REJET null
+//TODO BUG affiche colonne : statut REJET null
 //TODO BUG Edit ajoute arguments
 /*//TODO
   'url' => 'uri',
@@ -241,6 +242,9 @@ class listener implements EventSubscriberInterface
 		if(!$auth->acl_get('m_')) // Uniquement pour les modérateurs
 			return;
 
+    // Affichage d'entête de la table
+    $this->affiche_une_ligne (['Trace', 'Statut', 'Utilisateur', 'Machine', 'IP', 'ASN (FAI)', 'Contenu']);
+
     $cond = array_filter (array_merge ($_GET, [
       // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
 			'post_id' => $_GET['p'] ?? $_GET['post_id'] ?? 0,
@@ -261,9 +265,14 @@ class listener implements EventSubscriberInterface
         'VALUE' => $vs[0],
       ]);
 
-      if (strlen ($vs[0]) && $type === 'number'  & !in_array($name, ['limit','offset']))
+      if($vs[0] === 'false') $vs[0] = 0;
+      if($vs[0] === 'true') $vs[0] = 1;
+
+      if($vs[0] === 'null')
+        $conditions[] = isset($vs[1]) ? $name.' IS NOT NULL' : $name.' IS NULL';
+      elseif (strlen ($vs[0]) && $type === 'number' & !in_array($name, ['limit','offset']))
         $conditions[] = $name.(isset($vs[1]) ? '!=' : '=').$vs[0];
-      if (strlen ($vs[0]) && $type === 'text')
+      elseif (strlen ($vs[0]) && $type === 'text')
         $conditions[] = $name.(isset($vs[1]) ? ' NOT' : '').' LIKE \'%'.$vs[0].'%\'';
     }
 
@@ -284,13 +293,24 @@ class listener implements EventSubscriberInterface
 			(!empty ($_GET['offset']) ? ' OFFSET '.$_GET['offset'] : '');
 		$result = $db->sql_query($sql);
 
-    // Affichage de la table
-    $this->affiche_une_ligne (['Trace', 'Statut', 'Utilisateur', 'Machine', 'IP', 'ASN (FAI)', 'Contenu']);
-
 		$compteur_traces = 0;
 		while($row = $db->sql_fetchrow($result))
 			$compteur_traces = $this->affiche_une_trace (array_map('trim', $row), $compteur_traces);
 		$db->sql_freeresult($result);
+
+    // Affiche le résultat complet sur la fiche d'une trace
+    if(isset ($_GET['trace_id']) && $compteur_traces === 1) {
+      $sql_dump = "SELECT t.* FROM $tables $where LIMIT 1";
+      $result = $db->sql_query($sql_dump);
+      $row_dump = $db->sql_fetchrow($result);
+      $db->sql_freeresult($result);
+
+      foreach(array_filter(array_map('trim', $row_dump)) as $name => $value)
+        $template->assign_block_vars('full_trace', [
+          'NAME' => $name,
+          'VALUE' => $value,
+        ]);
+    }
 
 		// S'il n'y a pas de trace dans la table, simplement décode l'IP utilisée.
 		$event_ip =
@@ -305,7 +325,7 @@ class listener implements EventSubscriberInterface
     }
 
 		$template->assign_vars([
-			'WHERE_SQL' => str_replace(['.t', '.u'],'', $where),
+			'WHERE_SQL' => str_replace(['t.', 'u.'],'', $where),
 			'REQUETE_SQL' => $sql,
 			'NOMBRE_LIGNES' => $compteur_traces,
 			'NOMBRE_TRACES' => $row_count['count'] ?? 0,
