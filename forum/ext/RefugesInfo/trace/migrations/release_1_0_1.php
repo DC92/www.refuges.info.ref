@@ -53,17 +53,17 @@ class release_1_0_1 extends \phpbb\db\migration\migration
       ],
       'add_index' => [
         'trace_requettes' => [
-					'trace_id' => ['trace_id'],
-					'ext_error' => ['ext_error'],
+          'trace_id' => ['trace_id'],
+          'ext_error' => ['ext_error'],
           'checked' => ['checked'],
 
-					'topic_id' => ['topic_id'],
+          'topic_id' => ['topic_id'],
           'post_id' => ['post_id'],
-					'user_id' => ['user_id'],
+          'user_id' => ['user_id'],
           'id_point' => ['id_point'],
           'id_commentaire' => ['id_commentaire'],
           'asn_id' => ['asn_id'],
-					'browser_operator' => ['browser_operator'],
+          'browser_operator' => ['browser_operator'],
         ],
       ],
     ];

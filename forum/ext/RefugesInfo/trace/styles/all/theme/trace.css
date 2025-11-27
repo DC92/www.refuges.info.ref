@@ -1,6 +1,6 @@
 .cp-menu,
-#edit-requete.edit-form a,
-#edit-requete:not(.edit-form) form {
+#edit-requete.edit-form > p,
+#edit-requete:not(.edit-form) > form {
   display: none;
 }
 

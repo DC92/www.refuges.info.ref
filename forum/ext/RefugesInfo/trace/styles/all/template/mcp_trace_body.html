@@ -1,51 +1,53 @@
 {% include 'mcp_header.html' %}
 
 <div class="traces">
-	<!-- IF ID_POINT -->
-		<h4>Traces liées au point {ID_POINT}</h4>
-	<!-- ELSEIF ID_COMMENTAIRE -->
-		<h4>Trace du commentaire {ID_COMMENTAIRE}</h4>
-	<!-- ELSEIF TRACE_ID -->
-		<h4>Trace {TRACE_ID}</h4>
-	<!-- ELSE -->
-		<p><a href="{U_MCP_ACTION}&ext_error=null">
-			{LIMIT} dernières contributions acceptées
-		</a></p>
-		<p><a href="{U_MCP_ACTION}&ext_error=null&uri=edit&group_id=199&checked=0">
-			{LIMIT} édition de posts par un utilisateur
-		</a></p>
-		<p><a href="{U_MCP_ACTION}&ext_error=!CleanTalk,!No%20soup&browser_operator=!serve">
-			{LIMIT} dernières contributions rejetées pour motif interne
-		</a></p>
-		<p><a href="{U_MCP_ACTION}&ext_error=CleanTalk&browser_operator=!serve">
-			{LIMIT} dernières contributions rejetées par CleanTalk (sauf bots)
-		</a></p>
-		<p><a href="{U_MCP_ACTION}&browser_operator=serve">
-			{LIMIT} dernières contributions rejetées (bots)
-		</a></p>
-		<p><a href="{U_MCP_ACTION}&browser_operator=!serve">
-			{LIMIT} dernières contributions (sauf bots)
-		</a></p>
-		<hr/>
+  <!-- IF ID_POINT -->
+    <h4>Traces liées au point {ID_POINT}</h4>
+  <!-- ELSEIF ID_COMMENTAIRE -->
+    <h4>Trace du commentaire {ID_COMMENTAIRE}</h4>
+  <!-- ELSEIF TRACE_ID -->
+    <h4>Trace {TRACE_ID}</h4>
+  <!-- ELSE -->
+    <p><a href="{U_MCP_ACTION}&ext_error=null">
+      {LIMIT} dernières contributions acceptées
+    </a></p>
+    <p><a href="{U_MCP_ACTION}&ext_error=null&uri=edit&group_id=199&checked=0">
+      {LIMIT} édition de posts par un utilisateur
+    </a></p>
+    <p><a href="{U_MCP_ACTION}&ext_error=!CleanTalk,!No%20soup&browser_operator=!serve">
+      {LIMIT} dernières contributions rejetées pour motif interne
+    </a></p>
+    <p><a href="{U_MCP_ACTION}&ext_error=CleanTalk&browser_operator=!serve">
+      {LIMIT} dernières contributions rejetées par CleanTalk (sauf bots)
+    </a></p>
+    <p><a href="{U_MCP_ACTION}&browser_operator=serve">
+      {LIMIT} dernières contributions rejetées (bots)
+    </a></p>
+    <p><a href="{U_MCP_ACTION}&browser_operator=!serve">
+      {LIMIT} dernières contributions (sauf bots)
+    </a></p>
+    <hr/>
 
-		<h4>
-			<!-- IF NOMBRE_TRACES -->
-				Historique de {NOMBRE_LIGNES} traces sur {NOMBRE_TRACES}
-				<!-- IF OFFSET -->à partir de la {OFFSET} ième<!-- ENDIF -->
-			<!-- ELSE -->
-				Pas de trace correspondant à ces critères
-			<!-- ENDIF -->
-		</h4>
+    <h4>
+      <!-- IF NOMBRE_TRACES -->
+        Historique de {NOMBRE_LIGNES} traces sur {NOMBRE_TRACES}
+        <!-- IF OFFSET -->à partir de la {OFFSET} ième<!-- ENDIF -->
+      <!-- ELSE -->
+        Pas de trace correspondant à ces critères
+      <!-- ENDIF -->
+    </h4>
 
-		<div>{REQUETE_SQL}</div>
     <div id="edit-requete">
-      <a>Edit...</a>
+      <p>
+       {WHERE_SQL} <a>Edit...</a>
+      </p>
       <form method="get" action="{U_MCP_ACTION}">
+        <div>{REQUETE_SQL}</div>
         <table>
           <tr><td>
             </td><td>
               chaine (contient) , !chaine (ne contient pas), null, !null
-          </td></tr>
+            </td></tr>
             <!-- BEGIN inputs_requete -->
               <tr>
                 <td>{inputs_requete.NAME} &nbsp;</td>
@@ -68,13 +70,16 @@
       </form>
     </div>
 
-		<script>
-      document.getElementById('edit-requete').onclick = evt => {
-        evt.target.parentNode.classList.add('edit-form');
-      }
-		</script>
-		<hr/>
-	<!-- ENDIF -->
+    <script>
+      const editEl = document.getElementById('edit-requete');
+
+      if(editEl)
+        editEl.onclick = evt => {
+          editEl.classList.add('edit-form');
+        }
+    </script>
+    <hr/>
+  <!-- ENDIF -->
 
   <!-- EVENT mcp_post_additional_options -->
 </div>
