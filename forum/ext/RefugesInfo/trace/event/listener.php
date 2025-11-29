@@ -62,7 +62,7 @@ class listener implements EventSubscriberInterface
       't.user_id' => 'number',
       't.asn_id' => 'number',
       't.uri' => 'text', // Pour profile user
-      't.checked' => 'text', // valeurs possibles 'false' & 'true'
+      't.checked' => 'number',
       't.topic_id' => 'number',
       't.post_id' => 'number',
       't.id_point' => 'number',
@@ -159,10 +159,10 @@ class listener implements EventSubscriberInterface
 				'date' => date('r'),
 
 				// Navigateur
-				'browser_operator' => $_POST['browser_operator'] ?? '',
-				'browser_referer' => $_POST['browser_referer'] ?? '',
-				'browser_locale' => $_POST['browser_locale'] ?? '',
-				'browser_timezone' => $_POST['browser_timezone'] ?? '',
+				'browser_operator' => $_POST['mrk_browser_operator'] ?? '',
+				'browser_referer' => $_POST['mrk_browser_referer'] ?? '',
+				'browser_locale' => $_POST['mrk_browser_locale'] ?? '',
+				'browser_timezone' => $_POST['mrk_browser_timezone'] ?? '',
 
 				// Post & Point
 				'topic_id' =>
@@ -230,7 +230,7 @@ class listener implements EventSubscriberInterface
 			return;
 
     // Affichage d'entête de la table
-    $this->affiche_une_ligne (['Trace', 'Statut', 'Utilisateur', 'Machine', 'IP', 'ASN (FAI)', 'Contenu']);
+    $this->affiche_une_ligne (['Trace', 'Statut', 'Utilisateur', 'Machine', 'ASN (FAI)', 'IP', 'Contenu']);
 
     $cond = array_filter (array_merge ($_GET, [
       // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
@@ -286,22 +286,8 @@ class listener implements EventSubscriberInterface
 
 		$compteur_traces = 0;
 		while($row = $db->sql_fetchrow($result))
-			$compteur_traces = $this->affiche_une_trace (array_map('trim', $row), $compteur_traces);
+			$compteur_traces = $this->affiche_une_trace ($row, $compteur_traces);
 		$db->sql_freeresult($result);
-
-    // Affiche le résultat complet sur la fiche d'une trace
-    if(isset ($_GET['trace_id']) && $compteur_traces === 1) {
-      $sql_dump = "SELECT t.* FROM $tables $where LIMIT 1";
-      $result = $db->sql_query($sql_dump);
-      $row_dump = $db->sql_fetchrow($result);
-      $db->sql_freeresult($result);
-
-      foreach(array_filter(array_map('trim', $row_dump)) as $name => $value)
-        $template->assign_block_vars('full_trace', [
-          'NAME' => $name,
-          'VALUE' => $value,
-        ]);
-    }
 
 		// S'il n'y a pas de trace dans la table, simplement décode l'IP utilisée.
 		$event_ip =
@@ -331,6 +317,17 @@ class listener implements EventSubscriberInterface
 		global $db, $template;
 
     $row = $this->save_full_row($row); //TODO BUG NE DEVRAIT QU'ETRE AU RETOUR D'UNE EDITION OU CREATION
+
+    foreach($row as $name => $value)
+      if (intval($value) > 1000000000)
+        $row[$name] = date('r', intval($value));
+
+    $row = array_filter (array_merge (array_map('trim', $row), [
+      'user_permissions' => null,
+      'user_password' => null,
+      'user_form_salt' => null,
+      'user_sig' => null,
+    ]));
 
     // Calcul du statut
 		$colonne_statut = [];
@@ -427,15 +424,14 @@ class listener implements EventSubscriberInterface
       isset($row['trace_id']) ? [ // Trace
         $row['date'] ?? '',
         'Trace n° <a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'">'.$row['trace_id'].'</a>',
-        isset($row['checked']) ? 'Checked' :
+        !empty($row['checked']) ? 'Checked' :
           '<a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&checked=1">Check</a>',
       ] : [],
       $colonne_statut,
       array_merge(
         // Auteur
-        strpos($row['appel'] ?? '', 'edit') === 0 ? [
-        	'Créé par:'.
-          '<a title="Voir son profil"'.
+        strpos($row['appel'] ?? '', 'edit') === 0 && !empty($row['creator_id']) ? [
+        	'Créé par: <a title="Voir son profil"'.
             'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['creator_id'] ?? 0).'">'.
             ($row['creator_name'] ?? '').'</a>',
           'Modifié par:',
@@ -453,11 +449,26 @@ class listener implements EventSubscriberInterface
           $row['browser_operator'] ?? '',
           str_replace(['<t>','</t>'], '',$row['user_sig'] ?? '') ?
             'Signature: '.$row['user_sig'] : '',
+          empty($row['user_posts']) ? null : 'Posts: '.$row['user_posts'],
+          empty($row['user_lang']) ? null : 'Langue: '.$row['user_lang'],
+          empty($row['user_timezone']) ? null : $row['user_timezone'],
+          empty($row['user_login_attempts']) ? null : 'Tentatives login: '.$row['user_login_attempts'],
+          empty($row['user_inactive_time']) ? null : 'Temps inactif: '.$row['user_inactive_time'],
+          empty($row['user_inactive_reason']) ? null : 'Raison inactif: '.$row['user_inactive_reason'],
         ]
       ),
       [ // Machine
         'Langue: '.($row['browser_locale'] ?? 'inconnue'),
         'Timezone: '.($row['browser_timezone'] ?? 'inconnue'),
+      ],
+      [ // FAI
+        $row['host'] ??'',
+        '<a title="Fiche de l\'ASN"'.
+          'href="https://ipinfo.io/'.($row['asn_id'] ?? $row['ip'] ?? '').'">'.
+          ($row['asn_name'] ?? $row['host'] ?? $row['ip'] ?? '').'</a>',
+        ($row['country_name'] ?? '').' / '.($row['city'] ?? ''),
+        '<a title="Les contributions passant par '.($row['asn_name'] ?? '').'"'.
+          'href="'.$this->u_action.'&asn_id='.($row['asn_id'] ?? '').'">Contributions</a>',
       ],
       isset($row['ip']) ? [ // IP
         $row['ip'],
@@ -470,20 +481,19 @@ class listener implements EventSubscriberInterface
 				'<a href="https://www.abuseipdb.com/check/'.$row['ip'].'">AbuseIPdb</a>',
 				'<a href="https://cleantalk.org/blacklists/'.$row['ip'].'">CleanTalk</a>',
       ] : [],
-      [ // FAI
-        $row['host'] ??'',
-        '<a title="Fiche de l\'ASN"'.
-          'href="https://ipinfo.io/'.($row['asn_id'] ?? $row['ip'] ?? '').'">'.
-          ($row['asn_name'] ?? $row['host'] ?? $row['ip'] ?? '').'</a>',
-        ($row['country_name'] ?? '').' / '.($row['city'] ?? ''),
-        '<a title="Les contributions passant par '.($row['asn_name'] ?? '').'"'.
-          'href="'.$this->u_action.'&asn_id='.($row['asn_id'] ?? '').'">Contributions</a>',
-      ],
       [ // Contenu
         '<b>'.($row['title'] ?? '').'</b>',
         mb_substr($row['text'] ?? '', 0, 240).(strlen($row['text'] ?? '') > 239 ? '...' : ''),
       ],
     ]);
+
+    // Affiche le résultat complet sur la fiche d'une trace
+    if(isset ($_GET['trace_id']))
+      foreach($row as $name => $value)
+        $template->assign_block_vars('full_trace', [
+          'NAME' => $name,
+          'VALUE' => $value,
+        ]);
 
     return $compteur_traces + 1;
 	}
@@ -579,135 +589,22 @@ class listener implements EventSubscriberInterface
 	}
 }
 
-
-/*
-/home/users/dom/dom.refuges.info/forum/ext/RefugesInfo/trace/event/listener.php:269:
-array (size=112)
-  'trace_id' => string '275052' (length=6)
-  'uri' => string 'https://dom.refuges.info/forum/posting.php?mode=edit&p=37089' (length=60)
-  'ip' => string '90.127.215.228                                                  ' (length=64)
-  'real_ip' => null
-  'host' => string 'lfbn-idf1-1-2051-228.w90-127.abo.wanadoo.fr                                                                                                                                                                                                                    ' (length=255)
-  'user_agent' => string 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36                                                                                                                                                ' (length=255)
-  'language' => string 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7                                                                                             ' (length=128)
-  'browser_locale' => string 'fr                                                                                                                              ' (length=128)
-  'browser_timezone' => string 'Europe/Paris                                                                                                                    ' (length=128)
-  'browser_operator' => string 'humain avec mouvement de souris ou tactile                                                                                      ' (length=128)
-  'session_id' => null
-  'date' => string 'Sun, 23 Nov 2025 10:44:22 +0000                                 ' (length=64)
-  'post_id' => string '37089' (length=5)
-  'point_id' => null
-  'commentaire_id' => null
-  'topic_title' => null
-  'title' => string 'Re: A quoi sert la page d'accueil de refuges.info ?                                                                                                                                                                                                            ' (length=255)
-  'text' => string 'Merci SQFP.
-Beaucoup de propositions que je laisse à traiter pour le moment où je pourrai y consacrer le temps que cela mérite.
-
-
-DOMINIQUE 251123 - 1' (length=157)
-  'user_id' => string '216' (length=3)
-  'user_name' => string 'Dominique                                                                                                                       ' (length=128)
-  'user_email' => string 'refuges@c92.fr' (length=14)
-  'user_signature' => null
-  'user_posts' => string '3528' (length=4)
-  'user_lang' => string 'fr' (length=2)
-  'user_timezone' => string 'Africa/Blantyre' (length=15)
+/*/TODO
+        'user_posts' => string '3528' (length=4)
+        'user_lang' => string 'fr' (length=2)
+        'user_timezone' => string 'Africa/Blantyre' (length=15)
+        'user_login_attempts' => string '0' (length=1)
+        'user_inactive_reason' => string '0' (length=1)
+        'user_inactive_time' => string '0' (length=1)
+  ???  'debug' => string '                                                                                                    ' (length=100)
+  ???  'user_type' => string '3' (length=1)
   'ip_enregistrement' => string '                                                                ' (length=64)
   'host_enregistrement' => string 'lfbn-idf1-1-2051-228.w90-127.abo.wanadoo.fr                                                                                     ' (length=128)
-  'topic_id' => string '11177' (length=5)
   'status' => null
-  'ext_error' => null
-  'country_code' => null
-  'asn' => string '                                                                                                                                ' (length=128)
-  'fai' => null
-  'id_point' => string '0' (length=1)
-  'id_commentaire' => string '0' (length=1)
   'action' => null
   'appel' => string 'edit submit_post_end                                                                                                            ' (length=128)
-  'country_name' => string 'France                                                                                                                          ' (length=128)
-  'city' => string 'Sèvres                                                                                                                          ' (length=129)
-  'debug' => string '                                                                                                    ' (length=100)
-  'asn_id' => string 'AS3215                          ' (length=32)
-  'asn_name' => string 'Orange                                                                                                                          ' (length=128)
   'referer' => string 'https://dom.refuges.info/forum/posting.php?mode=edit&p=37089                                                                                                                                                                                                   ' (length=255)
   'browser_referer' => string 'https://dom.refuges.info/forum/viewtopic.php?t=11177                                                                                                                                                                                                           ' (length=255)
-  'creator_id' => string '216' (length=3)
-  'creator_name' => string 'Dominique                                                                                                                       ' (length=128)
-  'checked' => string '0' (length=1)
-  'user_type' => string '3' (length=1)
-  'group_id' => string '202' (length=3)
-  'user_permissions' => string 'zik0zjzik0zjzik0zg
-zik0sfhrctmo
-zik0sfhrctmo
-
-zik0sfhrctmo
-zik0sfhrctmo
-zik0sfhrctmo
-zik0sfhrctmo
-zik0zjhrctmo
-
-zik0sfhrctmo
-zik0sfhrctmo' (length=137)
-  'user_perm_from' => string '0' (length=1)
   'user_ip' => string '' (length=0)
-  'user_regdate' => string '1144526300' (length=10)
   'username' => string 'Dominique' (length=9)
-  'username_clean' => string 'dominique' (length=9)
-  'user_password' => string '$argon2id$v=19$m=65536,t=4,p=2$WUlTLm8yYS9CS3BJQVp1SA$X30e5fGbQxt4TQvHp+zIfztQPvSrWOZd9pVIaUb7A4E' (length=97)
-  'user_passchg' => string '1652507537' (length=10)
-  'user_birthday' => string ' 0- 0-   0' (length=10)
-  'user_lastvisit' => string '1763913435' (length=10)
-  'user_lastmark' => string '1494849575' (length=10)
-  'user_lastpost_time' => string '1762889663' (length=10)
-  'user_lastpage' => string 'mcp.php?ext_error=null&i=-RefugesInfo-trace-mcp-main_module' (length=59)
-  'user_last_confirm_key' => string '' (length=0)
-  'user_last_search' => string '1757000543' (length=10)
-  'user_warnings' => string '0' (length=1)
-  'user_last_warning' => string '0' (length=1)
-  'user_login_attempts' => string '0' (length=1)
-  'user_inactive_reason' => string '0' (length=1)
-  'user_inactive_time' => string '0' (length=1)
-  'user_dateformat' => string 'd M Y H:i' (length=9)
-  'user_style' => string '14' (length=2)
-  'user_rank' => string '0' (length=1)
-  'user_colour' => string 'FF00FF' (length=6)
-  'user_new_privmsg' => string '0' (length=1)
-  'user_unread_privmsg' => string '0' (length=1)
-  'user_last_privmsg' => string '1666706599' (length=10)
-  'user_message_rules' => string '0' (length=1)
-  'user_full_folder' => string '-3' (length=2)
-  'user_emailtime' => string '1733727589' (length=10)
-  'user_topic_show_days' => string '0' (length=1)
-  'user_topic_sortby_type' => string 't' (length=1)
-  'user_topic_sortby_dir' => string 'd' (length=1)
-  'user_post_show_days' => string '0' (length=1)
-  'user_post_sortby_type' => string 't' (length=1)
-  'user_post_sortby_dir' => string 'd' (length=1)
-  'user_notify' => string '1' (length=1)
-  'user_notify_pm' => string '1' (length=1)
-  'user_notify_type' => string '0' (length=1)
-  'user_allow_pm' => string '1' (length=1)
-  'user_allow_viewonline' => string '0' (length=1)
-  'user_allow_viewemail' => string '0' (length=1)
-  'user_allow_massemail' => string '1' (length=1)
-  'user_options' => string '230271' (length=6)
-  'user_avatar' => string '216_1614011737.jpg' (length=18)
-  'user_avatar_type' => string 'avatar.driver.upload' (length=20)
-  'user_avatar_width' => string '80' (length=2)
-  'user_avatar_height' => string '80' (length=2)
-  'user_sig' => string '<r>Dominique <URL url="http://chemineur.fr">http://chemineur.fr</URL></r>' (length=73)
-  'user_sig_bbcode_uid' => string '112uy701' (length=8)
-  'user_sig_bbcode_bitfield' => string '' (length=0)
-  'user_jabber' => string '' (length=0)
-  'user_actkey' => string '' (length=0)
-  'user_newpasswd' => string '' (length=0)
-  'user_form_salt' => string 'syh37k9ytfe236oe' (length=16)
-  'user_new' => string '0' (length=1)
-  'user_reminded' => string '0' (length=1)
-  'user_reminded_time' => string '0' (length=1)
-  'reset_token' => string 'xkechbf65rvxniz2uc42xzzl2jylkv9g' (length=32)
-  'reset_token_expiration' => string '1666275737' (length=10)
-  'user_actkey_expiration' => string '0' (length=1)
-  'user_last_active' => string '1764102354' (length=10)
-  'ct_marked' => string '0' (length=1)
 */

@@ -13,7 +13,7 @@ class release_1_0_1 extends \phpbb\db\migration\migration
         'trace_requettes' => [
           'trace_id' => ['UINT', NULL, 'auto_increment'],
           'ext_error' => ['TEXT', NULL],
-          'checked' => ['BOOL', 0],
+          'checked' => ['UINT', NULL],
 
           'topic_id' => ['UINT', NULL],
           'post_id' => ['UINT', NULL],
