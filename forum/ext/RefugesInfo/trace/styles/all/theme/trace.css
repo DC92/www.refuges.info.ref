@@ -8,12 +8,8 @@
   margin: 0;
 }
 
-.traces #edit-requete input[type="text"] {
+.traces #edit-requete input {
   width: 30em !important;
-}
-
-.traces #edit-requete input[type="number"] {
-  width: 7em;
 }
 
 .traces #edit-requete a {

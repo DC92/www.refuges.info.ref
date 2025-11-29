@@ -31,6 +31,19 @@ user
 //TODO fonction check / bandeau
 //TODO revoir indentation / tabs
 //TODO fichiers de la base geo
+/*/TODO ???
+  ???  'debug' => string '                                                                                                    ' (length=100)
+  ???  'user_type' => string '3' (length=1)
+  'ip_enregistrement' => string '                                                                ' (length=64)
+  'host_enregistrement' => string 'lfbn-idf1-1-2051-228.w90-127.abo.wanadoo.fr                                                                                     ' (length=128)
+  'status' => null
+  'action' => null
+  'appel' => string 'edit submit_post_end                                                                                                            ' (length=128)
+  'referer' => string 'https://dom.refuges.info/forum/posting.php?mode=edit&p=37089                                                                                                                                                                                                   ' (length=255)
+  'browser_referer' => string 'https://dom.refuges.info/forum/viewtopic.php?t=11177                                                                                                                                                                                                           ' (length=255)
+  'user_ip' => string '' (length=0)
+  'username' => string 'Dominique' (length=9)
+*/
 
 namespace RefugesInfo\trace\event;
 
@@ -81,7 +94,8 @@ class listener implements EventSubscriberInterface
 			'core.submit_post_end' => 'submit_post_end', // functions_posting.php 2634
 			'core.posting_modify_template_vars' => 'log_request_context', // posting.php 2089 (post rejeté)
 			'core.ucp_register_register_after' => 'log_request_context', // ucp_register.php 562 (user acceptée)
-			'refugesinfo.trace.log_request_context' => 'log_request_context',
+			'refugesinfo.trace.log_request_context' => 'log_request_context', // Saisie commentaires
+			'refugesinfo.trace.stats' => 'trace_stats', // Symbole dans le bandeau
 
 			// Display traces
 			'core.mcp_post_additional_options' => 'display_traces', // mcp_post.php 125
@@ -115,6 +129,23 @@ class listener implements EventSubscriberInterface
 		}
 
 		$this->log_request_context($event, $eventName);
+	}
+
+	// Log le contexte d'une soumission
+	public function trace_stats($event)
+	{
+    global $pdo;
+
+    $sql = 'SELECT COUNT(trace_id)'.
+      ' FROM trace_requettes AS t'.
+      '   LEFT JOIN phpbb3_users AS u USING (user_id)'.
+      ' WHERE t.ext_error IS NULL'.
+      '   AND t.uri LIKE \'%edit%\''.
+      '   AND u.group_id != 201'.
+      '   AND u.group_id != 202';
+
+    if ($res = $pdo->query($sql))
+      $event['posts_edit'] = $res->fetch()->count;
 	}
 
 	// Log le contexte d'une soumission
@@ -192,8 +223,8 @@ class listener implements EventSubscriberInterface
 
 				// Infos enregistrées à la création du user
 				// Sont gardées dans la table au cas où on supprimerait le user
-				'creator_id' => $post_data['poster_id'],
-				'creator_name' => $post_data['poster_id'] > 1 ? $event['username'] : 'Anonymous',
+				'creator_id' => $post_data['poster_id'] ?? 0,
+				'creator_name' => ($post_data['poster_id'] ?? 0) > 1 ? $event['username'] : 'Anonymous',
 				'user_id' => $user_data['user_id'] ?? $event['user_id'] ?? 0,
 				'user_name' =>
           $user_data['username'] ??
@@ -247,7 +278,6 @@ class listener implements EventSubscriberInterface
       // Edition de la requete
       $template->assign_block_vars('inputs_requete', [
         'NAME' => $ns[0],
-        'TYPE' => $type,
         'VALUE' => $cond[$ns[0]] ?? '',
       ]);
       
@@ -261,7 +291,7 @@ class listener implements EventSubscriberInterface
           if($vs[0] === 'null')
             $conditions[] = isset($vs[1]) ? $name.' IS NOT NULL' : $name.' IS NULL';
           elseif (strlen ($vs[0]) && $type === 'number' & !in_array($name, ['limit','offset']))
-            $conditions[] = $name.(isset($vs[1]) ? '!=' : '=').$vs[0];
+            $conditions[] = $name.(isset($vs[1]) ? ' != ' : '=').$vs[0];
           elseif (strlen ($vs[0]) && $type === 'text')
             $conditions[] = $name.(isset($vs[1]) ? ' NOT' : '').' LIKE \'%'.$vs[0].'%\'';
         }
@@ -446,10 +476,7 @@ class listener implements EventSubscriberInterface
           $row['user_email'] ?? '' ?
             '<a title="Avis Cleantalk"'.
               'href="https://cleantalk.org/email-checker/'.$row['user_email'].'">'.($row['user_email'] ?? '').'</a>' : '',
-          $row['browser_operator'] ?? '',
-          str_replace(['<t>','</t>'], '',$row['user_sig'] ?? '') ?
-            'Signature: '.$row['user_sig'] : '',
-          empty($row['user_posts']) ? null : 'Posts: '.$row['user_posts'],
+          empty($row['user_posts']) ? null : 'Posts: '.$row['user_posts'], //TODO : faux ! ceux de moi
           empty($row['user_lang']) ? null : 'Langue: '.$row['user_lang'],
           empty($row['user_timezone']) ? null : $row['user_timezone'],
           empty($row['user_login_attempts']) ? null : 'Tentatives login: '.$row['user_login_attempts'],
@@ -458,6 +485,8 @@ class listener implements EventSubscriberInterface
         ]
       ),
       [ // Machine
+        $row['browser_operator'] ?? '',
+        str_replace(['<t>','</t>'], '',$row['user_sig'] ?? '') ? 'Signature: '.$row['user_sig'] : '',
         'Langue: '.($row['browser_locale'] ?? 'inconnue'),
         'Timezone: '.($row['browser_timezone'] ?? 'inconnue'),
       ],
@@ -588,23 +617,3 @@ class listener implements EventSubscriberInterface
 		return $row;
 	}
 }
-
-/*/TODO
-        'user_posts' => string '3528' (length=4)
-        'user_lang' => string 'fr' (length=2)
-        'user_timezone' => string 'Africa/Blantyre' (length=15)
-        'user_login_attempts' => string '0' (length=1)
-        'user_inactive_reason' => string '0' (length=1)
-        'user_inactive_time' => string '0' (length=1)
-  ???  'debug' => string '                                                                                                    ' (length=100)
-  ???  'user_type' => string '3' (length=1)
-  'ip_enregistrement' => string '                                                                ' (length=64)
-  'host_enregistrement' => string 'lfbn-idf1-1-2051-228.w90-127.abo.wanadoo.fr                                                                                     ' (length=128)
-  'status' => null
-  'action' => null
-  'appel' => string 'edit submit_post_end                                                                                                            ' (length=128)
-  'referer' => string 'https://dom.refuges.info/forum/posting.php?mode=edit&p=37089                                                                                                                                                                                                   ' (length=255)
-  'browser_referer' => string 'https://dom.refuges.info/forum/viewtopic.php?t=11177                                                                                                                                                                                                           ' (length=255)
-  'user_ip' => string '' (length=0)
-  'username' => string 'Dominique' (length=9)
-*/
