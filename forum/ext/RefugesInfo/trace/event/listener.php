@@ -26,9 +26,7 @@ Traces avec tri
 user
 */
 
-//TODO BUG trace modifs dans le bandeau : selection par le group ne marche pas
-//TODO BUG Edit ajoute arguments / PB browser_operator / ne pas envoyer champs vides
-//TODO fonction check / bandeau
+//TODO fonction check / bandeau -> fonction clic check
 //TODO revoir indentation / tabs
 //TODO fichiers de la base geo
 /*/TODO ???

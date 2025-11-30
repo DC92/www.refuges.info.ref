@@ -1,4 +1,5 @@
 {% include 'mcp_header.html' %}
+<!-- INCLUDEJS @RefugesInfo_trace/trace.js -->
 
 <div class="traces">
   <!-- IF ID_POINT -->
@@ -63,22 +64,12 @@
             <td></td>
             <td>
               <input type="hidden" name="i" value="-RefugesInfo-trace-mcp-main_module">
-              <button type="submit">Filtrer</button>
+              <button type="submit" onclick="submitEdited(this)">Filtrer</button>
             </td>
           </tr>
-          <!--input type="hidden" name="search" value="advanced"-->
         </table>
       </form>
     </div>
-
-    <script>
-      const editEl = document.getElementById('edit-requete');
-
-      if(editEl)
-        editEl.onclick = evt => {
-          editEl.classList.add('edit-form');
-        }
-    </script>
     <hr/>
   <!-- ENDIF -->
 
