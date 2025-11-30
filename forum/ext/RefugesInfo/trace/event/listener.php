@@ -26,7 +26,9 @@ Traces avec tri
 user
 */
 
+//TODO BUG enregistrement error '' n'est pas NULL ;
 //TODO fonction check / bandeau -> fonction clic check
+//TODO revoir les limit= des requettes SQL
 //TODO revoir indentation / tabs
 //TODO fichiers de la base geo
 /*/TODO ???
@@ -286,8 +288,11 @@ class listener implements EventSubscriberInterface
           if($vs[0] === 'false') $vs[0] = 0;
           if($vs[0] === 'true') $vs[0] = 1;
 
-          if($vs[0] === 'null')
-            $conditions[] = isset($vs[1]) ? $name.' IS NOT NULL' : $name.' IS NULL';
+          if($vs[0] === 'null' && $type === 'text')
+            $conditions[] = $name.' = \'\'';
+          elseif($vs[0] === 'null')
+            $conditions[] = $name.' IS '.(isset($vs[1]) ? 'NOT ' : '').'NULL';
+            //TODO DELETE $conditions[] = isset($vs[1]) ? $name.' IS NOT NULL' : $name.' IS NULL';
           elseif (strlen ($vs[0]) && $type === 'number' & !in_array($name, ['limit','offset']))
             $conditions[] = $name.(isset($vs[1]) ? ' != ' : '=').$vs[0];
           elseif (strlen ($vs[0]) && $type === 'text')
@@ -344,7 +349,8 @@ class listener implements EventSubscriberInterface
 	{
 		global $db, $template;
 
-    $row = $this->save_full_row($row); //TODO BUG NE DEVRAIT QU'ETRE AU RETOUR D'UNE EDITION OU CREATION
+		// Update d'une trace existante (quand un nouveau post est créé, pour ajouter le n° de post
+    $row = $this->save_full_row($row);
 
     foreach($row as $name => $value)
       if (intval($value) > 1000000000)
