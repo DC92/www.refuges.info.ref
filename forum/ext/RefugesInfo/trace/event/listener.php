@@ -26,7 +26,7 @@ Traces avec tri
 user
 */
 
-//TODO fonction check / bandeau -> fonction clic check
+//TODO tous tests traces / check, ...
 //TODO revoir indentation / tabs
 //TODO fichiers de la base geo
 
@@ -246,11 +246,17 @@ class listener implements EventSubscriberInterface
 		if(!$auth->acl_get('m_')) // Uniquement pour les modérateurs
 			return;
 
+    // Marquer la trace checked
+    if(!empty($_GET['trace_id']) && !empty($_GET['to_check'])) {
+      $sql = 'UPDATE trace_requettes SET checked = 1 WHERE trace_id = '.$_GET['trace_id'];
+      $db->sql_query($sql);
+    }
+
     // Affichage d'entête de la table
     $this->affiche_une_ligne (['Trace', 'Statut', 'Utilisateur', 'Machine', 'ASN (FAI)', 'IP', 'Contenu']);
 
-    $cond = array_filter (array_merge ($_GET, [
-      // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
+    // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
+    $cond = array_merge ($_GET, array_filter ([
 			'post_id' => $_GET['p'] ?? $_GET['post_id'] ?? 0,
 			'user_id' => $_GET['u'] ?? $_GET['user_id'] ?? 0,
 			'uri' => empty ($_GET['u']) ? $_GET['uri'] ?? '' : 'register',
@@ -266,23 +272,20 @@ class listener implements EventSubscriberInterface
         'NAME' => $ns[0],
         'VALUE' => $cond[$ns[0]] ?? '',
       ]);
-      
-      if(!empty ($cond[$ns[0]]))
+
+      if(isset ($cond[$ns[0]]))
         foreach (explode(',', $cond[$ns[0]]) as $k => $v) {
           $vs = array_reverse(explode('!', $v)); // Separate the ! at the beginning
 
-          if($vs[0] === 'false') $vs[0] = 0;
-          if($vs[0] === 'true') $vs[0] = 1;
-
-          if($vs[0] === 'null')
-            $conditions[] = $name.' IS '.(isset($vs[1]) ? 'NOT ' : '').'NULL';
-          elseif (strlen ($vs[0]) && $type === 'number' & !in_array($name, ['limit','offset']))
-            $conditions[] = $name.(isset($vs[1]) ? ' != ' : '=').$vs[0];
-          elseif (strlen ($vs[0]) && $type === 'text')
-            $conditions[] = $name.(isset($vs[1]) ? ' NOT' : '').' LIKE \'%'.$vs[0].'%\'';
+          if($vs[0] === 'null' || ($vs[0] === '0' && $type === 'number'))
+            $conditions[] = '('.$ns[0].(isset($vs[1]) ? ' != ' : ' = ').($type === 'number' ? '0' : "''").
+              ' OR '.$ns[0].(isset($vs[1]) ? ' IS NOT NULL' :' IS NULL').')';
+          elseif($type === 'number')
+          $conditions[] = $ns[0].(isset($vs[1]) ? ' != ' : ' = ').  intval($vs[0])  ;
+          else
+            $conditions[] = $ns[0].(isset($vs[1]) ? ' NOT' : '').  " LIKE '%{$vs[0]}%'";
         }
     }
-
     $tables = 'trace_requettes AS t'.
 		 	' LEFT JOIN '.USERS_TABLE.' AS u USING (user_id)';
 		$where = $conditions ? 'WHERE '.implode(' AND ', $conditions) : '';
@@ -347,22 +350,20 @@ class listener implements EventSubscriberInterface
     ]));
 
     // Calcul du statut
-		$colonne_statut = [];
+    $colonne_statut = [];
+    preg_match('/(.*) ([a-z_]*)/', $row['appel'] ?? '', $modes_appel);
 
-		if(!empty ($row['appel'])) {
-			preg_match('/(.*) ([a-z_]*)/', $row['appel'], $modes);
-			if(isset($modes[2]) && strpos($modes[2], '_') !== false) {
-				$row['listener'] = $modes[2];
+    if(isset($modes_appel[2]) && strpos($modes_appel[2], '_') !== false) {
+      $row['listener'] = $modes_appel[2];
 
-				$appel = str_replace(
-					['register', 'post', 'reply',
-						'quote', 'edit', ],
-					['Création d\'un user', 'Création d\'un sujet', 'Réponse à un post',
-						'Quote d\'un post', 'Edition d\'un post'],
-					$modes[1]
-				);
-			}
-		}
+      $appel = str_replace(
+        ['register', 'post', 'reply',
+          'quote', 'edit', ],
+        ['Création d\'un user', 'Création d\'un sujet', 'Réponse à un post',
+          'Quote d\'un post', 'Edition d\'un post'],
+        $modes_appel[1]
+      );
+    }
 
 		if(!empty ($row['ext_error']))
 			$colonne_statut[] = 'REJET '.($appel ?? '');
@@ -436,13 +437,15 @@ class listener implements EventSubscriberInterface
         ),
       );
 
+		$colonne_statut[] = $modes_appel[1] == 'edit' && !empty($row['trace_id']) && empty($row['checked']) ?
+      '<br/><a style="background:red;color:white" href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&to_check=1">Marquer vérifié</a>' :
+      null; //TODO mettre en html & css
+
     // Affiche une ligne du tableau
     $this->affiche_une_ligne([
       isset($row['trace_id']) ? [ // Trace
         $row['date'] ?? '',
         'Trace n° <a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'">'.$row['trace_id'].'</a>',
-        !empty($row['checked']) ? 'Checked' :
-          '<a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&checked=1">Check</a>',
       ] : [],
       $colonne_statut,
       array_merge(
@@ -556,8 +559,7 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Force NULL if no error to enable request by "IS NULL"
-		if(empty($row['ext_error']))
-			$row['ext_error'] = null;
+		//TODO if(empty($row['ext_error']))	$row['ext_error'] = null;
 
 		// Update d'une trace existante (quand un nouveau post est créé, pour ajouter le n° de post
 		if(!empty ($row['trace_id'])) {
