@@ -438,8 +438,8 @@ class listener implements EventSubscriberInterface
       );
 
 		$colonne_statut[] = $modes_appel[1] == 'edit' && !empty($row['trace_id']) && empty($row['checked']) ?
-      '<br/><a style="background:red;color:white" href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&to_check=1">Marquer vérifié</a>' :
-      null; //TODO mettre en html & css
+      '<br/><a class="check-trace" href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&to_check=1">Marquer vérifié</a>' :
+      null;
 
     // Affiche une ligne du tableau
     $this->affiche_une_ligne([
