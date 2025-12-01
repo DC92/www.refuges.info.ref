@@ -26,24 +26,9 @@ Traces avec tri
 user
 */
 
-//TODO BUG enregistrement error '' n'est pas NULL ;
 //TODO fonction check / bandeau -> fonction clic check
-//TODO revoir les limit= des requettes SQL
 //TODO revoir indentation / tabs
 //TODO fichiers de la base geo
-/*/TODO ???
-  ???  'debug' => string '                                                                                                    ' (length=100)
-  ???  'user_type' => string '3' (length=1)
-  'ip_enregistrement' => string '                                                                ' (length=64)
-  'host_enregistrement' => string 'lfbn-idf1-1-2051-228.w90-127.abo.wanadoo.fr                                                                                     ' (length=128)
-  'status' => null
-  'action' => null
-  'appel' => string 'edit submit_post_end                                                                                                            ' (length=128)
-  'referer' => string 'https://dom.refuges.info/forum/posting.php?mode=edit&p=37089                                                                                                                                                                                                   ' (length=255)
-  'browser_referer' => string 'https://dom.refuges.info/forum/viewtopic.php?t=11177                                                                                                                                                                                                           ' (length=255)
-  'user_ip' => string '' (length=0)
-  'username' => string 'Dominique' (length=9)
-*/
 
 namespace RefugesInfo\trace\event;
 
@@ -68,6 +53,7 @@ class listener implements EventSubscriberInterface
 		$this->u_action = $this->forum_root.'mcp.php?i=-'.$ns[0].'-'.$ns[1].'-mcp-main_module';
 
 		// Liste les colonnes pour ne prendre que les arguments qui correspondent
+		$this->limit_default = 20;
 		$this->argument_names = [
       't.ext_error' => 'text',
       't.browser_operator' => 'text',
@@ -288,11 +274,8 @@ class listener implements EventSubscriberInterface
           if($vs[0] === 'false') $vs[0] = 0;
           if($vs[0] === 'true') $vs[0] = 1;
 
-          if($vs[0] === 'null' && $type === 'text')
-            $conditions[] = $name.' = \'\'';
-          elseif($vs[0] === 'null')
+          if($vs[0] === 'null')
             $conditions[] = $name.' IS '.(isset($vs[1]) ? 'NOT ' : '').'NULL';
-            //TODO DELETE $conditions[] = isset($vs[1]) ? $name.' IS NOT NULL' : $name.' IS NULL';
           elseif (strlen ($vs[0]) && $type === 'number' & !in_array($name, ['limit','offset']))
             $conditions[] = $name.(isset($vs[1]) ? ' != ' : '=').$vs[0];
           elseif (strlen ($vs[0]) && $type === 'text')
@@ -313,7 +296,7 @@ class listener implements EventSubscriberInterface
 		// Liste des traces affichables
 		$sql = "SELECT * FROM $tables $where".
 			' ORDER BY trace_id DESC'.
-			' LIMIT '.($_GET['limit'] ?? 20).
+			' LIMIT '.($_GET['limit'] ?? $this->limit_default).
 			(!empty ($_GET['offset']) ? ' OFFSET '.$_GET['offset'] : '');
 		$result = $db->sql_query($sql);
 
@@ -480,12 +463,12 @@ class listener implements EventSubscriberInterface
           $row['user_email'] ?? '' ?
             '<a title="Avis Cleantalk"'.
               'href="https://cleantalk.org/email-checker/'.$row['user_email'].'">'.($row['user_email'] ?? '').'</a>' : '',
-          empty($row['user_posts']) ? null : 'Posts: '.$row['user_posts'], //TODO : faux ! ceux de moi
-          empty($row['user_lang']) ? null : 'Langue: '.$row['user_lang'],
-          empty($row['user_timezone']) ? null : $row['user_timezone'],
-          empty($row['user_login_attempts']) ? null : 'Tentatives login: '.$row['user_login_attempts'],
-          empty($row['user_inactive_time']) ? null : 'Temps inactif: '.$row['user_inactive_time'],
-          empty($row['user_inactive_reason']) ? null : 'Raison inactif: '.$row['user_inactive_reason'],
+          !empty($row['user_posts']) && ($row['user_id'] ?? 1) > 1 ? 'Posts: '.$row['user_posts'] : null,
+          !empty($row['user_lang']) ? 'Langue: '.$row['user_lang'] : null,
+          !empty($row['user_timezone']) ? $row['user_timezone'] : null,
+          !empty($row['user_login_attempts']) ? 'Tentatives login: '.$row['user_login_attempts'] : null,
+          !empty($row['user_inactive_time']) ? 'Temps inactif: '.$row['user_inactive_time'] : null,
+          !empty($row['user_inactive_reason']) ? 'Raison inactif: '.$row['user_inactive_reason'] : null,
         ]
       ),
       [ // Machine
@@ -573,8 +556,8 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Force NULL if no error to enable request by "IS NULL"
-		if(!isset($row['ext_error']))
-			$row['ext_error'] = '';
+		if(empty($row['ext_error']))
+			$row['ext_error'] = null;
 
 		// Update d'une trace existante (quand un nouveau post est créé, pour ajouter le n° de post
 		if(!empty ($row['trace_id'])) {
