@@ -67,8 +67,10 @@
 				</li>
 				<li>
 					<a href="<?=$config_wri['lien_forum']?>mcp.php?i=-RefugesInfo-trace-mcp-main_module&ext_error=null&uri=edit&group_id=!201,!202&checked=null">
-						<?=$vue->posts_edit?'&#9732;':''?>
-						Edition de posts par utilisateur
+						<?php if ($vue->posts_edit) {?>
+							<span class="edit-posts">&#9732;</span>
+						<?php } ?>
+						Edition de <?=$vue->posts_edit?> de post<?=$vue->posts_edit > 1 ? 's': ''?> à vérifier
 					</a>
 				</li>
 				<li>

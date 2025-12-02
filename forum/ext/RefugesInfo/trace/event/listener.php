@@ -38,7 +38,7 @@ use GeoIp2\Database\Reader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
-	protected $forum_root, $u_action, $argument_names, $reader_asn, $reader_city;
+	protected $forum_root, $u_action, $limit_default, $argument_names, $reader_asn, $reader_city;
 
 	public function __construct()
 	{
@@ -59,7 +59,7 @@ class listener implements EventSubscriberInterface
       't.browser_operator' => 'text',
       't.trace_id' => 'number',
       't.user_id' => 'number',
-      't.asn_id' => 'number',
+      't.asn_id' => 'text',
       't.uri' => 'text', // Pour profile user
       't.checked' => 'number',
       't.topic_id' => 'number',
@@ -122,13 +122,15 @@ class listener implements EventSubscriberInterface
 	{
     global $pdo;
 
+//TODO bug where affiché ne comporte pas les t. et u.
     $sql = 'SELECT COUNT(trace_id)'.
       ' FROM trace_requettes AS t'.
-      '   LEFT JOIN phpbb3_users AS u USING (user_id)'.
-      ' WHERE t.ext_error IS NULL'.
-      '   AND t.uri LIKE \'%edit%\''.
+      ' LEFT JOIN phpbb3_users AS u USING (user_id)'.
+      ' WHERE t.uri LIKE \'%edit%\''.
       '   AND u.group_id != 201'.
-      '   AND u.group_id != 202';
+      '   AND u.group_id != 202'.
+      '   AND (t.checked = 0 OR t.checked IS NULL)'.
+      '   AND (t.ext_error = \'\' OR t.ext_error IS NULL)';
 
     if ($res = $pdo->query($sql))
       $event['posts_edit'] = $res->fetch()->count;
@@ -159,7 +161,7 @@ class listener implements EventSubscriberInterface
 			$trace = $this->save_full_row([
 				// General
 				'appel' => strpos($eventName, 'register') !== false
-					? 'création compte'
+					? 'Création compte'
 					: ($event['mode'] ?? '') .str_replace(['core.', 'refugesinfo.'], ' ', $eventName),
 				'ext_error' => !empty ($event['error']) ? json_encode($event['error']) : '',
 
@@ -335,18 +337,20 @@ class listener implements EventSubscriberInterface
 	{
 		global $db, $template;
 
-		// Update d'une trace existante (quand un nouveau post est créé, pour ajouter le n° de post
-    $row = $this->save_full_row($row);
+		// Update d'une trace existante quand un nouveau post est créé, pour ajouter le n° de post
+    $row = $this->save_full_row (array_map ('trim', $row));
 
     foreach($row as $name => $value)
       if (intval($value) > 1000000000)
         $row[$name] = date('r', intval($value));
 
-    $row = array_filter (array_merge (array_map('trim', $row), [
+    // Supression des infos non souhaitées dans le dump
+    $row = array_filter (array_merge ($row, [
       'user_permissions' => null,
       'user_password' => null,
       'user_form_salt' => null,
       'user_sig' => null,
+      'user_last_confirm_key ' => null,
     ]));
 
     // Calcul du statut
@@ -371,44 +375,44 @@ class listener implements EventSubscriberInterface
 			//BEST lien vers un post mis en approbation
 			if(strpos ($row['uri'] ?? '', 'point_modification') !== false) {
 				if(!empty ($row['id_point']))
-					$colonne_statut[] = 'création d\'un <a '.
+					$colonne_statut[] = 'Création d\'un <a '.
 						'href="'.$this->forum_root.'../point/'.$row['id_point'].'"'.
 					'>point</a>';
 				elseif(!empty ($row['post_id']))
-					$colonne_statut[] = 'création d\'un point et de son <a '.
+					$colonne_statut[] = 'Création d\'un point et de son <a '.
 						'href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'"'.
 					'>forum</a>';
 				else
-					$colonne_statut[] = 'erreur modification point sans id_point ni post_id';
+					$colonne_statut[] = 'Erreur modification point sans id_point ni post_id';
 			}
 			elseif(strpos ($row['uri'] ?? '', 'ajout_commentaire') !== false) {
 				if(!empty ($row['id_point']))
-					$colonne_statut[] = 'création d\'un <a '.
+					$colonne_statut[] = 'Création d\'un <a '.
 						'href="'.$this->forum_root.'../point/'.$row['id_point'].'#C'.($row['id_commentaire'] ?? 0).'"'.
 					'>commentaire</a>';
 				else
-					$colonne_statut[] = 'erreur ajout commentaire sans id_point';
+					$colonne_statut[] = 'Erreur ajout commentaire sans id_point';
 			}
 			elseif(strpos ($row['uri'] ?? '', 'mode=register') !== false) {
-				if(!empty ($row['user_id']))
-					$colonne_statut[] = 'création du compte <a '.
+				if(!empty ($row['user_id']) && ($row['user_id'] ?? 1) > 1)
+					$colonne_statut[] = 'Création du compte <a '.
 						'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'"'.
 					'>'.($row['user_name'] ?? 'NONAME').'</a>';
 				else
-					$colonne_statut[] = 'erreur création du compte sans user_id';
+					$colonne_statut[] = 'Autre erreur création du compte';
 			}
 			elseif(strpos ($row['uri'] ?? '', 'mode=post') !== false ||
 				strpos ($row['uri'] ?? '', 'contactadmin') !== false) {
 				if(!empty ($row['post_id']))
-					$colonne_statut[] = 'création d\'un <a '.
+					$colonne_statut[] = 'Création d\'un <a '.
 						'href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'"'.
 					'>sujet</a>';
 				elseif(!empty ($row['topic_id']))
-					$colonne_statut[] = 'création d\'un <a '.
+					$colonne_statut[] = 'Création d\'un <a '.
 						'href="'.$this->forum_root.'viewtopic.php?t='.$row['topic_id'].'"'.
 					'>sujet</a>';
 				else
-					$colonne_statut[] = 'erreur création d\'un post sans topic_id ni post_id';
+					$colonne_statut[] = 'Erreur création d\'un post sans topic_id ni post_id';
 			}
 			elseif(strpos ($row['uri'] ?? '', 'posting.php') !== false) { // reply, quote, edit
 				if(!empty ($row['post_id']))
@@ -420,10 +424,10 @@ class listener implements EventSubscriberInterface
 						($appel ?? '')
 					);
 				else
-					$colonne_statut[] = 'erreur posting sans post_id';
+					$colonne_statut[] = 'Erreur posting sans post_id';
 			}
 			else
-				$colonne_statut[] = 'erreur url inconnue';
+				$colonne_statut[] = 'Erreur url inconnue';
 		}
 
     $colonne_statut[] =
@@ -559,7 +563,8 @@ class listener implements EventSubscriberInterface
 		}
 
 		// Force NULL if no error to enable request by "IS NULL"
-		//TODO if(empty($row['ext_error']))	$row['ext_error'] = null;
+		if(empty($row['ext_error'])) $row['ext_error'] = null;
+		if(empty($row['checked'])) $row['ext_error'] = null;
 
 		// Update d'une trace existante (quand un nouveau post est créé, pour ajouter le n° de post
 		if(!empty ($row['trace_id'])) {
