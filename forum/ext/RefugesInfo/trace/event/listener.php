@@ -161,7 +161,7 @@ class listener implements EventSubscriberInterface
 			$trace = $this->save_full_row([
 				// General
 				'appel' => strpos($eventName, 'register') !== false
-					? 'Création compte'
+					? 'register'
 					: ($event['mode'] ?? '') .str_replace(['core.', 'refugesinfo.'], ' ', $eventName),
 				'ext_error' => !empty ($event['error']) ? json_encode($event['error']) : '',
 
@@ -355,22 +355,26 @@ class listener implements EventSubscriberInterface
 
     // Calcul du statut
     $colonne_statut = [];
-    preg_match('/(.*) ([a-z_]*)/', $row['appel'] ?? '', $modes_appel);
 
-    if(isset($modes_appel[2]) && strpos($modes_appel[2], '_') !== false) {
-      $row['listener'] = $modes_appel[2];
-
-      $appel = str_replace(
-        ['register', 'post', 'reply',
-          'quote', 'edit', ],
-        ['Création d\'un user', 'Création d\'un sujet', 'Réponse à un post',
-          'Quote d\'un post', 'Edition d\'un post'],
-        $modes_appel[1]
-      );
-    }
+    $traduction_appel = [
+      ' SPE' => '',
+      ' submit_post_end' => '',
+      ' point_ajout_commentaire' => '',
+      ' trace.log_request_context ' => '',
+      ' ucp_register_register_after' => '',
+      ' posting_modify_submit_post_before' => '',
+      ' ucp_register_modify_template_data' => '',
+      ' posting_modify_template_vars' => '',
+      'register' => 'Création d\'un user',
+      'post' => 'Création d\'un sujet',
+      'reply' => 'Réponse à un post',
+      'quote' => 'Quote d\'un post',
+      'edit' => 'Edition d\'un post',
+    ];
+    $appel = str_replace(array_keys($traduction_appel), $traduction_appel, $row['appel'] ?? '');
 
 		if(!empty ($row['ext_error']))
-			$colonne_statut[] = 'REJET '.($appel ?? '');
+			$colonne_statut[] = 'REJET '.$appel;
 		elseif(!empty ($row['uri'])) {
 			//BEST lien vers un post mis en approbation
 			if(strpos ($row['uri'] ?? '', 'point_modification') !== false) {
@@ -383,7 +387,7 @@ class listener implements EventSubscriberInterface
 						'href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'"'.
 					'>forum</a>';
 				else
-					$colonne_statut[] = 'Erreur modification point sans id_point ni post_id';
+					$colonne_statut[] = 'Erreur de modification point sans id_point ni post_id';
 			}
 			elseif(strpos ($row['uri'] ?? '', 'ajout_commentaire') !== false) {
 				if(!empty ($row['id_point']))
@@ -391,7 +395,7 @@ class listener implements EventSubscriberInterface
 						'href="'.$this->forum_root.'../point/'.$row['id_point'].'#C'.($row['id_commentaire'] ?? 0).'"'.
 					'>commentaire</a>';
 				else
-					$colonne_statut[] = 'Erreur ajout commentaire sans id_point';
+					$colonne_statut[] = 'Erreur de ajout commentaire sans id_point';
 			}
 			elseif(strpos ($row['uri'] ?? '', 'mode=register') !== false) {
 				if(!empty ($row['user_id']) && ($row['user_id'] ?? 1) > 1)
@@ -399,7 +403,7 @@ class listener implements EventSubscriberInterface
 						'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'"'.
 					'>'.($row['user_name'] ?? 'NONAME').'</a>';
 				else
-					$colonne_statut[] = 'Autre erreur création du compte';
+					$colonne_statut[] = 'Autre erreur de création du compte';
 			}
 			elseif(strpos ($row['uri'] ?? '', 'mode=post') !== false ||
 				strpos ($row['uri'] ?? '', 'contactadmin') !== false) {
@@ -412,7 +416,7 @@ class listener implements EventSubscriberInterface
 						'href="'.$this->forum_root.'viewtopic.php?t='.$row['topic_id'].'"'.
 					'>sujet</a>';
 				else
-					$colonne_statut[] = 'Erreur création d\'un post sans topic_id ni post_id';
+					$colonne_statut[] = 'Erreur de création d\'un post sans topic_id ni post_id';
 			}
 			elseif(strpos ($row['uri'] ?? '', 'posting.php') !== false) { // reply, quote, edit
 				if(!empty ($row['post_id']))
@@ -421,10 +425,10 @@ class listener implements EventSubscriberInterface
 						'<a href="'.$this->forum_root.'viewtopic.php?'.
 							'p='.$row['post_id'].'#p'.$row['post_id'].'">post'.
 						'</a>',
-						($appel ?? '')
+						$appel
 					);
 				else
-					$colonne_statut[] = 'Erreur posting sans post_id';
+					$colonne_statut[] = 'Erreur de posting sans post_id';
 			}
 			else
 				$colonne_statut[] = 'Erreur url inconnue';
@@ -441,7 +445,7 @@ class listener implements EventSubscriberInterface
         ),
       );
 
-		$colonne_statut[] = $modes_appel[1] == 'edit' && !empty($row['trace_id']) && empty($row['checked']) ?
+		$colonne_statut[] = !strncmp($row['appel'], 'edit', 4) && !empty($row['trace_id']) && empty($row['checked']) ?
       '<br/><a class="check-trace" href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&to_check=1">Marquer vérifié</a>' :
       null;
 
@@ -454,7 +458,7 @@ class listener implements EventSubscriberInterface
       $colonne_statut,
       array_merge(
         // Auteur
-        strpos($row['appel'] ?? '', 'edit') === 0 && !empty($row['creator_id']) ? [
+        !strncmp($row['appel'], 'edit', 4) && !empty($row['creator_id']) ? [
         	'Créé par: <a title="Voir son profil"'.
             'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['creator_id'] ?? 0).'">'.
             ($row['creator_name'] ?? '').'</a>',
@@ -564,7 +568,7 @@ class listener implements EventSubscriberInterface
 
 		// Force NULL if no error to enable request by "IS NULL"
 		if(empty($row['ext_error'])) $row['ext_error'] = null;
-		if(empty($row['checked'])) $row['ext_error'] = null;
+		if(empty($row['checked'])) $row['checked'] = 0;
 
 		// Update d'une trace existante (quand un nouveau post est créé, pour ajouter le n° de post
 		if(!empty ($row['trace_id'])) {
