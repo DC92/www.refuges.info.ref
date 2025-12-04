@@ -117,12 +117,11 @@ class listener implements EventSubscriberInterface
 		$this->log_request_context($event, $eventName);
 	}
 
-	// Log le contexte d'une soumission
+	// Hook pour renseigner le bandeau
 	public function trace_stats($event)
 	{
     global $pdo;
 
-//TODO bug where affiché ne comporte pas les t. et u.
     $sql = 'SELECT COUNT(trace_id)'.
       ' FROM trace_requettes AS t'.
       ' LEFT JOIN phpbb3_users AS u USING (user_id)'.
@@ -130,7 +129,7 @@ class listener implements EventSubscriberInterface
       '   AND u.group_id != 201'.
       '   AND u.group_id != 202'.
       '   AND (t.checked = 0 OR t.checked IS NULL)'.
-      '   AND (t.ext_error = \'\' OR t.ext_error IS NULL)';
+      '   AND (t.ext_error = \'\' OR t.ext_error = \'[]\' OR t.ext_error IS NULL)'; //TODO \'[]\'
 
     if ($res = $pdo->query($sql))
       $event['posts_edit'] = $res->fetch()->count;
@@ -257,8 +256,12 @@ class listener implements EventSubscriberInterface
     // Affichage d'entête de la table
     $this->affiche_une_ligne (['Trace', 'Statut', 'Utilisateur', 'Machine', 'ASN (FAI)', 'IP', 'Contenu']);
 
-    // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
-    $cond = array_merge ($_GET, array_filter ([
+    $cond = array_filter(array_merge ($_GET, [
+      // Remove non where parameters
+      'i' => null,
+      'limit' => null,
+      'offset' => null,
+      // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
 			'post_id' => $_GET['p'] ?? $_GET['post_id'] ?? 0,
 			'user_id' => $_GET['u'] ?? $_GET['user_id'] ?? 0,
 			'uri' => empty ($_GET['u']) ? $_GET['uri'] ?? '' : 'register',
@@ -272,22 +275,28 @@ class listener implements EventSubscriberInterface
       // Edition de la requete
       $template->assign_block_vars('inputs_requete', [
         'NAME' => $ns[0],
-        'VALUE' => $cond[$ns[0]] ?? '',
+        'VALUE' => $_GET[$ns[0]] ?? '',
       ]);
 
       if(isset ($cond[$ns[0]]))
         foreach (explode(',', $cond[$ns[0]]) as $k => $v) {
           $vs = array_reverse(explode('!', $v)); // Separate the ! at the beginning
+          $req = isset($vs[1]) ? ' != ' : ' = ';
+          $rnot = isset($vs[1]) ? ' NOT' : '';
 
+          //TODO voir même saisie NULL, '' pour ext_error
+          //TODO remettre en phase toutes les ext_error : '[]'
+          //TODO tableau sous-conditions / implode ADN & ( OR )
           if($vs[0] === 'null' || ($vs[0] === '0' && $type === 'number'))
-            $conditions[] = '('.$ns[0].(isset($vs[1]) ? ' != ' : ' = ').($type === 'number' ? '0' : "''").
-              ' OR '.$ns[0].(isset($vs[1]) ? ' IS NOT NULL' :' IS NULL').')';
+            $conditions[] = '('.$name.$req.($type === 'number' ? '0' : "''").
+              (isset($vs[1]) ?' AND ':' OR ').$name." IS$rnot NULL)";
           elseif($type === 'number')
-          $conditions[] = $ns[0].(isset($vs[1]) ? ' != ' : ' = ').  intval($vs[0])  ;
+            $conditions[] = $name.$req.intval($vs[0]);
           else
-            $conditions[] = $ns[0].(isset($vs[1]) ? ' NOT' : '').  " LIKE '%{$vs[0]}%'";
+            $conditions[] = "$name$rnot LIKE '%{$vs[0]}%'";
         }
     }
+
     $tables = 'trace_requettes AS t'.
 		 	' LEFT JOIN '.USERS_TABLE.' AS u USING (user_id)';
 		$where = $conditions ? 'WHERE '.implode(' AND ', $conditions) : '';
@@ -307,7 +316,7 @@ class listener implements EventSubscriberInterface
 
 		$compteur_traces = 0;
 		while($row = $db->sql_fetchrow($result))
-			$compteur_traces = $this->affiche_une_trace ($row, $compteur_traces);
+			$compteur_traces = $this->affiche_une_trace (array_map ('trim', $row), $compteur_traces);
 		$db->sql_freeresult($result);
 
 		// S'il n'y a pas de trace dans la table, simplement décode l'IP utilisée.
@@ -338,7 +347,7 @@ class listener implements EventSubscriberInterface
 		global $db, $template;
 
 		// Update d'une trace existante quand un nouveau post est créé, pour ajouter le n° de post
-    $row = $this->save_full_row (array_map ('trim', $row));
+    $row = $this->save_full_row ($row);
 
     foreach($row as $name => $value)
       if (intval($value) > 1000000000)
