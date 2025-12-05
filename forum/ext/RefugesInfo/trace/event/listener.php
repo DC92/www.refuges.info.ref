@@ -26,8 +26,6 @@ Traces avec tri
 user
 */
 
-//TODO tous tests traces / check, ...
-//TODO revoir indentation / tabs
 //TODO fichiers de la base geo
 
 namespace RefugesInfo\trace\event;
@@ -545,6 +543,10 @@ class listener implements EventSubscriberInterface
   private function save_full_row($row)
   {
     global $db, $config_wri;
+
+    // Exclusion de certains ASN
+    if(in_array($row['asn_id'],$config_wri['block_trace_asn']??[]))
+      return $row;
 
     // Purge empty values
     $row = array_filter($row);
