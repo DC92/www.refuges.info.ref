@@ -55,18 +55,18 @@ class listener implements EventSubscriberInterface
     // Liste les colonnes pour ne prendre que les arguments qui correspondent
     $this->limit_default = 20;
     $this->argument_names = [
-      't.ext_error' => 'text',
-      't.browser_operator' => 'text',
-      't.trace_id' => 'number',
-      't.user_id' => 'number',
-      't.asn_id' => 'text',
-      't.uri' => 'text', // Pour profile user
-      't.checked' => 'number',
-      't.topic_id' => 'number',
-      't.post_id' => 'number',
-      't.id_point' => 'number',
-      't.id_commentaire' => 'number',
-      'u.group_id' => 'number',
+      'ext_error' => 'text',
+      'browser_operator' => 'text',
+      'trace_id' => 'number',
+      'user_id' => 'number',
+      'asn_id' => 'text',
+      'uri' => 'text', // Pour profile user
+      'checked' => 'number',
+      'topic_id' => 'number',
+      'post_id' => 'number',
+      'id_point' => 'number',
+      'id_commentaire' => 'number',
+      'group_id' => 'number',
       'limit' => 'number',
       'offset' => 'number',
     ];
@@ -123,13 +123,12 @@ class listener implements EventSubscriberInterface
     global $pdo;
 
     $sql = 'SELECT COUNT(trace_id)'.
-      ' FROM trace_requettes AS t'.
-      ' LEFT JOIN phpbb3_users AS u USING (user_id)'.
-      ' WHERE t.uri LIKE \'%edit%\''.
-      '   AND u.group_id != 201'.
-      '   AND u.group_id != 202'.
-      '   AND (t.checked = 0 OR t.checked IS NULL)'.
-      '   AND (t.ext_error = \'\' OR t.ext_error = \'[]\' OR t.ext_error IS NULL)'; //TODO \'[]\'
+      ' FROM trace_requettes '.
+      ' LEFT JOIN phpbb3_users USING (user_id)'.
+      ' WHERE uri LIKE \'%edit%\''.
+      '   AND ext_error IS NULL'.
+      '   AND checked = 0'.
+      '   AND group_id NOT IN (201, 202)';
 
     if($res = $pdo->query($sql))
       $event['posts_edit'] = $res->fetch()->count;
@@ -256,49 +255,41 @@ class listener implements EventSubscriberInterface
     // Affichage d'entête de la table
     $this->affiche_une_ligne (['Trace', 'Statut', 'Utilisateur', 'Machine', 'ASN (FAI)', 'IP', 'Contenu']);
 
-    $cond = array_filter(array_merge ($_GET, [
-      // Remove non where parameters
-      'i' => null,
-      'limit' => null,
-      'offset' => null,
-      // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
-      'post_id' => $_GET['p'] ?? $_GET['post_id'] ?? 0,
-      'user_id' => $_GET['u'] ?? $_GET['user_id'] ?? 0,
-      'uri' => empty ($_GET['u']) ? $_GET['uri'] ?? '' : 'register',
-    ]));
+    $cond = $_GET;
+    // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
+    if(!empty($_GET['p']))
+      $cond['post_id'] = $_GET['p'];
+    if(!empty($_GET['u'])) {
+      $cond['user_id'] = $_GET['u'];
+      $cond['uri'] = 'register';
+    }
 
     // Requetes dans la table des traces
     $conditions = [];
     foreach($this->argument_names as $name => $type) {
-      $ns = array_reverse(explode('.', $name ?? '')); // Separate the t. at the beginning
-
-      // Edition de la requete
+      // Champs d'édition de la requête
       $template->assign_block_vars('inputs_requete', [
-        'NAME' => $ns[0],
-        'VALUE' => $_GET[$ns[0]] ?? '',
+        'NAME' => $name,
+        'VALUE' => $cond[$name] ?? '',
       ]);
 
-      if(isset ($cond[$ns[0]]))
-        foreach (explode(',', $cond[$ns[0]]) as $k => $v) {
+      if(isset ($cond[$name]))
+        foreach (explode(',', $cond[$name]) as $k => $v) {
           $vs = array_reverse(explode('!', $v)); // Separate the ! at the beginning
-          $req = isset($vs[1]) ? ' != ' : ' = ';
+          $requ = isset($vs[1]) ? ' != ' : ' = ';
           $rnot = isset($vs[1]) ? ' NOT' : '';
 
-          //TODO voir même saisie NULL, '' pour ext_error
-          //TODO remettre en phase toutes les ext_error : '[]'
-          //TODO tableau sous-conditions / implode ADN & ( OR )
-          if($vs[0] === 'null' || ($vs[0] === '0' && $type === 'number'))
-            $conditions[] = '('.$name.$req.($type === 'number' ? '0' : "''").
-              (isset($vs[1]) ?' AND ':' OR ').$name." IS$rnot NULL)";
-          elseif($type === 'number')
-            $conditions[] = $name.$req.intval($vs[0]);
+          if($type === 'number')
+            $conditions[] = $name.$requ.intval($vs[0]);
+          elseif($vs[0] === 'null')
+            $conditions[] = "$name IS$rnot NULL";
           else
             $conditions[] = "$name$rnot LIKE '%{$vs[0]}%'";
         }
     }
 
-    $tables = 'trace_requettes AS t'.
-       ' LEFT JOIN '.USERS_TABLE.' AS u USING (user_id)';
+    $tables = 'trace_requettes LEFT JOIN '.USERS_TABLE.' USING (user_id)';
+    //$tables = 'trace_requettes AS t LEFT JOIN '.USERS_TABLE.' AS u USING (user_id)';
     $where = $conditions ? 'WHERE '.implode(' AND ', $conditions) : '';
 
     // Nombre de traces répondant aux critères
@@ -332,7 +323,7 @@ class listener implements EventSubscriberInterface
     }
 
     $template->assign_vars([
-      'WHERE_SQL' => str_replace(['t.', 'u.'],'', $where),
+      'WHERE_SQL' => $where,
       'REQUETE_SQL' => $sql,
       'NOMBRE_LIGNES' => $compteur_traces,
       'NOMBRE_TRACES' => $row_count['count'] ?? 0,
