@@ -36,7 +36,7 @@ use GeoIp2\Database\Reader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
-  protected $forum_root, $u_action, $limit_default, $argument_names, $reader_asn, $reader_city;
+  protected $forum_root, $u_action, $tables, $limit_default, $argument_names, $reader_asn, $reader_city;
 
   public function __construct()
   {
@@ -93,7 +93,7 @@ class listener implements EventSubscriberInterface
   public function ucp_register_modify_template_data($event, $eventName)
   {
     if(isset($_POST['new_password'])) { // Except when load the registration page
-      $error = $event['error'];
+      $error = $event['error']??[];
       $error[] = 'Création d\'un compte rejetée sans erreur documentée';
       $event['error'] = $error;
 
@@ -108,7 +108,7 @@ class listener implements EventSubscriberInterface
     if(isset($event['data']['post_visibility']) &&
       $event['data']['post_visibility'] === ITEM_UNAPPROVED)
     {
-      $error = $event['error'];
+      $error = $event['error']??[];
       $error[] = 'Post mis en approbation par CleanTalk';
       $event['error'] = $error;
     }
@@ -164,20 +164,20 @@ class listener implements EventSubscriberInterface
         // Server
         'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
         'uri' => isset($_SERVER['HTTP_HOST']) ? (
-            ($_SERVER['REQUEST_SCHEME'] ?? '').'://'.
+            ($_SERVER['REQUEST_SCHEME']??'').'://'.
              $_SERVER['HTTP_HOST'].
-            ($_SERVER['REQUEST_URI'] ?? '')
+            ($_SERVER['REQUEST_URI']??'')
           ) : '',
-        'referer' => $_SERVER['HTTP_REFERER'] ?? '',
-        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
-        'language' => $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '',
+        'referer' => $_SERVER['HTTP_REFERER']??'',
+        'user_agent' => $_SERVER['HTTP_USER_AGENT']??'',
+        'language' => $_SERVER['HTTP_ACCEPT_LANGUAGE']??'',
         'date' => date('r'),
 
         // Navigateur
-        'browser_operator' => $_POST['mrk_browser_operator'] ?? '',
-        'browser_referer' => $_POST['mrk_browser_referer'] ?? '',
-        'browser_locale' => $_POST['mrk_browser_locale'] ?? '',
-        'browser_timezone' => $_POST['mrk_browser_timezone'] ?? '',
+        'browser_operator' => $_POST['mrk_browser_operator']??'',
+        'browser_referer' => $_POST['mrk_browser_referer']??'',
+        'browser_locale' => $_POST['mrk_browser_locale']??'',
+        'browser_timezone' => $_POST['mrk_browser_timezone']??'',
 
         // Post & Point
         'topic_id' =>
@@ -444,10 +444,10 @@ class listener implements EventSubscriberInterface
             ($row['user_name'] ?? '').'</a>',
           ($row['user_id'] ?? 0) > 1 ?
             '<a title="Voir ses traces"'.
-              'href="'.$this->u_action.'&user_id='.$row['user_id'].'">Contributions</a>' : '',
+              'href="'.$this->u_action.'&user_id='.$row['user_id'].'">Contributions</a>' : null,
           $row['user_email'] ?? '' ?
             '<a title="Avis Cleantalk"'.
-              'href="https://cleantalk.org/email-checker/'.$row['user_email'].'">'.($row['user_email'] ?? '').'</a>' : '',
+              'href="https://cleantalk.org/email-checker/'.$row['user_email'].'">'.($row['user_email'] ?? '').'</a>' : null,
           !empty($row['user_posts']) && ($row['user_id'] ?? 1) > 1 ? 'Posts: '.$row['user_posts'] : null,
           !empty($row['user_lang']) ? 'Langue: '.$row['user_lang'] : null,
           !empty($row['user_timezone']) ? $row['user_timezone'] : null,
@@ -458,9 +458,15 @@ class listener implements EventSubscriberInterface
       ),
       [ // Machine
         $row['browser_operator'] ?? '',
-        str_replace(['<t>','</t>'], '',$row['user_sig'] ?? '') ? 'Signature: '.$row['user_sig'] : '',
-        'Langue: '.($row['browser_locale'] ?? 'inconnue'),
-        'Timezone: '.($row['browser_timezone'] ?? 'inconnue'),
+        str_replace(['<t>','</t>'], '', $row['user_sig'] ?? '') ?
+          'Signature: '.$row['user_sig'] :
+          null,
+        !empty($row['browser_locale']) ?
+          'Langue: '.$row['browser_locale'] :
+          null,
+        !empty($row['browser_timezone']) ?
+          'Timezone: '.$row['browser_timezone'] :
+          null,
       ],
       [ // FAI
         $row['host'] ??'',
@@ -525,7 +531,7 @@ class listener implements EventSubscriberInterface
     foreach($this->argument_names as $name => $type)
       if(isset ($cond[$name]))
         foreach (explode(',', $cond[$name]) as $k => $v) {
-          $vs = array_reverse(explode('!', $v)); // Separate the ! at the beginning
+          $vs = array_reverse(explode('!', $v ?? '')); // Separate the ! at the beginning
           $requ = isset($vs[1]) ? ' != ' : ' = ';
           $rnot = isset($vs[1]) ? ' NOT' : '';
 
@@ -545,7 +551,7 @@ class listener implements EventSubscriberInterface
     global $db, $config_wri;
 
     // Exclusion de certains ASN
-    if(in_array($row['asn_id'],$config_wri['block_trace_asn']??[]))
+    if(in_array($row['asn_id'] ?? 0, $config_wri['block_trace_asn'] ?? []))
       return $row;
 
     // Purge empty values
@@ -592,7 +598,7 @@ class listener implements EventSubscriberInterface
 
       // Récupération du n° de point qu'on n'avait pas lors de la création du forum associé
       if(!empty ($sql_row['wri_id_point']))
-        $row['id_point'] = $sql_row['wri_id_point'] ?? 0;
+        $row['id_point'] = $sql_row['wri_id_point'];
 
       $delta_row = array_filter(
         $row,
