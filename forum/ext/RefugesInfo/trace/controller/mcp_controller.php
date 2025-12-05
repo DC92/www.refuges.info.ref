@@ -9,14 +9,14 @@ class mcp_controller
   {
     global $request;
 
-    $this->u_action = htmlspecialchars_decode ($u_action);
+    $this->u_action = htmlspecialchars_decode($u_action);
   }
 
   public function display_options() {
     global $template, $phpbb_dispatcher;
 
-    // Set variables for display in the template
-    $template->assign_var('U_MCP_ACTION', str_replace ('&mode=front', '', $this->u_action));
+    // Set variables to display in the template
+    $template->assign_var('U_MCP_ACTION', str_replace('&mode=front', '', $this->u_action));
 
     // Hook ext/RefugesInfo/trace/listener.php
     $vars = [];
