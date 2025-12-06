@@ -75,21 +75,21 @@
 						Historique des modifications
 					</a>
 				</li>
-				<li>
-					<a href="<?=$config_wri['lien_forum']?>mcp.php?i=-RefugesInfo-trace-mcp-main_module&ext_error=null&uri=edit&group_id=!201,!202&checked=0"
-            title="<?=$vue->posts_edit?> nouvelle<?=$vue->posts_edit > 1 ? 's': ''?> édition<?=$vue->posts_edit > 1 ? 's': ''?> de post<?=$vue->posts_edit > 1 ? 's': ''?> (sauf par des modérateurs)
-          ">
-						<?php if ($vue->posts_edit) {?>
-							<span class="edit-posts">&#9732;</span>
-						<?php } ?>
-						Edition de <?=$vue->posts_edit?> post(s) à traiter
-					</a>
-				</li>
-				<li>
-					<a href="<?=$config_wri['lien_forum']?>mcp.php?i=-RefugesInfo-trace-mcp-main_module&ext_error=null">
-						Historique des traces
-					</a>
-				</li>
+        <?php if(isset($vue->posts_edit)) { ?>
+          <li>
+            <a href="<?=$config_wri['lien_forum']?>mcp.php?i=-RefugesInfo-trace-mcp-main_module&ext_error=null&uri=edit&group_id=!201,!202&checked=0">
+              <?php if ($vue->posts_edit) { ?>
+                <span class="edit-posts">&#9732;</span>
+              <?php } ?>
+              <?=$vue->posts_edit?> édition<?=$vue->posts_edit>1?'s':''?> de post à traiter
+            </a>
+          </li>
+          <li>
+            <a href="<?=$config_wri['lien_forum']?>mcp.php?i=-RefugesInfo-trace-mcp-main_module&ext_error=null">
+              Historique des traces
+            </a>
+          </li>
+          <? } ?>
 				<li>
 					<a href="/gestion/historique_envoi_emails">
 						<?php if ($vue->email_en_erreur) {?>🌙 <?php } ?>Emails en erreur

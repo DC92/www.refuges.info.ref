@@ -26,6 +26,7 @@ Traces avec tri
 user
 */
 
+//TODO Relecture code
 //TODO fichiers de la base geo
 
 namespace RefugesInfo\trace\event;
@@ -36,7 +37,7 @@ use GeoIp2\Database\Reader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
-  protected $forum_root, $u_action, $tables, $limit_default, $argument_names, $reader_asn, $reader_city;
+  protected $forum_root, $u_action, $tables, $limit, $argument_names, $reader_asn, $reader_city;
 
   public function __construct()
   {
@@ -47,12 +48,16 @@ class listener implements EventSubscriberInterface
     // Calcul de la racine du forum
     preg_match('|'.$_SERVER['DOCUMENT_ROOT'].'(.*/)ext/|', __DIR__, $forum_dirs);
     $this->forum_root = $forum_dirs[1];
-    $ns = explode('\\', __NAMESPACE__);
-    $this->u_action = $this->forum_root.'mcp.php?i=-'.$ns[0].'-'.$ns[1].'-mcp-main_module';
+    $this->u_action = $this->forum_root.'mcp.php?i=-'.str_replace(['\\event','\\'], ['','-'], __NAMESPACE__).'-mcp-main_module';
 
     // Liste les colonnes pour ne prendre que les arguments qui correspondent
-    $this->tables = ' FROM trace_requettes JOIN '.USERS_TABLE.' USING (user_id)';
-    $this->limit_default = 20;
+    $this->tables = [
+      'trace_requettes LEFT JOIN '.USERS_TABLE.' USING(user_id)',
+      'points ON points.id_point = trace_requettes.point_id',
+      'commentaires ON commentaires.id_commentaire = trace_requettes.commentaire_id',
+    ];
+
+    $this->limit = $_GET['limit'] ?? 20;
     $this->argument_names = [
       'ext_error' => 'text',
       'browser_operator' => 'text',
@@ -80,7 +85,7 @@ class listener implements EventSubscriberInterface
       'core.posting_modify_template_vars' => 'log_request_context', // posting.php 2089 (post rejeté)
       'core.ucp_register_register_after' => 'log_request_context', // ucp_register.php 562 (user acceptée)
       'refugesinfo.trace.log_request_context' => 'log_request_context', // Saisie commentaires
-      'refugesinfo.trace.stats' => 'trace_stats', // Symbole dans le bandeau
+      'refugesinfo.trace.stats' => 'trace_stats', // Pour les lignes du bandeau
 
       // Display traces
       'core.mcp_post_additional_options' => 'display_traces', // mcp_post.php 125
@@ -119,14 +124,16 @@ class listener implements EventSubscriberInterface
   // Hook pour renseigner le bandeau
   public function trace_stats($event)
   {
-    global $pdo;
+    global $pdo, $config_wri;
 
     $sql = 'SELECT COUNT(trace_id)'.
-      $this->tables.
+      ' FROM '.$this->tables[0].
       ' WHERE uri LIKE \'%edit%\''.
         ' AND ext_error IS NULL'.
-        ' AND checked = 0'.
-        ' AND group_id NOT IN (201, 202)';
+        ' AND checked = 0';
+
+    if(isset($config_wri['trace_no_edit_check_groups']))
+      $sql .= ' AND group_id NOT IN ('.implode(',', $config_wri['trace_no_edit_check_groups']).')';
 
     if($res = $pdo->query($sql))
       $event['posts_edit'] = $res->fetch()->count;
@@ -159,7 +166,7 @@ class listener implements EventSubscriberInterface
         'appel' => strpos($eventName, 'register') !== false
           ? 'register'
           : ($event['mode'] ?? '') .str_replace(['core.', 'refugesinfo.'], ' ', $eventName),
-        'ext_error' => !empty ($event['error']) ? json_encode($event['error']) : '',
+        'ext_error' => !empty($event['error']) ? json_encode($event['error']) : '',
 
         // Server
         'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
@@ -229,7 +236,8 @@ class listener implements EventSubscriberInterface
           '',
         'ip_enregistrement' => $user_data['user_ip'] ?? '',
         'host_enregistrement' => gethostbyaddr($user_data['user_ip'] ?? $user_data['session_ip'] ?? ''),
-      ]);
+      ],
+      $eventName);
     }
   }
 
@@ -258,13 +266,13 @@ class listener implements EventSubscriberInterface
       ]);
 
     // Affichage d'entête de la table
-    $this->affiche_une_ligne (['Trace', 'Statut', 'Utilisateur', 'Machine', 'ASN (FAI)', 'IP', 'Contenu']);
+    $this->affiche_une_ligne(['Trace', 'Statut', 'Utilisateur', 'Machine', 'ASN (FAI)', 'IP', 'Contenu']);
 
     $where = $this->where($_GET);
 
     // Nombre de traces répondant aux critères
     $sql_count = 'SELECT COUNT(trace_id)'.
-      $this->tables.
+      ' FROM '.$this->tables[0].
       $this->where($_GET);
     $result = $db->sql_query($sql_count);
     $row_count = $db->sql_fetchrow($result);
@@ -272,16 +280,16 @@ class listener implements EventSubscriberInterface
 
     // Liste des traces affichables
     $sql = 'SELECT *'.
-      $this->tables.
+      ' FROM '.implode(' LEFT JOIN ', $this->tables).
       $this->where($_GET).
       ' ORDER BY trace_id DESC'.
-      ' LIMIT '.($_GET['limit'] ?? $this->limit_default).
-      (!empty ($_GET['offset']) ? ' OFFSET '.$_GET['offset'] : '');
+      ' LIMIT '.$this->limit.
+      (!empty($_GET['offset']) ? ' OFFSET '.$_GET['offset'] : '');
     $result = $db->sql_query($sql);
 
     $compteur_traces = 0;
     while($row = $db->sql_fetchrow($result))
-      $compteur_traces = $this->affiche_une_trace (array_map ('trim', $row), $compteur_traces);
+      $compteur_traces = $this->affiche_une_trace(array_map('trim', $row), $compteur_traces);
     $db->sql_freeresult($result);
 
     // S'il n'y a pas de trace dans la table, simplement décode l'IP utilisée.
@@ -291,13 +299,14 @@ class listener implements EventSubscriberInterface
       '';
 
     if(!$compteur_traces && $event_ip) {
-      $compteur_traces = $this->affiche_une_trace ([
+      $compteur_traces = $this->affiche_une_trace([
         'ip' => $event_ip,
       ]);
     }
 
     $template->assign_vars([
       'WHERE_SQL' => $where,
+      'LIMIT' => $this->limit,
       'REQUETE_SQL' => $sql,
       'NOMBRE_LIGNES' => $compteur_traces,
       'NOMBRE_TRACES' => $row_count['count'] ?? 0,
@@ -312,14 +321,14 @@ class listener implements EventSubscriberInterface
     global $db, $template;
 
     // Update d'une trace existante quand un nouveau post est créé, pour ajouter le n° de post
-    $row = $this->save_full_row ($row);
+    //TODO ???? $row = $this->save_full_row($row);
 
     foreach($row as $name => $value)
       if(intval($value) > 1000000000)
         $row[$name] = date('r', intval($value));
 
     // Supression des infos non souhaitées dans le dump
-    $row = array_filter (array_merge ($row, [
+    $row = array_filter(array_merge($row, [
       'user_permissions' => null,
       'user_password' => null,
       'user_form_salt' => null,
@@ -347,53 +356,53 @@ class listener implements EventSubscriberInterface
     ];
     $appel = str_replace(array_keys($traduction_appel), $traduction_appel, $row['appel'] ?? '');
 
-    if(!empty ($row['ext_error']))
+    if(!empty($row['ext_error']))
       $colonne_statut[] = 'REJET '.$appel;
-    elseif(!empty ($row['uri'])) {
+    elseif(!empty($row['uri'])) {
       //BEST lien vers un post mis en approbation
-      if(strpos ($row['uri'] ?? '', 'point_modification') !== false) {
-        if(!empty ($row['id_point']))
+      if(strpos($row['uri'] ?? '', 'point_modification') !== false) {
+        if(!empty($row['id_point']))
           $colonne_statut[] = 'Création d\'un <a '.
             'href="'.$this->forum_root.'../point/'.$row['id_point'].'"'.
           '>point</a>';
-        elseif(!empty ($row['post_id']))
+        elseif(!empty($row['post_id']))
           $colonne_statut[] = 'Création d\'un point et de son <a '.
             'href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'"'.
           '>forum</a>';
         else
           $colonne_statut[] = 'Erreur de modification point sans id_point ni post_id';
       }
-      elseif(strpos ($row['uri'] ?? '', 'ajout_commentaire') !== false) {
-        if(!empty ($row['id_point']))
+      elseif(strpos($row['uri'] ?? '', 'ajout_commentaire') !== false) {
+        if(!empty($row['id_point']))
           $colonne_statut[] = 'Création d\'un <a '.
             'href="'.$this->forum_root.'../point/'.$row['id_point'].'#C'.($row['id_commentaire'] ?? 0).'"'.
           '>commentaire</a>';
         else
           $colonne_statut[] = 'Erreur de ajout commentaire sans id_point';
       }
-      elseif(strpos ($row['uri'] ?? '', 'mode=register') !== false) {
-        if(!empty ($row['user_id']) && ($row['user_id'] ?? 1) > 1)
+      elseif(strpos($row['uri'] ?? '', 'mode=register') !== false) {
+        if(!empty($row['user_id']) && ($row['user_id'] ?? 1) > 1)
           $colonne_statut[] = 'Création du compte <a '.
             'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'"'.
           '>'.($row['user_name'] ?? 'NONAME').'</a>';
         else
           $colonne_statut[] = 'Autre erreur de création du compte';
       }
-      elseif(strpos ($row['uri'] ?? '', 'mode=post') !== false ||
-        strpos ($row['uri'] ?? '', 'contactadmin') !== false) {
-        if(!empty ($row['post_id']))
+      elseif(strpos($row['uri'] ?? '', 'mode=post') !== false ||
+        strpos($row['uri'] ?? '', 'contactadmin') !== false) {
+        if(!empty($row['post_id']))
           $colonne_statut[] = 'Création d\'un <a '.
             'href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'"'.
           '>sujet</a>';
-        elseif(!empty ($row['topic_id']))
+        elseif(!empty($row['topic_id']))
           $colonne_statut[] = 'Création d\'un <a '.
             'href="'.$this->forum_root.'viewtopic.php?t='.$row['topic_id'].'"'.
           '>sujet</a>';
         else
           $colonne_statut[] = 'Erreur de création d\'un post sans topic_id ni post_id';
       }
-      elseif(strpos ($row['uri'] ?? '', 'posting.php') !== false) { // reply, quote, edit
-        if(!empty ($row['post_id']))
+      elseif(strpos($row['uri'] ?? '', 'posting.php') !== false) { // reply, quote, edit
+        if(!empty($row['post_id']))
           $colonne_statut[] = str_replace(
             'post',
             '<a href="'.$this->forum_root.'viewtopic.php?'.
@@ -495,7 +504,7 @@ class listener implements EventSubscriberInterface
     ]);
 
     // Affiche le résultat complet sur la fiche d'une trace
-    if(isset ($_GET['trace_id']))
+    if(isset($_GET['trace_id']))
       foreach($row as $name => $value)
         $template->assign_block_vars('full_trace', [
           'NAME' => $name,
@@ -510,9 +519,9 @@ class listener implements EventSubscriberInterface
     global $template;
 
     $template->assign_block_vars('output_requetes_raw', []);
-    foreach (array_filter($values) as $v)
+    foreach(array_filter($values) as $v)
       $template->assign_block_vars('output_requetes_raw.output_requetes_col', [
-        'VALUE' => getType($v) === 'array' ? implode ('<br/>', array_filter($v)) : $v,
+        'VALUE' => getType($v) === 'array' ? implode('<br/>', array_filter($v)) : $v,
       ]);
   }
 
@@ -525,12 +534,13 @@ class listener implements EventSubscriberInterface
       $cond['user_id'] = $cond['u'];
       $cond['uri'] = 'register';
     }
+    //TODO anonymous SQL jointures point / commentaire /Auteur (nom si non conecté) ??? + pour forum ? / nom point / texte commentaire
 
     $conditions = [];
 
     foreach($this->argument_names as $name => $type)
-      if(isset ($cond[$name]))
-        foreach (explode(',', $cond[$name]) as $k => $v) {
+      if(isset($cond[$name]))
+        foreach(explode(',', $cond[$name]) as $k => $v) {
           $vs = array_reverse(explode('!', $v ?? '')); // Separate the ! at the beginning
           $requ = isset($vs[1]) ? ' != ' : ' = ';
           $rnot = isset($vs[1]) ? ' NOT' : '';
@@ -546,33 +556,31 @@ class listener implements EventSubscriberInterface
     return $conditions ? ' WHERE '.implode(' AND ', $conditions) : '';
   }
 
-  private function save_full_row($row)
+  //TODO principe pas bon de le faire pour toutes les entrées en lecture / seulement en retour de création de fiche
+  //TODO marquer checked quand c'est édité par un modo
+  private function save_full_row($row, $eventName)
   {
     global $db, $config_wri;
 
-    // Exclusion de certains ASN
-    if(in_array($row['asn_id'] ?? 0, $config_wri['block_trace_asn'] ?? []))
-      return $row;
-
     // Purge empty values
-    $row = array_filter($row);
+    //TODO ??? $row = array_filter($row);
 
-    if(!empty ($row['ip'])) {
-      if(empty ($row['host']))
+    if(!empty($row['ip'])) {
+      if(empty($row['host']))
         $row['host'] = gethostbyaddr($row['ip']);
 
-      if(empty ($row['asn_id']) || empty ($row['asn_name']) &&
+      if(empty($row['asn_id']) || empty($row['asn_name']) &&
         is_file(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb')) {
-          if(!isset ($this->reader_asn))
+          if(!isset($this->reader_asn))
             $this->reader_asn = new Reader(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb');
-          $geodata_asn = $this->reader_asn->asn ($row['ip'] ?? '');
+          $geodata_asn = $this->reader_asn->asn($row['ip'] ?? '');
           $row['asn_id'] = 'AS'.$geodata_asn->autonomousSystemNumber;
           $row['asn_name'] = $geodata_asn->autonomousSystemOrganization;
         }
 
-      if(empty ($row['country_name']) || empty ($row['city']) &&
+      if(empty($row['country_name']) || empty($row['city']) &&
         is_file(__DIR__.'/../geoip2/GeoLite2-City.mmdb')) {
-          if(!isset ($this->reader_city))
+          if(!isset($this->reader_city))
             $this->reader_city = new Reader(__DIR__.'/../geoip2/GeoLite2-City.mmdb');
           $geodata_city = $this->reader_city->city($row['ip'] ?? '');
           $row['country_name'] = $geodata_city->country->name;
@@ -580,12 +588,16 @@ class listener implements EventSubscriberInterface
         }
     }
 
+    // Exclusion de certains ASN
+    if(in_array($row['asn_id'] ?? 0, $config_wri['trace_block_asn'] ?? []))
+      return $row;
+
     // Force NULL if no error to enable request by "IS NULL"
     if(empty($row['ext_error'])) $row['ext_error'] = null;
     if(empty($row['checked'])) $row['checked'] = 0;
 
     // Update d'une trace existante (quand un nouveau post est créé, pour ajouter le n° de post
-    if(!empty ($row['trace_id'])) {
+    if(!empty($row['trace_id'])) {
       // On récupère la trace existante
       $sql_row = [];
       $sql = 'SELECT *'.
@@ -597,7 +609,7 @@ class listener implements EventSubscriberInterface
       $db->sql_freeresult($result);
 
       // Récupération du n° de point qu'on n'avait pas lors de la création du forum associé
-      if(!empty ($sql_row['wri_id_point']))
+      if(!empty($sql_row['wri_id_point']))
         $row['id_point'] = $sql_row['wri_id_point'];
 
       $delta_row = array_filter(
@@ -607,8 +619,8 @@ class listener implements EventSubscriberInterface
             // Seulement les colonnes sql
             in_array($k, $this->argument_names) &&
             // On ne garde que les valeurs qui ont changé
-            (!empty ($v) || !empty ($sql_row[$k])) &&
-            $v !== trim ($sql_row[$k]);
+            (!empty($v) || !empty($sql_row[$k])) &&
+            $v !== trim($sql_row[$k]);
         },
         ARRAY_FILTER_USE_BOTH
       );
@@ -621,7 +633,7 @@ class listener implements EventSubscriberInterface
       }
     }
     // Nouvelle trace
-    elseif(!empty ($row['uri'])) { // Pas pour les vieux posts ou users qui n'ont pas de trace
+    elseif(!empty($row['uri'])) { // Pas pour les vieux posts ou users qui n'ont pas de trace
       $sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $row);
       $db->sql_query($sql);
     }
