@@ -36,7 +36,7 @@ if (est_moderateur())
   $vars = [
     'posts_edit',
   ];
-  extract($phpbb_dispatcher->trigger_event('refugesinfo.trace.stats', compact($vars)));
+  extract($phpbb_dispatcher->trigger_event('refugesinfo.trace.status', compact($vars)));
   $vue->posts_edit = $posts_edit;
 }
 
