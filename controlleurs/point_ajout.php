@@ -21,4 +21,4 @@ $vars = [
   'user_row',
   'data',
 ];
-extract($phpbb_dispatcher->trigger_event('refugesinfo.trace.log_request_context', compact($vars)));
+extract($phpbb_dispatcher->trigger_event('refugesinfo.ajout_point', compact($vars)));

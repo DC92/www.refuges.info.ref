@@ -7,7 +7,7 @@ document.getElementsByName('contact_subject').forEach(el => {
 });
 
 // Populate browser_operator check field
-document.getElementsByName('browser_operator').forEach(el => {
+document.getElementsByName('mrk_browser_operator').forEach(el => {
 	el.value = 'machine avec javascript mais sans interaction';
 
 	window.addEventListener('mousemove', () => {
@@ -19,9 +19,9 @@ document.getElementsByName('browser_operator').forEach(el => {
 
 	el.insertAdjacentHTML(
 		'afterend',
-		'<input type="hidden" name="browser_referer" value="' + document.referrer + '" />' +
-		'<input type="hidden" name="browser_locale" value="' + infos.locale + '" />' +
-		'<input type="hidden" name="browser_timezone" value="' + infos.timeZone + '" />'
+		'<input type="hidden" name="mrk_browser_referer" value="' + document.referrer + '" />' +
+		'<input type="hidden" name="mrk_browser_locale" value="' + infos.locale + '" />' +
+		'<input type="hidden" name="mrk_browser_timezone" value="' + infos.timeZone + '" />'
 	);
 });
 

@@ -99,7 +99,7 @@ if (empty($point->erreur))
         'user_row',
         'data',
       ];
-      extract($phpbb_dispatcher->trigger_event('refugesinfo.trace.log_request_context', compact($vars)));
+      extract($phpbb_dispatcher->trigger_event('refugesinfo.ajout_commentaire', compact($vars)));
 
       // ça semble avoir marché, on vide juste son texte qu'il puisse ressaisir un commentaire
       if (empty($vue->messages->erreur))

@@ -37,7 +37,7 @@ use GeoIp2\Database\Reader;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener implements EventSubscriberInterface
 {
-  protected $forum_root, $u_action, $tables, $limit, $argument_names, $reader_asn, $reader_city;
+  protected $forum_root, $u_action, $tables, $limit, $argument_names;
 
   public function __construct()
   {
@@ -88,10 +88,11 @@ class listener implements EventSubscriberInterface
       'refugesinfo.trace.log_request_context' => 'log_request_context', // Saisie points & commentaires
 
       // Display traces
-      'refugesinfo.trace.status' => 'traces_status', // Pour les lignes du menu du bandeau bandeau
+      'refugesinfo.trace_status' => 'traces_status', // Pour les lignes du menu du bandeau bandeau
+      'refugesinfo.ajout_point' => 'display_traces',
+      'refugesinfo.ajout_commentaire' => 'display_traces',
       'core.mcp_post_additional_options' => 'display_traces', // mcp_post.php 125
       'core.memberlist_view_profile' => 'display_traces', // memberlist.php 757
-      'refugesinfo.trace.display_traces' => 'display_traces',
     ];
   }
 
@@ -101,46 +102,51 @@ class listener implements EventSubscriberInterface
   public function log_request_context($event, $eventName)
   {
     global $db, $config_wri, $user, $auth;
-
-    $error = $event['error'] ?? []; // Pour ajout venant de l'extension
+//*DCMM*/var_dump($event);
 
     if(!count($_POST) || // Only when a form is completed
       isset($_POST['preview'])) // Post preview is not traced
       return;
 
     $data = array_merge(
-      array_filter($_POST ?? []),
+      array_filter((array) $event),
       array_filter($event['point'] ?? []),
       array_filter($event['commentaire'] ?? []),
       array_filter($event['user_row'] ?? []),
       array_filter($event['data'] ?? []),
+      array_filter($event['post_data'] ?? []),
       array_filter($user->data ?? []), // mode, subject, username, topic_type, url
+      array_filter($_POST ?? []),
     );
 
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $reader_asn = new Reader(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb');
+    $geodata_asn = $reader_asn->asn($ip);
+    $reader_city = new Reader(__DIR__.'/../geoip2/GeoLite2-City.mmdb');
+    $geodata_city = $reader_city->city($ip);
+
     // Log le contexte d'une création de user rejetée (Except when load the registration page)
+    $error = $event['error'] ?? []; // Pour ajout venant de l'extension
     if(isset($_POST['new_password']))
       $error[] = 'Création d\'un compte rejetée sans erreur documentée';
 
     // Soumission de post mis en approbation par CleanTalk, qui l'enregistre quand même
-    if(isset($data['post_visibility']) &&
-      $data['post_visibility'] === ITEM_UNAPPROVED)
+    if($data['post_visibility']??null === ITEM_UNAPPROVED)
       $error[] = 'Post mis en approbation par CleanTalk';
+    $event['error'] = $error;
 
     $trace_data = [
-      // General
       // 'trace_id' => autoincrement,
-      'ext_error' => count($error) ? json_encode(error) : '',
+      'ext_error' => count($error) ? json_encode(error) : null,
       'date' => date('c'),
-      'checked' => $auth->acl_get('m_'), // Quand le post est édité par un modo
-      'appel' => strpos($eventName, 'register') !== false
-        ? 'register'
-        : ($data['mode'] ?? '') .str_replace(['core.', 'refugesinfo.'], ' ', $eventName),
+      'checked' => $auth->acl_get('m_') ? true : null, // Quand le post est édité par un modo
+      'appel' => str_replace(['core.', 'refugesinfo.'], '', $eventName),
 
       // Post & Point
-      'topic_id' => $data['topic_id']??'',
-      'post_id' => $data['post_id']??'',
-      'id_point' => $data['id_point']??'',
-      'id_commentaire' => $data['id_commentaire']??'',
+      'topic_id' => $data['topic_id'] ?? '',
+      'post_id' => $data['post_id']  ?? $event['topic_cur_post_id'] ?? '', //TODO BUG
+      'id_point' => $data['id_point']  ?? '',
+      'id_commentaire' => $data['id_commentaire']  ?? '',
       'title' => $data['subject'] ?? $data['topic_title'] ?? $data['nom']->nom ?? '',
       'text' => mb_substr(
         $data['message'] ?? $data['texte'] ?? '',
@@ -152,18 +158,18 @@ class listener implements EventSubscriberInterface
       'uri' => isset($_SERVER['HTTP_HOST']) ?
         (
           ($_SERVER['REQUEST_SCHEME']??'').'://'.
-          ($_SERVER['HTTP_HOST']??'').
-          ($_SERVER['REQUEST_URI']??'')
+          ($_SERVER['HTTP_HOST']  ?? '').
+          ($_SERVER['REQUEST_URI']  ?? '')
         ) : '',
-      'referer' => $_SERVER['HTTP_REFERER']??'',
+      'referer' => $_SERVER['HTTP_REFERER']  ?? '',
 
       // Navigateur
-      'user_agent' => $_SERVER['HTTP_USER_AGENT']??'',
-      'language' => $_SERVER['HTTP_ACCEPT_LANGUAGE']??'',
-      'browser_locale' => $_POST['mrk_browser_locale']??'',
-      'browser_timezone' => $_POST['mrk_browser_timezone']??'',
-      'browser_operator' => $_POST['mrk_browser_operator']??'',
-      'browser_referer' => $_POST['mrk_browser_referer']??'',
+      'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+      'language' => $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '',
+      'browser_locale' => $data['mrk_browser_locale'] ?? '',
+      'browser_timezone' => $data['mrk_browser_timezone'] ?? '',
+      'browser_operator' => $data['mrk_browser_operator'] ?? '',
+      'browser_referer' => $data['mrk_browser_referer'] ?? '',
 
       // Infos enregistrées à la création du user
       // Sont gardées dans la table au cas où on supprimerait le user
@@ -179,51 +185,25 @@ class listener implements EventSubscriberInterface
       'creator_id' => $data['poster_id'] ?? 0,
 
       // ASN / FAI
-      'ip' => $data['ip'] ?? $_SERVER['REMOTE_ADDR'] ?? '',
+      'ip' => $ip,
+      'host' => gethostbyaddr($ip),
+      'asn_id' => 'AS'.$geodata_asn->autonomousSystemNumber,
+      'asn_name' => $geodata_asn->autonomousSystemOrganization,
+      'country_name' => $geodata_city->country->name,
+      'city' => $geodata_city->city->name,
     ];
 
-
-    //TODO URGENT revoir $trace_data et la mise à jour sur trace existante ???
-    if(!empty($trace_data['ip'])) {
-      if(empty($trace_data['host']))
-        $trace_data['host'] = gethostbyaddr($trace_data['ip']);
-
-      if(empty($trace_data['asn_id']) || empty($trace_data['asn_name']) &&
-        is_file(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb')) {
-          if(!isset($this->reader_asn))
-            $this->reader_asn = new Reader(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb');
-          $geodata_asn = $this->reader_asn->asn($trace_data['ip'] ?? '');
-          $trace_data['asn_id'] = 'AS'.$geodata_asn->autonomousSystemNumber;
-          $trace_data['asn_name'] = $geodata_asn->autonomousSystemOrganization;
-        }
-
-       if(empty($trace_data['country_name']) || empty($trace_data['city']) &&
-        is_file(__DIR__.'/../geoip2/GeoLite2-City.mmdb')) {
-          if(!isset($this->reader_city))
-            $this->reader_city = new Reader(__DIR__.'/../geoip2/GeoLite2-City.mmdb');
-          $geodata_city = $this->reader_city->city($trace_data['ip'] ?? '');
-          $trace_data['country_name'] = $geodata_city->country->name;
-          $trace_data['city'] = $geodata_city->city->name;
-        }
-
-      // Exclusion de certains ASN
-      if(in_array($trace_data['asn_id'] ?? 0, $config_wri['trace_block_asn'] ?? []))
-        return;
-    }
-
+    // Exclusion de certains ASN
+    if(in_array($trace_data['asn_id'] ?? 0, $config_wri['trace_block_asn'] ?? []))
+      return;
 
 /*DCMM*/var_dump($trace_data);
 /*DCMM*/var_dump($data);
 exit;
 
-    // Force NULL if no error to enable request by "IS NULL"
-    if(empty($row['ext_error'])) $row['ext_error'] = null;
-
     // Enregistrement de la trace
     $sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $row);
     $db->sql_query($sql);
-
-    $event['error'] = $error;
   }
 
   /*
@@ -340,15 +320,15 @@ exit;
     $colonne_statut = [];
 
     $traduction_appel = [
-      ' SPE' => 'SPE ???',
-      ' submit_post_end' => '',
-      ' point_ajout_commentaire' => '',
-      ' trace.log_request_context ' => '',
-      ' ucp_register_register_after' => '',
-      ' posting_modify_submit_post_before' => '',
-      ' ucp_register_modify_template_data' => '',
-      ' posting_modify_template_vars' => '',
-      'register' => 'Création d\'un user',
+      ' SPE' => 'SPE ???', //TODO ???
+      'submit_post_end' => '',
+      'point_ajout_commentaire' => '', //TODO
+      'log_request_context ' => '', //TODO
+      'ucp_register_register_after' => '',
+      'posting_modify_submit_post_before' => '',
+      'ucp_register_modify_template_data' => '',
+      'posting_modify_template_vars' => '',
+      'register' => 'Création d\'un user', //TODO
       'post' => 'Création d\'un sujet',
       'reply' => 'Réponse à un post',
       'quote' => 'Quote d\'un post',

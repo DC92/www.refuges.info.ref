@@ -31,12 +31,12 @@ if (est_moderateur())
     $vue->email_en_erreur=count($res->fetchAll())!==0;
 
   // Affiche un symbole en haut à coté du lien des édition de posts par utilisateur
-  // Hook ext/RefugesInfo/trace/listener.php stats
+  // Hook ext/RefugesInfo/trace/listener.php
   $posts_edit = null;
   $vars = [
     'posts_edit',
   ];
-  extract($phpbb_dispatcher->trigger_event('refugesinfo.trace.status', compact($vars)));
+  extract($phpbb_dispatcher->trigger_event('refugesinfo.trace_status', compact($vars)));
   $vue->posts_edit = $posts_edit;
 }
 
