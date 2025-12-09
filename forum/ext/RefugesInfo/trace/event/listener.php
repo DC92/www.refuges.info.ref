@@ -102,12 +102,21 @@ class listener implements EventSubscriberInterface
   public function log_request_context($event, $eventName)
   {
     global $db, $config_wri, $user, $auth;
-//*DCMM*/var_dump($event);
 
-    if(!count($_POST) || // Only when a form is completed
-      isset($_POST['preview'])) // Post preview is not traced
+    if(!count($_POST) || // Not the first page display
+      isset($_POST['preview'])) return; // Post preview is not traced
+
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $reader_asn = new Reader(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb');
+    $geodata_asn = $reader_asn->asn($ip);
+    $reader_city = new Reader(__DIR__.'/../geoip2/GeoLite2-City.mmdb');
+    $geodata_city = $reader_city->city($ip);
+
+    // Exclusion de certains ASN
+    if(in_array($trace_data['asn_id'] ?? 0, $config_wri['trace_block_asn'] ?? []))
       return;
 
+    // Cherche les infos à logguer
     $data = array_merge(
       array_filter((array) $event),
       array_filter($event['point'] ?? []),
@@ -118,12 +127,6 @@ class listener implements EventSubscriberInterface
       array_filter($user->data ?? []), // mode, subject, username, topic_type, url
       array_filter($_POST ?? []),
     );
-
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $reader_asn = new Reader(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb');
-    $geodata_asn = $reader_asn->asn($ip);
-    $reader_city = new Reader(__DIR__.'/../geoip2/GeoLite2-City.mmdb');
-    $geodata_city = $reader_city->city($ip);
 
     // Log le contexte d'une création de user rejetée (Except when load the registration page)
     $error = $event['error'] ?? []; // Pour ajout venant de l'extension
@@ -137,16 +140,16 @@ class listener implements EventSubscriberInterface
 
     $trace_data = [
       // 'trace_id' => autoincrement,
-      'ext_error' => count($error) ? json_encode(error) : null,
-      'date' => date('c'),
-      'checked' => $auth->acl_get('m_') ? true : null, // Quand le post est édité par un modo
+      'ext_error' => count($error) ? json_encode($error) : null,
+      'date' => date('r'),
+      'checked' => $auth->acl_get('m_'), // Quand le post est édité par un modo
       'appel' => str_replace(['core.', 'refugesinfo.'], '', $eventName),
 
       // Post & Point
-      'topic_id' => $data['topic_id'] ?? '',
-      'post_id' => $data['post_id']  ?? $event['topic_cur_post_id'] ?? '', //TODO BUG
-      'id_point' => $data['id_point']  ?? '',
-      'id_commentaire' => $data['id_commentaire']  ?? '',
+      'topic_id' => intval($data['topic_id'] ?? 0),
+      'post_id' => intval($data['post_id'] ?? $event['topic_cur_post_id'] ?? 0),
+      'id_point' => intval($data['id_point'] ?? 0),
+      'id_commentaire' => intval($data['id_commentaire'] ?? 0),
       'title' => $data['subject'] ?? $data['topic_title'] ?? $data['nom']->nom ?? '',
       'text' => mb_substr(
         $data['message'] ?? $data['texte'] ?? '',
@@ -158,10 +161,10 @@ class listener implements EventSubscriberInterface
       'uri' => isset($_SERVER['HTTP_HOST']) ?
         (
           ($_SERVER['REQUEST_SCHEME']??'').'://'.
-          ($_SERVER['HTTP_HOST']  ?? '').
-          ($_SERVER['REQUEST_URI']  ?? '')
+          ($_SERVER['HTTP_HOST'] ?? '').
+          ($_SERVER['REQUEST_URI'] ?? '')
         ) : '',
-      'referer' => $_SERVER['HTTP_REFERER']  ?? '',
+      'referer' => $_SERVER['HTTP_REFERER'] ?? '',
 
       // Navigateur
       'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
@@ -173,7 +176,7 @@ class listener implements EventSubscriberInterface
 
       // Infos enregistrées à la création du user
       // Sont gardées dans la table au cas où on supprimerait le user
-      'user_id' => $data['user_id'] ?? 0,
+      'user_id' => intval($data['user_id'] ?? 0),
       'user_name' => $data['username'] ?? $data['nom_createur'] ?? '',
       'user_email' => $data['user_email'] ?? $data['email'] ?? '',
       'user_lang' => $data['user_lang'] ?? $data['lang'] ?? '',
@@ -182,7 +185,7 @@ class listener implements EventSubscriberInterface
       'host_enregistrement' => gethostbyaddr($data['user_ip'] ?? $data['session_ip'] ?? $_SERVER['REMOTE_ADDR'] ?? ''),
       'creator_id' => 0, //['UINT', NULL], //TODO
       'creator_name' => ($data['poster_id'] ?? 0) > 1 ? $data['username'] : 'Anonymous', //TODO on nom saisi
-      'creator_id' => $data['poster_id'] ?? 0,
+      'creator_id' => intval($data['poster_id'] ?? 0),
 
       // ASN / FAI
       'ip' => $ip,
@@ -193,16 +196,12 @@ class listener implements EventSubscriberInterface
       'city' => $geodata_city->city->name,
     ];
 
-    // Exclusion de certains ASN
-    if(in_array($trace_data['asn_id'] ?? 0, $config_wri['trace_block_asn'] ?? []))
-      return;
-
-/*DCMM*/var_dump($trace_data);
-/*DCMM*/var_dump($data);
-exit;
-
     // Enregistrement de la trace
-    $sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $row);
+    $sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $trace_data);
+/*DCMM*/echo var_export($sql,true).'<br>';
+//*DCMM*/var_dump($trace_data);
+//*DCMM*/var_dump($data);
+//exit
     $db->sql_query($sql);
   }
 
