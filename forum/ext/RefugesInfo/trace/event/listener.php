@@ -85,14 +85,14 @@ class listener implements EventSubscriberInterface
       'core.posting_modify_template_vars' => 'log_request_context', // posting.php 2089 (post rejeté)
       'core.ucp_register_register_after' => 'log_request_context', // ucp_register.php 562 (user acceptée)
       'core.ucp_register_modify_template_data' => 'log_request_context', // ucp_register.php 682
-      'refugesinfo.trace.log_request_context' => 'log_request_context', // Saisie points & commentaires
+      'refugesinfo.ajout_point' => 'log_request_context',
+      'refugesinfo.ajout_commentaire' => 'log_request_context',
 
       // Display traces
-      'refugesinfo.trace_status' => 'traces_status', // Pour les lignes du menu du bandeau bandeau
-      'refugesinfo.ajout_point' => 'display_traces',
-      'refugesinfo.ajout_commentaire' => 'display_traces',
       'core.mcp_post_additional_options' => 'display_traces', // mcp_post.php 125
       'core.memberlist_view_profile' => 'display_traces', // memberlist.php 757
+      'refugesinfo.trace_status' => 'status', // Pour les lignes du menu du bandeau bandeau
+      'refugesinfo.display_traces' => 'display_traces', // Affichage du MCP traces
     ];
   }
 
@@ -113,8 +113,12 @@ class listener implements EventSubscriberInterface
     $geodata_city = $reader_city->city($ip);
 
     // Exclusion de certains ASN
-    if(in_array($trace_data['asn_id'] ?? 0, $config_wri['trace_block_asn'] ?? []))
+    if(in_array($geodata_asn->autonomousSystemNumber ?? 0, $config_wri['trace_block_asn'] ?? [])) {
+      $error = $event['error'] ?? []; // Pour ajout venant de l'extension
+      $error[] = 'Forbiden origin';
+      $event['error'] = $error;
       return;
+    }
 
     // Cherche les infos à logguer
     $data = array_merge(
@@ -131,7 +135,6 @@ class listener implements EventSubscriberInterface
     // Log le contexte d'une création de user rejetée (Except when load the registration page)
     $error = $event['error'] ?? []; // Pour ajout venant de l'extension
     if(isset($_POST['new_password']))
-      $error[] = 'Création d\'un compte rejetée sans erreur documentée';
 
     // Soumission de post mis en approbation par CleanTalk, qui l'enregistre quand même
     if($data['post_visibility']??null === ITEM_UNAPPROVED)
@@ -209,7 +212,7 @@ class listener implements EventSubscriberInterface
    * Affichage des traces
    */
   // Hook pour renseigner le bandeau
-  public function traces_status($event)
+  public function status($event)
   {
     global $pdo, $config_wri;
 
@@ -275,8 +278,9 @@ class listener implements EventSubscriberInterface
     $db->sql_freeresult($result);
 
     // S'il n'y a pas de trace dans la table, simplement décode l'IP utilisée.
+    //TODO BUG : appelle pour info sur 1 point !
     $event_ip =
-      $event['post_info']['poster_ip'] ??
+      $ip ??
       $event['member']['user_ip'] ??
       '';
 
@@ -408,7 +412,7 @@ class listener implements EventSubscriberInterface
         ),
       );
 
-    $colonne_statut[] = !strncmp($row['appel'], 'edit', 4) && !empty($row['trace_id']) && empty($row['checked']) ?
+    $colonne_statut[] = !strncmp($row['appel']??'', 'edit', 4) && !empty($row['trace_id']) && empty($row['checked']) ?
       '<br/><a class="check-trace" href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&to_check=1">Marquer vérifié</a>' :
       null;
 
@@ -421,7 +425,7 @@ class listener implements EventSubscriberInterface
       $colonne_statut,
       array_merge(
         // Auteur
-        !strncmp($row['appel'], 'edit', 4) && !empty($row['creator_id']) ? [
+        !strncmp($row['appel']??'', 'edit', 4) && !empty($row['creator_id']) ? [
           'Créé par: <a title="Voir son profil"'.
             'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['creator_id'] ?? 0).'">'.
             ($row['creator_name'] ?? '').'</a>',
