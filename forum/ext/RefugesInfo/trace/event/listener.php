@@ -201,7 +201,7 @@ class listener implements EventSubscriberInterface
 
     // Enregistrement de la trace
     $sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $trace_data);
-/*DCMM*/echo var_export($sql,true).'<br>';
+//*DCMM*/echo var_export($sql,true).'<br>';
 //*DCMM*/var_dump($trace_data);
 //*DCMM*/var_dump($data);
 //exit
@@ -264,7 +264,7 @@ class listener implements EventSubscriberInterface
     $db->sql_freeresult($result);
 
     // Liste des traces affichables
-    $sql = 'SELECT *'.
+    $sql = 'SELECT *,trace_requettes.date AS date_trace'.
       ' FROM '.implode(' LEFT JOIN ', $this->tables).
       $this->where($_GET).
       ' ORDER BY trace_id DESC'.
@@ -278,8 +278,7 @@ class listener implements EventSubscriberInterface
     $db->sql_freeresult($result);
 
     // S'il n'y a pas de trace dans la table, simplement décode l'IP utilisée.
-    //TODO BUG : appelle pour info sur 1 point !
-    $event_ip =
+    /*//TODO $event_ip =
       $ip ??
       $event['member']['user_ip'] ??
       '';
@@ -288,7 +287,7 @@ class listener implements EventSubscriberInterface
       $compteur_traces = $this->affiche_une_trace([
         'ip' => $event_ip,
       ]);
-    }
+    }*/
 
     $template->assign_vars([
       'WHERE_SQL' => $where,
@@ -420,7 +419,7 @@ class listener implements EventSubscriberInterface
     $this->affiche_une_ligne([
       isset($row['trace_id']) ? [ // Trace
         'Trace n° <a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'">'.$row['trace_id'].'</a>',
-        $row['date'] ?? '',
+        preg_replace('/\+[0-9]+/i', '', $row['date_trace']),
       ] : [],
       $colonne_statut,
       array_merge(
