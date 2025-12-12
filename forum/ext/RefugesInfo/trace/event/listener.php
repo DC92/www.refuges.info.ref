@@ -104,7 +104,11 @@ class listener implements EventSubscriberInterface
     global $db, $config_wri, $user, $auth;
 
     if(!count($_POST) || // Not the first page display
-      isset($_POST['preview'])) return; // Post preview is not traced
+      isset($_POST['preview']))
+      return; // Post preview is not traced
+
+    if(($_POST['action']??'' === 'Ajouter') && $eventName === 'core.submit_post_end')
+      return; // Sauf création du forum ascocié à un point 
 
     $ip = $_SERVER['REMOTE_ADDR'];
     $reader_asn = new Reader(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb');
@@ -113,7 +117,11 @@ class listener implements EventSubscriberInterface
     $geodata_city = $reader_city->city($ip);
 
     // Exclusion de certains ASN
-    if(in_array($geodata_asn->autonomousSystemNumber ?? 0, $config_wri['trace_block_asn'] ?? [])) {
+    if(isset($geodata_asn->autonomousSystemNumber) &&
+      in_array(
+        $geodata_asn->autonomousSystemNumber,
+        $config_wri['trace_block_asn'] ?? [])
+      ) {
       $error = $event['error'] ?? []; // Pour ajout venant de l'extension
       $error[] = 'Forbiden origin';
       $event['error'] = $error;
@@ -121,7 +129,10 @@ class listener implements EventSubscriberInterface
     }
 
     // Cherche les infos à logguer
-    $data = array_merge(
+    $data = array_merge([
+        'ip' => $ip ?? '0.0.0.0',
+        'uri' => $_SERVER['REQUEST_URI'] ?? '',
+      ],
       array_filter((array) $event),
       array_filter($event['point'] ?? []),
       array_filter($event['commentaire'] ?? []),
@@ -202,7 +213,7 @@ class listener implements EventSubscriberInterface
     // Enregistrement de la trace
     $sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $trace_data);
 //*DCMM*/echo var_export($sql,true).'<br>';
-//*DCMM*/var_dump($trace_data);
+/*DCMM*/var_dump($trace_data);
 //*DCMM*/var_dump($data);
 //exit
     $db->sql_query($sql);

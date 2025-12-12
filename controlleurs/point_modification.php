@@ -57,6 +57,19 @@ switch( $_REQUEST["action"] )
     $retour = modification_ajout_point($point,$infos_identification->user_id);
     gestion_retour($retour,$vue);
     $vue->message="Le point a bien été ajouté";
+
+    // Hook ext/RefugesInfo/trace pour enregistrer la trace
+    $mode = 'Ajout point';
+    $data = [
+      'id_point' => $retour,
+      'title' => $point->nom,
+    ];
+    $vars = [
+      'mode',
+      'data',
+    ];
+    extract($phpbb_dispatcher->trigger_event('refugesinfo.ajout_point', compact($vars)));
+
     break;
 
   case 'Modifier' :
@@ -92,4 +105,3 @@ switch( $_REQUEST["action"] )
       $vue->erreur="Vous n'êtes pas modérateur du site, vous n'avez pas l'autorisation de la supprimer";
     break;
 }
-

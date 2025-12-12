@@ -82,11 +82,8 @@ if (empty($point->erreur))
 
       // Hook ext/RefugesInfo/trace pour enregistrer la trace
       $mode = 'Ajout commentaire';
-      $user_row = [
-        'username' => $commentaire->auteur_commentaire,
-        'user_ip' => $_SERVER['REMOTE_ADDR'] ?? '',
-      ];
       $data = [
+        'username' => $commentaire->auteur_commentaire,
         'id_point' => $commentaire->id_point,
         'id_commentaire' => $commentaire->id_commentaire,
         'title' => $point->nom,
@@ -96,7 +93,6 @@ if (empty($point->erreur))
       ];
       $vars = [
         'mode',
-        'user_row',
         'data',
       ];
       extract($phpbb_dispatcher->trigger_event('refugesinfo.ajout_commentaire', compact($vars)));
