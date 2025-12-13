@@ -3,21 +3,19 @@
 // Attention: Le code suivant s'exécute dans un "namespace" bien défini
 
 /* Tests à faire
-Création user
+Création point
+Création commentaire
 Création topic
 Création post
 Réponse post
 Quote post
-Création point
-Création commentaire
+Edit post
+Création user
 
 Déconnecté refusé
 Déconnecté
 Connecté refusé
 Connecté
-
-Nouveau
-Ancien (avant les traces)
 
 Traces avec tri
 [i] post,
@@ -108,7 +106,7 @@ class listener implements EventSubscriberInterface
       return; // Post preview is not traced
 
     if(($_POST['action']??'' === 'Ajouter') && $eventName === 'core.submit_post_end')
-      return; // Sauf création du forum ascocié à un point 
+      return; // Sauf création du forum ascocié à un point
 
     $ip = $_SERVER['REMOTE_ADDR'];
     $reader_asn = new Reader(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb');
@@ -288,18 +286,6 @@ class listener implements EventSubscriberInterface
       $compteur_traces = $this->affiche_une_trace(array_map('trim', $row), $compteur_traces);
     $db->sql_freeresult($result);
 
-    // S'il n'y a pas de trace dans la table, simplement décode l'IP utilisée.
-    /*//TODO $event_ip =
-      $ip ??
-      $event['member']['user_ip'] ??
-      '';
-
-    if(!$compteur_traces && $event_ip) {
-      $compteur_traces = $this->affiche_une_trace([
-        'ip' => $event_ip,
-      ]);
-    }*/
-
     $template->assign_vars([
       'WHERE_SQL' => $where,
       'LIMIT' => $this->limit,
@@ -329,102 +315,60 @@ class listener implements EventSubscriberInterface
       'user_last_confirm_key ' => null,
     ]));
 
+    $user = empty($row['user_id']) ? 'user' :
+      '<a href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'">user</a>';
+    $post = empty($row['post_id']) ? 'post' : 
+      '<a href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'#'.$row['post_id'].'">post</a>';
+    $point = empty($row['id_point']) ? 'point' :
+      '<a href="/point/'.$row['id_point'].'">point</a>'; //TODO BUG id_point pas enregistré !
+    $commentaire = empty($row['id_commentaire']) ? 'commentaire' :
+      '<a href="/point/'.$row['id_point'].'#C'.$row['id_commentaire'].'">commentaire</a>';
+
+    $traduction_appel = [
+      // SubscribedEvents
+      'submit_post_end' => "création d'un $post",
+      'posting_modify_template_vars' => "edition d'un $post",
+      'ucp_register_register_after' => "création d'un $user",
+      'ucp_register_modify_template_data' => "création d'un $user",
+      'ajout_point' => "création $point",
+      'ajout_commentaire' => "ajout $commentaire",
+
+      // Historique dans la base
+      'ajout commentaire' => "création $commentaire",
+      'ajout commentaire point_ajout_commentaire' => "création $commentaire",
+      'ajout commentaire trace.log_request_context' => "création $commentaire",
+      'création compte' => "création $user",
+      'création compte ucp_register_modify_template_data' => "création $user",
+      'création compte ucp_register_register_after' => "création $user",
+      'création point' => "création $point",
+      'edit' => "edition d'un $post",
+      'edit posting_modify_template_vars' => "edition d'un $post",
+      'edit submit_post_end' => "edition d'un $post",
+      'post' => "création d'un $post",
+      'post posting_modify_template_vars' => "edition d'un $post",
+      'post submit_post_end' => "création d'un $post",
+      'quote' => "quote d'un $post",
+      'quote posting_modify_template_vars' => "quote d'un $post",
+      'quote submit_post_end' => "quote d'un $post",
+      'reply' => "réponse à un $post",
+      'reply posting_modify_template_vars' => "réponse à un $post",
+      'reply submit_post_end' => "réponse à un $post",
+    ];
+
+    $appel = strtolower(trim($row['appel']??''));
+    if (array_key_exists($appel, $traduction_appel))
+      $appel = $traduction_appel[$appel];
+
     // Calcul du statut
     $colonne_statut = [];
 
-    $traduction_appel = [
-      ' SPE' => 'SPE ???', //TODO ???
-      'submit_post_end' => '',
-      'point_ajout_commentaire' => '', //TODO
-      'log_request_context ' => '', //TODO
-      'ucp_register_register_after' => '',
-      'posting_modify_submit_post_before' => '',
-      'ucp_register_modify_template_data' => '',
-      'posting_modify_template_vars' => '',
-      'register' => 'Création d\'un user', //TODO
-      'post' => 'Création d\'un sujet',
-      'reply' => 'Réponse à un post',
-      'quote' => 'Quote d\'un post',
-      'edit' => 'Edition d\'un post',
-    ];
-    $appel = str_replace(array_keys($traduction_appel), $traduction_appel, $row['appel'] ?? '');
-
-    if(!empty($row['ext_error']))
-      $colonne_statut[] = 'REJET '.$appel;
-    elseif(!empty($row['uri'])) {
-  //TODO affichage point
-      //BEST lien vers un post mis en approbation
-      if(strpos($row['uri'] ?? '', 'point_modification') !== false) {
-        if(!empty($row['id_point']))
-          $colonne_statut[] = 'Création d\'un <a '.
-            'href="'.$this->forum_root.'../point/'.$row['id_point'].'"'.
-          '>point</a>';
-        elseif(!empty($row['post_id']))
-          $colonne_statut[] = 'Création d\'un point et de son <a '.
-            'href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'"'.
-          '>forum</a>';
-        else
-          $colonne_statut[] = 'Erreur de modification point sans id_point ni post_id';
-      }
-      elseif(strpos($row['uri'] ?? '', 'ajout_commentaire') !== false) {
-        if(!empty($row['id_point']))
-          $colonne_statut[] = 'Création d\'un <a '.
-            'href="'.$this->forum_root.'../point/'.$row['id_point'].'#C'.($row['id_commentaire'] ?? 0).'"'.
-          '>commentaire</a>';
-        else
-          $colonne_statut[] = 'Erreur de ajout commentaire sans id_point';
-      }
-      elseif(strpos($row['uri'] ?? '', 'mode=register') !== false) {
-        if(!empty($row['user_id']) && ($row['user_id'] ?? 1) > 1)
-          $colonne_statut[] = 'Création du compte <a '.
-            'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'"'.
-          '>'.($row['user_name'] ?? 'NONAME').'</a>';
-        else
-          $colonne_statut[] = 'Autre erreur de création du compte';
-      }
-      elseif(strpos($row['uri'] ?? '', 'mode=post') !== false ||
-        strpos($row['uri'] ?? '', 'contactadmin') !== false) {
-        if(!empty($row['post_id']))
-          $colonne_statut[] = 'Création d\'un <a '.
-            'href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'"'.
-          '>sujet</a>';
-        elseif(!empty($row['topic_id']))
-          $colonne_statut[] = 'Création d\'un <a '.
-            'href="'.$this->forum_root.'viewtopic.php?t='.$row['topic_id'].'"'.
-          '>sujet</a>';
-        else
-          $colonne_statut[] = 'Erreur de création d\'un post sans topic_id ni post_id';
-      }
-      elseif(strpos($row['uri'] ?? '', 'posting.php') !== false) { // reply, quote, edit
-        if(!empty($row['post_id']))
-          $colonne_statut[] = str_replace(
-            'post',
-            '<a href="'.$this->forum_root.'viewtopic.php?'.
-              'p='.$row['post_id'].'#p'.$row['post_id'].'">post'.
-            '</a>',
-            $appel
-          );
-        else
-          $colonne_statut[] = 'Erreur de posting sans post_id';
-      }
-      else
-        $colonne_statut[] = 'Erreur url inconnue';
+    if(empty($row['ext_error']))
+      $colonne_statut[] = ucfirst($appel);
+    else {
+      $colonne_statut[] = ucfirst('REJET '.$appel);
+      $colonne_statut = array_merge($colonne_statut, json_decode($row['ext_error']));
     }
-
-    $colonne_statut[] =
-      str_replace( // Split encoded lines
-        ['","', '["', '"]', 'posting_modify_template_vars : ', 'ucp_register_modify_template_data : '],
-        ['<br/>- ', '- ', '', '', ''],
-        preg_replace( // Décode unicode if such returned by extensions
-          '/\\\\u([a-e0-9]{4})/',
-          '&#x$1;',
-          $row['ext_error'] ?? '',
-        ),
-      );
-
-    $colonne_statut[] = !strncmp($row['appel']??'', 'edit', 4) && !empty($row['trace_id']) && empty($row['checked']) ?
-      '<br/><a class="check-trace" href="'.$this->u_action.'&trace_id='.$row['trace_id'].'&to_check=1">Marquer vérifié</a>' :
-      null;
+    //BEST lien vers un post mis en approbation
 
     // Affiche une ligne du tableau
     $this->affiche_une_ligne([
