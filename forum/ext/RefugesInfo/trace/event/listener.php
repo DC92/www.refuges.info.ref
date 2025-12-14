@@ -1,6 +1,11 @@
 <?php
-// Ce fichier centralise les fonctions PHP liées à tracer l'environnement des posts et enregistrements
-// Attention: Le code suivant s'exécute dans un "namespace" bien défini
+/* Ce fichier centralise les fonctions PHP liées à tracer l'environnement des posts et enregistrements
+ * Attention: Le code suivant s'exécute dans un "namespace" bien défini
+ *
+ * En cas de blocage, supprimer dans la base:
+   phpbb3_modules WHERE module_langname = '%TRACE%'
+   phpbb3_ext WHERE ext_name = '%trace%'
+*/
 
 /* Tests à faire
 Création point
@@ -24,7 +29,6 @@ Traces avec tri
 user
 */
 
-//TODO recréation 2_0_1
 //TODO Relecture code
 //TODO comparaison www
 //TODO espaces en fin de ligne
@@ -387,27 +391,30 @@ class listener implements EventSubscriberInterface
       array_merge(
         // Auteur
         !strncmp($row['appel']??'', 'edit', 4) && !empty($row['creator_id']) ? [
+          ($row['creator_id'] ?? 0) > 1 ?
           'Créé par: <a title="Voir son profil"'.
-            'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['creator_id'] ?? 0).'">'.
-            ($row['creator_name'] ?? '').'</a>',
+            'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['creator_id'].'">'.
+            ($row['creator_name'] ?? 'Unknown').'</a>':
+            'Anonymous',
           'Modifié par:',
         ] : [],
         [ // Utilisateur
+          ($row['user_id'] ?? 0) > 1 ?
           '<a title="Voir son profil"'.
-            'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.($row['user_id'] ?? 0).'">'.
-            ($row['user_name'] ?? '').'</a>',
+            'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'">'.
+            ($row['user_name'] ?? 'Unknown').'</a>':
+            'Anonymous',
           ($row['user_id'] ?? 0) > 1 ?
             '<a title="Voir ses traces"'.
-              'href="'.$this->u_action.'&user_id='.$row['user_id'].'">Contributions</a>' : null,
-          $row['user_email'] ?? '' ?
-            '<a title="Avis Cleantalk"'.
-              'href="https://cleantalk.org/email-checker/'.$row['user_email'].'">'.($row['user_email'] ?? '').'</a>' : null,
-          !empty($row['user_posts']) && ($row['user_id'] ?? 1) > 1 ? 'Posts: '.$row['user_posts'] : null,
+              'href="'.$this->u_action.'&user_id='.$row['user_id'].'">Posts: '.($row['user_posts']??0).'</a>' : null,
           !empty($row['user_lang']) ? 'Langue: '.$row['user_lang'] : null,
           !empty($row['user_timezone']) ? $row['user_timezone'] : null,
           !empty($row['user_login_attempts']) ? 'Tentatives login: '.$row['user_login_attempts'] : null,
           !empty($row['user_inactive_time']) ? 'Temps inactif: '.$row['user_inactive_time'] : null,
           !empty($row['user_inactive_reason']) ? 'Raison inactif: '.$row['user_inactive_reason'] : null,
+          $row['user_email'] ?? '' ?
+            '<a title="Avis Cleantalk"'.
+              'href="https://cleantalk.org/email-checker/'.$row['user_email'].'">'.($row['user_email'] ?? '').'</a>' : null,
         ]
       ),
       [ // Machine
@@ -445,6 +452,9 @@ class listener implements EventSubscriberInterface
       [ // Contenu
         '<b>'.($row['title'] ?? '').'</b>',
         mb_substr($row['text'] ?? '', 0, 240).(strlen($row['text'] ?? '') > 239 ? '...' : ''),
+        $row['proprio'] ?? '',
+        $row['acces'] ?? '',
+        $row['remark'] ?? '',
       ],
     ]);
 
