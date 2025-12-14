@@ -1,7 +1,7 @@
 <?php
 namespace RefugesInfo\trace\migrations;
 
-class release_1_0_1 extends \phpbb\db\migration\migration
+class release_2_0_1 extends \phpbb\db\migration\migration
 {
   // Desactivate & supress ext data,  clean phpbb3_ext & phpbb3_modules
   public function update_schema()

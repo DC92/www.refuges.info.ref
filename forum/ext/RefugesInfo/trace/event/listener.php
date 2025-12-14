@@ -24,8 +24,12 @@ Traces avec tri
 user
 */
 
+//TODO recréation 2_0_1
 //TODO Relecture code
+//TODO comparaison www
+//TODO espaces en fin de ligne
 //TODO fichiers de la base geo
+//BEST statistique sur les posts/comptes supprimés
 
 namespace RefugesInfo\trace\event;
 
@@ -83,7 +87,7 @@ class listener implements EventSubscriberInterface
       'core.posting_modify_template_vars' => 'log_request_context', // posting.php 2089 (post rejeté)
       'core.ucp_register_register_after' => 'log_request_context', // ucp_register.php 562 (user acceptée)
       'core.ucp_register_modify_template_data' => 'log_request_context', // ucp_register.php 682
-      'refugesinfo.ajout_point' => 'log_request_context',
+      'refugesinfo.ajout_point' => 'ajout_point',
       'refugesinfo.ajout_commentaire' => 'log_request_context',
 
       // Display traces
@@ -95,8 +99,6 @@ class listener implements EventSubscriberInterface
   }
 
   // Log le contexte d'une soumission
-  //TODO log d'une création de point
-  //TODO affichage point
   public function log_request_context($event, $eventName)
   {
     global $db, $config_wri, $user, $auth;
@@ -104,9 +106,6 @@ class listener implements EventSubscriberInterface
     if(!count($_POST) || // Not the first page display
       isset($_POST['preview']))
       return; // Post preview is not traced
-
-    if(($_POST['action']??'' === 'Ajouter') && $eventName === 'core.submit_post_end')
-      return; // Sauf création du forum ascocié à un point
 
     $ip = $_SERVER['REMOTE_ADDR'];
     $reader_asn = new Reader(__DIR__.'/../geoip2/GeoLite2-ASN.mmdb');
@@ -210,10 +209,18 @@ class listener implements EventSubscriberInterface
 
     // Enregistrement de la trace
     $sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $trace_data);
-//*DCMM*/echo var_export($sql,true).'<br>';
 /*DCMM*/var_dump($trace_data);
-//*DCMM*/var_dump($data);
-//exit
+    $db->sql_query($sql);
+  }
+
+  // Metre à jour la trace du forum avec id_point
+  public function ajout_point($event)
+  {
+    global $db;
+
+    $sql = 'UPDATE trace_requettes'.
+      ' SET id_point = '.$event['data']['id_point'].
+      ' WHERE topic_id = '.$event['data']['topic_id'];
     $db->sql_query($sql);
   }
 
@@ -225,6 +232,7 @@ class listener implements EventSubscriberInterface
   {
     global $pdo, $config_wri;
 
+    // Nombre d'éditions de posts non vérifiées
     $sql = 'SELECT COUNT(trace_id)'.
       ' FROM '.$this->tables[0].
       ' WHERE uri LIKE \'%edit%\''.
@@ -238,7 +246,6 @@ class listener implements EventSubscriberInterface
       $event['posts_edit'] = $res->fetch()->count;
   }
 
-  //BEST statistique sur les posts/comptes supprimés
   public function display_traces($event)
   {
     global $db, $template, $auth;
@@ -246,7 +253,7 @@ class listener implements EventSubscriberInterface
     if(!$auth->acl_get('m_')) // Uniquement pour les modérateurs
       return;
 
-    // Marquer la trace checked
+    // Marquer la trace checked sur demande
     if(!empty($_GET['trace_id']) && !empty($_GET['to_check'])) {
       $sql = 'UPDATE trace_requettes SET checked = 1 WHERE trace_id = '.$_GET['trace_id'];
       $db->sql_query($sql);
@@ -273,7 +280,7 @@ class listener implements EventSubscriberInterface
     $db->sql_freeresult($result);
 
     // Liste des traces affichables
-    $sql = 'SELECT *,trace_requettes.date AS date_trace'.
+    $sql = 'SELECT *, trace_requettes.date AS trace_date, trace_requettes.id_point AS trace_id_point'.
       ' FROM '.implode(' LEFT JOIN ', $this->tables).
       $this->where($_GET).
       ' ORDER BY trace_id DESC'.
@@ -319,14 +326,14 @@ class listener implements EventSubscriberInterface
       '<a href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'">user</a>';
     $post = empty($row['post_id']) ? 'post' : 
       '<a href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'#'.$row['post_id'].'">post</a>';
-    $point = empty($row['id_point']) ? 'point' :
-      '<a href="/point/'.$row['id_point'].'">point</a>'; //TODO BUG id_point pas enregistré !
+    $point = empty($row['trace_id_point']) ? 'point' :
+      '<a href="/point/'.$row['trace_id_point'].'">point</a>';
     $commentaire = empty($row['id_commentaire']) ? 'commentaire' :
       '<a href="/point/'.$row['id_point'].'#C'.$row['id_commentaire'].'">commentaire</a>';
 
     $traduction_appel = [
       // SubscribedEvents
-      'submit_post_end' => "création d'un $post",
+      'submit_post_end' => "création d'un ".(empty($row['trace_id_point']) ? $post : $point),
       'posting_modify_template_vars' => "edition d'un $post",
       'ucp_register_register_after' => "création d'un $user",
       'ucp_register_modify_template_data' => "création d'un $user",
@@ -374,7 +381,7 @@ class listener implements EventSubscriberInterface
     $this->affiche_une_ligne([
       isset($row['trace_id']) ? [ // Trace
         'Trace n° <a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'">'.$row['trace_id'].'</a>',
-        preg_replace('/\+[0-9]+/i', '', $row['date_trace']),
+        preg_replace('/\+[0-9]+/i', '', $row['trace_date']),
       ] : [],
       $colonne_statut,
       array_merge(
