@@ -13,7 +13,7 @@ class release_2_0_1 extends \phpbb\db\migration\migration
         'trace_requettes' => [
           'trace_id' => ['UINT', NULL, 'auto_increment'],
           'ext_error' => ['TEXT', NULL],
-          'checked' => ['UINT', NULL],
+          'to_check' => ['UINT', NULL],
 
           'topic_id' => ['UINT', NULL],
           'post_id' => ['UINT', NULL],
@@ -55,7 +55,7 @@ class release_2_0_1 extends \phpbb\db\migration\migration
         'trace_requettes' => [
           'trace_id' => ['trace_id'],
           'ext_error' => ['ext_error'],
-          'checked' => ['checked'],
+          'to_check' => ['to_check'],
 
           'topic_id' => ['topic_id'],
           'post_id' => ['post_id'],

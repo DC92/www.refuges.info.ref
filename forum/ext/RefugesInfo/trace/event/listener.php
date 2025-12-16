@@ -29,11 +29,14 @@ Traces avec tri
 user
 */
 
+//TODO INSTALL : désactiver + supprimer données + activer ext traces
 //TODO Relecture code
 //TODO comparaison www
 //TODO espaces en fin de ligne
 //TODO fichiers de la base geo
 //BEST statistique sur les posts/comptes supprimés
+//TODO on ne voit pas les éditions
+//TODO edit passe en mis en appro par Cleantalk
 
 namespace RefugesInfo\trace\event;
 
@@ -65,7 +68,7 @@ class listener implements EventSubscriberInterface
       'user_id' => 'number',
       'asn_id' => 'text',
       'uri' => 'text', // Pour profile user
-      'checked' => 'number',
+      'to_check' => 'number',
       'topic_id' => 'number',
       'post_id' => 'number',
       'id_point' => 'number',
@@ -106,6 +109,8 @@ class listener implements EventSubscriberInterface
   public function log_request_context($event, $eventName)
   {
     global $db, $config_wri, $user, $auth;
+    
+    $error = $event['error'] ?? [];
 
     if(!count($_POST) || // Not the first page display
       isset($_POST['preview']))
@@ -117,15 +122,17 @@ class listener implements EventSubscriberInterface
     $reader_city = new Reader(__DIR__.'/../geoip2/GeoLite2-City.mmdb');
     $geodata_city = $reader_city->city($ip);
 
+    // Except when load the registration page
+    if($eventName === 'core.ucp_register_modify_template_data' && !$_POST['new_password'])
+      return;
+
     // Exclusion de certains ASN
     if(isset($geodata_asn->autonomousSystemNumber) &&
       in_array(
         $geodata_asn->autonomousSystemNumber,
         $config_wri['trace_block_asn'] ?? [])
       ) {
-      $error = $event['error'] ?? []; // Pour ajout venant de l'extension
       $error[] = 'Forbiden origin';
-      $event['error'] = $error;
       return;
     }
 
@@ -143,22 +150,21 @@ class listener implements EventSubscriberInterface
       array_filter($user->data ?? []), // mode, subject, username, topic_type, url
       array_filter($_POST ?? []),
     );
-
-    // Log le contexte d'une création de user rejetée (Except when load the registration page)
-    $error = $event['error'] ?? []; // Pour ajout venant de l'extension
-    if(isset($_POST['new_password']))
+//*DCMM*/var_dump($eventName);
+//*DCMM*/var_dump($_POST);
+//*DCMM*/var_dump($data);
+//exit;
 
     // Soumission de post mis en approbation par CleanTalk, qui l'enregistre quand même
-    if($data['post_visibility']??null === ITEM_UNAPPROVED)
+    if(isset($data['post_visibility']) && $data['post_visibility'] === ITEM_UNAPPROVED)
       $error[] = 'Post mis en approbation par CleanTalk';
-    $event['error'] = $error;
 
     $trace_data = [
       // 'trace_id' => autoincrement,
       'ext_error' => count($error) ? json_encode($error) : null,
       'date' => date('r'),
-      'checked' => $auth->acl_get('m_'), // Quand le post est édité par un modo
-      'appel' => str_replace(['core.', 'refugesinfo.'], '', $eventName),
+      'to_check' => !$auth->acl_get('m_'), // Quand le post est édité par un non modo
+      'appel' => str_replace(['core.', 'refugesinfo.'], [$event['mode'].' ',''], $eventName),
 
       // Post & Point
       'topic_id' => intval($data['topic_id'] ?? 0),
@@ -198,8 +204,7 @@ class listener implements EventSubscriberInterface
       'user_timezone' => $data['user_timezone'] ?? $data['tz'] ?? '',
       'ip_enregistrement' => $data['user_ip'] ?? '',
       'host_enregistrement' => gethostbyaddr($data['user_ip'] ?? $data['session_ip'] ?? $_SERVER['REMOTE_ADDR'] ?? ''),
-      'creator_id' => 0, //['UINT', NULL], //TODO
-      'creator_name' => ($data['poster_id'] ?? 0) > 1 ? $data['username'] : 'Anonymous', //TODO on nom saisi
+      'creator_name' => ($data['poster_id'] ?? 0) > 1 ? $data['username'] : 'Anonymous',
       'creator_id' => intval($data['poster_id'] ?? 0),
 
       // ASN / FAI
@@ -213,11 +218,13 @@ class listener implements EventSubscriberInterface
 
     // Enregistrement de la trace
     $sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $trace_data);
-/*DCMM*/var_dump($trace_data);
+//*DCMM*/var_dump($trace_data);
     $db->sql_query($sql);
+
+    $event['error'] = $error;
   }
 
-  // Metre à jour la trace du forum avec id_point
+  // Mettre à jour la trace du forum avec id_point
   public function ajout_point($event)
   {
     global $db;
@@ -241,7 +248,7 @@ class listener implements EventSubscriberInterface
       ' FROM '.$this->tables[0].
       ' WHERE uri LIKE \'%edit%\''.
         ' AND ext_error IS NULL'.
-        ' AND checked = 0';
+        ' AND to_check = 1';
 
     if(isset($config_wri['trace_no_edit_check_groups']))
       $sql .= ' AND group_id NOT IN ('.implode(',', $config_wri['trace_no_edit_check_groups']).')';
@@ -257,9 +264,9 @@ class listener implements EventSubscriberInterface
     if(!$auth->acl_get('m_')) // Uniquement pour les modérateurs
       return;
 
-    // Marquer la trace checked sur demande
-    if(!empty($_GET['trace_id']) && !empty($_GET['to_check'])) {
-      $sql = 'UPDATE trace_requettes SET checked = 1 WHERE trace_id = '.$_GET['trace_id'];
+    // Effacer la trace to_check sur demande
+    if(!empty($_GET['trace_id']) && !empty($_GET['check'])) {
+      $sql = 'UPDATE trace_requettes SET to_check = 0 WHERE trace_id = '.$_GET['trace_id'];
       $db->sql_query($sql);
     }
 
@@ -326,19 +333,22 @@ class listener implements EventSubscriberInterface
       'user_last_confirm_key ' => null,
     ]));
 
-    $user = empty($row['user_id']) ? 'user' :
+    $user = $row['user_id']??1 > 1 ? 'user' :
       '<a href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'">user</a>';
     $post = empty($row['post_id']) ? 'post' : 
       '<a href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'#'.$row['post_id'].'">post</a>';
     $point = empty($row['trace_id_point']) ? 'point' :
       '<a href="/point/'.$row['trace_id_point'].'">point</a>';
     $commentaire = empty($row['id_commentaire']) ? 'commentaire' :
-      '<a href="/point/'.$row['id_point'].'#C'.$row['id_commentaire'].'">commentaire</a>';
+      '<a href="/point/'.($row['id_point']??0).'#C'.$row['id_commentaire'].'">commentaire</a>';
 
     $traduction_appel = [
       // SubscribedEvents
-      'submit_post_end' => "création d'un ".(empty($row['trace_id_point']) ? $post : $point),
-      'posting_modify_template_vars' => "edition d'un $post",
+      'post submit_post_end' => "création d'un $post",
+      'reply submit_post_end' => "création à un $post",
+      'quote submit_post_end' => "quote d'un $post",
+      'edit submit_post_end' => "édition d'un $post",
+      'posting_modify_template_vars' => "édition d'un $post",
       'ucp_register_register_after' => "création d'un $user",
       'ucp_register_modify_template_data' => "création d'un $user",
       'ajout_point' => "création $point",
@@ -352,18 +362,14 @@ class listener implements EventSubscriberInterface
       'création compte ucp_register_modify_template_data' => "création $user",
       'création compte ucp_register_register_after' => "création $user",
       'création point' => "création $point",
-      'edit' => "edition d'un $post",
-      'edit posting_modify_template_vars' => "edition d'un $post",
-      'edit submit_post_end' => "edition d'un $post",
-      'post' => "création d'un $post",
-      'post posting_modify_template_vars' => "edition d'un $post",
-      'post submit_post_end' => "création d'un $post",
       'quote' => "quote d'un $post",
       'quote posting_modify_template_vars' => "quote d'un $post",
-      'quote submit_post_end' => "quote d'un $post",
       'reply' => "réponse à un $post",
       'reply posting_modify_template_vars' => "réponse à un $post",
-      'reply submit_post_end' => "réponse à un $post",
+      'edit' => "édition d'un $post",
+      'edit posting_modify_template_vars' => "édition d'un $post",
+      'post' => "création d'un $post",
+      'post posting_modify_template_vars' => "édition d'un $post",
     ];
 
     $appel = strtolower(trim($row['appel']??''));
@@ -376,10 +382,17 @@ class listener implements EventSubscriberInterface
     if(empty($row['ext_error']))
       $colonne_statut[] = ucfirst($appel);
     else {
+      $ext_error = str_replace('Cr\u00e9ation d\'un compte rejet\u00e9e sans erreur document\u00e9e', '', $row['ext_error']??'');
       $colonne_statut[] = ucfirst('REJET '.$appel);
-      $colonne_statut = array_merge($colonne_statut, json_decode($row['ext_error']));
+      $colonne_statut = array_merge($colonne_statut, json_decode($ext_error));
     }
-    //BEST lien vers un post mis en approbation
+
+    if(!empty($row['to_check']) && !strncmp($row['appel'],'edit', 4))
+      $colonne_statut[] = '<a class="check-trace" href="'.
+        $config_wri['lien_forum'].
+        'mcp.php?i=-RefugesInfo-trace-mcp-main_module&trace_id='.
+        $row['trace_id'].
+        '&check=1">Marquer vu</a>';
 
     // Affiche une ligne du tableau
     $this->affiche_une_ligne([
@@ -403,7 +416,7 @@ class listener implements EventSubscriberInterface
           '<a title="Voir son profil"'.
             'href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'">'.
             ($row['user_name'] ?? 'Unknown').'</a>':
-            'Anonymous',
+            $row['user_name']??'Anonymous',
           ($row['user_id'] ?? 0) > 1 ?
             '<a title="Voir ses traces"'.
               'href="'.$this->u_action.'&user_id='.$row['user_id'].'">Posts: '.($row['user_posts']??0).'</a>' : null,
@@ -489,7 +502,7 @@ class listener implements EventSubscriberInterface
       $cond['user_id'] = $cond['u'];
       $cond['uri'] = 'register';
     }
-    //TODO anonymous SQL jointures point / commentaire /Auteur (nom si non conecté) ??? + pour forum ? / nom point / texte commentaire
+    //BEST anonymous SQL jointures point / commentaire /Auteur (nom si non conecté) ??? + pour forum ? / nom point / texte commentaire
 
     $conditions = [];
 
