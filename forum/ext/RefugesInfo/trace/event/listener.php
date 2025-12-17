@@ -35,8 +35,6 @@ user
 //TODO espaces en fin de ligne
 //TODO fichiers de la base geo
 //BEST statistique sur les posts/comptes supprimés
-//TODO on ne voit pas les éditions
-//TODO edit passe en mis en appro par Cleantalk
 
 namespace RefugesInfo\trace\event;
 
@@ -150,10 +148,6 @@ class listener implements EventSubscriberInterface
       array_filter($user->data ?? []), // mode, subject, username, topic_type, url
       array_filter($_POST ?? []),
     );
-//*DCMM*/var_dump($eventName);
-//*DCMM*/var_dump($_POST);
-//*DCMM*/var_dump($data);
-//exit;
 
     // Soumission de post mis en approbation par CleanTalk, qui l'enregistre quand même
     if(isset($data['post_visibility']) && $data['post_visibility'] === ITEM_UNAPPROVED)
@@ -285,7 +279,7 @@ class listener implements EventSubscriberInterface
     // Nombre de traces répondant aux critères
     $sql_count = 'SELECT COUNT(trace_id)'.
       ' FROM '.$this->tables[0].
-      $this->where($_GET);
+      $where;
     $result = $db->sql_query($sql_count);
     $row_count = $db->sql_fetchrow($result);
     $db->sql_freeresult($result);
@@ -293,7 +287,7 @@ class listener implements EventSubscriberInterface
     // Liste des traces affichables
     $sql = 'SELECT *, trace_requettes.date AS trace_date, trace_requettes.id_point AS trace_id_point'.
       ' FROM '.implode(' LEFT JOIN ', $this->tables).
-      $this->where($_GET).
+      $where.
       ' ORDER BY trace_id DESC'.
       ' LIMIT '.$this->limit.
       (!empty($_GET['offset']) ? ' OFFSET '.$_GET['offset'] : '');
@@ -345,7 +339,7 @@ class listener implements EventSubscriberInterface
     $traduction_appel = [
       // SubscribedEvents
       'post submit_post_end' => "création d'un $post",
-      'reply submit_post_end' => "création à un $post",
+      'reply submit_post_end' => "création d'un $post",
       'quote submit_post_end' => "quote d'un $post",
       'edit submit_post_end' => "édition d'un $post",
       'posting_modify_template_vars' => "édition d'un $post",
@@ -388,9 +382,7 @@ class listener implements EventSubscriberInterface
     }
 
     if(!empty($row['to_check']) && !strncmp($row['appel'],'edit', 4))
-      $colonne_statut[] = '<a class="check-trace" href="'.
-        $config_wri['lien_forum'].
-        'mcp.php?i=-RefugesInfo-trace-mcp-main_module&trace_id='.
+      $colonne_statut[] = '<a class="check-trace" href="/forum/mcp.php?i=-RefugesInfo-trace-mcp-main_module&trace_id='.
         $row['trace_id'].
         '&check=1">Marquer vu</a>';
 
@@ -493,22 +485,26 @@ class listener implements EventSubscriberInterface
       ]);
   }
 
-  private function where($cond)
+  private function where($args)
   {
-    // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
-    if(!empty($cond['p']))
-      $cond['post_id'] = $cond['p'];
-    if(!empty($cond['u'])) {
-      $cond['user_id'] = $cond['u'];
-      $cond['uri'] = 'register';
-    }
     //BEST anonymous SQL jointures point / commentaire /Auteur (nom si non conecté) ??? + pour forum ? / nom point / texte commentaire
+
+    // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
+    if(!empty($args['p']))
+      $args['post_id'] = $args['p'];
+    if(!empty($args['u'])) {
+      $args['user_id'] = $args['u'];
+      $args['uri'] = 'register';
+    }
+
+    unset($args['limit']);
+    unset($args['offset']);
 
     $conditions = [];
 
     foreach($this->argument_names as $name => $type)
-      if(isset($cond[$name]))
-        foreach(explode(',', $cond[$name]) as $k => $v) {
+      if(isset($args[$name]))
+        foreach(explode(',', $args[$name]) as $k => $v) {
           $vs = array_reverse(explode('!', $v ?? '')); // Separate the ! at the beginning
           $requ = isset($vs[1]) ? ' != ' : ' = ';
           $rnot = isset($vs[1]) ? ' NOT' : '';
