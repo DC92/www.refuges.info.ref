@@ -4,7 +4,7 @@
  * This package adds many features to Openlayer https://openlayers.org/
  * https://github.com/Dominique92/myol#readme
  * Based on https://openlayers.org
- * Built 18/12/2025 08:51:52 using npm run build from the src/... sources
+ * Built 18/12/2025 10:21:17 using npm run build from the src/... sources
  * Please don't modify this file : best is to modify src/... & npm run build !
  */
 (function (global, factory) {
@@ -77949,7 +77949,7 @@
       const fileExtent = gpxSource.getExtent();
 
       if (isEmpty(fileExtent))
-        alert(url + ' ne comporte pas de point ni de traces.');
+        alert(url + ' ne comporte pas de point ni de trace.');
       else {
         // Add received features to the layer defined in potion
         if (this.options.receivingLayer)
@@ -92069,7 +92069,7 @@
   /* global map */
 
 
-  const VERSION = '1.1.2.dev 18/12/2025 08:51:52';
+  const VERSION = '1.1.2.dev 18/12/2025 10:21:17';
 
   async function traces(options) {
     const debug = {
