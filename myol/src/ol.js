@@ -61,7 +61,7 @@ const ol = {
     proj4: projProj4,
   },
   source: {
-    BingMaps: source.BingMaps,
+    //BingMaps: source.BingMaps,
     Cluster: source.Cluster,
     OSM: source.OSM,
     TileWMS: source.TileWMS,
