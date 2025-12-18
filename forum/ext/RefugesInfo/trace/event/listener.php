@@ -63,7 +63,8 @@ class listener implements EventSubscriberInterface
       'ext_error' => 'text',
       'browser_operator' => 'text',
       'trace_id' => 'number',
-      'user_id' => 'number',
+      'user_id' => 'number', 
+      'user_name' => 'text', 
       'asn_id' => 'text',
       'uri' => 'text', // Pour profile user
       'to_check' => 'number',
@@ -301,6 +302,13 @@ class listener implements EventSubscriberInterface
     $template->assign_vars([
       'WHERE_SQL' => $where,
       'LIMIT' => $this->limit,
+      'OFFSET' => $_GET['offset']??'',
+      'NEXT' => http_build_query(array_filter(array_merge(
+          $_GET, [
+            'offset' => ($_GET['offset']??0)+$this->limit,
+            'i' => null,
+          ],
+      ))),
       'REQUETE_SQL' => $sql,
       'NOMBRE_LIGNES' => $compteur_traces,
       'NOMBRE_TRACES' => $row_count['count'] ?? 0,
@@ -327,8 +335,9 @@ class listener implements EventSubscriberInterface
       'user_last_confirm_key ' => null,
     ]));
 
-    $user = $row['user_id']??1 > 1 ? 'user' :
-      '<a href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'">user</a>';
+    $user = $row['user_id']??1 > 1 ? 
+      '<a href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'">user</a>'
+      :'user';
     $post = empty($row['post_id']) ? 'post' : 
       '<a href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'#'.$row['post_id'].'">post</a>';
     $point = empty($row['trace_id_point']) ? 'point' :
@@ -390,7 +399,7 @@ class listener implements EventSubscriberInterface
     $this->affiche_une_ligne([
       isset($row['trace_id']) ? [ // Trace
         'Trace n° <a href="'.$this->u_action.'&trace_id='.$row['trace_id'].'">'.$row['trace_id'].'</a>',
-        preg_replace('/\+[0-9]+/i', '', $row['trace_date']),
+        preg_replace('/\+[0-9]+/i', '', $row['trace_date']??''),
       ] : [],
       $colonne_statut,
       array_merge(
