@@ -1,3 +1,7 @@
+.cp-main {
+  width: 100%;
+}
+
 .cp-menu,
 #edit-requete.edit-form > p,
 #edit-requete:not(.edit-form) > form {
@@ -20,7 +24,18 @@
   cursor: pointer;
 }
 
+.report-trace td:last-child div {
+  max-width: 130px;
+}
+
+.report-trace td:nth-child(2) div,
+.report-trace td:last-child div {
+  max-height: 130px;
+  overflow-y: auto;
+}
+
 .report-trace td {
+  vertical-align: top;
   border: 1px solid grey;
   padding: 3px;
 }
