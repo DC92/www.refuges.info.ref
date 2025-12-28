@@ -78,11 +78,7 @@ class listener implements EventSubscriberInterface
     ];
 
     // Liste les tables et les colonnes pour ne prendre que les arguments qui correspondent
-    $this->tables = [
-      'trace_requettes LEFT JOIN '.USERS_TABLE.' USING(user_id)',
-      'points USING(id_point)',
-      'commentaires USING(id_commentaire)',
-    ];
+    $this->tables = 'trace_requettes LEFT JOIN '.USERS_TABLE.' USING(user_id)';
   }
 
   static public function getSubscribedEvents()
@@ -154,6 +150,7 @@ class listener implements EventSubscriberInterface
     if(isset($data['post_visibility']) && $data['post_visibility'] === ITEM_UNAPPROVED)
       $error[] = 'Post mis en approbation par CleanTalk';
 
+    date_default_timezone_set('UTC');
     $trace_data = [
       // 'trace_id' => autoincrement,
       'ext_error' => count($error) ? json_encode($error) : null,
@@ -240,7 +237,7 @@ class listener implements EventSubscriberInterface
 
     // Nombre d'éditions de posts non vérifiées
     $sql = 'SELECT COUNT(trace_id)'.
-      ' FROM '.$this->tables[0].
+      ' FROM '.$this->tables.
       ' WHERE uri LIKE \'%edit%\''.
         ' AND ext_error IS NULL'.
         ' AND to_check = 1';
@@ -279,7 +276,7 @@ class listener implements EventSubscriberInterface
 
     // Nombre de traces répondant aux critères
     $sql_count = 'SELECT COUNT(trace_id)'.
-      ' FROM '.$this->tables[0].
+      ' FROM '.$this->tables.
       $where;
     $result = $db->sql_query($sql_count);
     $row_count = $db->sql_fetchrow($result);
@@ -287,7 +284,7 @@ class listener implements EventSubscriberInterface
 
     // Liste des traces affichables
     $sql = 'SELECT *, trace_requettes.date AS trace_date, trace_requettes.id_point AS trace_id_point'.
-      ' FROM '.implode(' LEFT JOIN ', $this->tables).
+      ' FROM '.$this->tables.
       $where.
       ' ORDER BY trace_id DESC'.
       ' LIMIT '.$this->limit.
@@ -338,12 +335,14 @@ class listener implements EventSubscriberInterface
     $user = $row['user_id']??1 > 1 ? 
       '<a href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'">user</a>'
       :'user';
-    $post = empty($row['post_id']) ? 'post' : 
-      '<a href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'#'.$row['post_id'].'">post</a>';
     $point = empty($row['trace_id_point']) ? 'point' :
       '<a href="/point/'.$row['trace_id_point'].'">point</a>';
     $commentaire = empty($row['id_commentaire']) ? 'commentaire' :
       '<a href="/point/'.($row['id_point']??0).'#C'.$row['id_commentaire'].'">commentaire</a>';
+    $post = empty($row['post_id']) ? 'post' : 
+      '<a href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'#'.$row['post_id'].'">post</a>';
+    if(!empty($row['post_id']))
+      $post = "$point et son premier $post";
 
     $traduction_appel = [
       // SubscribedEvents
@@ -466,9 +465,6 @@ class listener implements EventSubscriberInterface
       [ // Contenu
         '<b>'.($row['title'] ?? '').'</b>',
         mb_substr($row['text'] ?? '', 0, 240).(strlen($row['text'] ?? '') > 239 ? '...' : ''),
-        $row['proprio'] ?? '',
-        $row['acces'] ?? '',
-        $row['remark'] ?? '',
       ],
     ]);
 
