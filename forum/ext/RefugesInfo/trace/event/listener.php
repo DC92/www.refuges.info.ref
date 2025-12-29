@@ -29,11 +29,11 @@ Traces avec tri
 user
 */
 
-//TODO INSTALL : désactiver + supprimer données + activer ext traces
 //TODO Relecture code
 //TODO comparaison www
 //TODO espaces en fin de ligne
 //TODO fichiers de la base geo
+//TODO INSTALL : désactiver + supprimer données + activer ext traces
 //BEST statistique sur les posts/comptes supprimés
 
 namespace RefugesInfo\trace\event;
@@ -63,8 +63,8 @@ class listener implements EventSubscriberInterface
       'ext_error' => 'text',
       'browser_operator' => 'text',
       'trace_id' => 'number',
-      'user_id' => 'number', 
-      'user_name' => 'text', 
+      'user_id' => 'number',
+      'user_name' => 'text',
       'asn_id' => 'text',
       'uri' => 'text', // Pour profile user
       'to_check' => 'number',
@@ -104,7 +104,7 @@ class listener implements EventSubscriberInterface
   public function log_request_context($event, $eventName)
   {
     global $db, $config_wri, $user, $auth;
-    
+
     $error = $event['error'] ?? [];
 
     if(!count($_POST) || // Not the first page display
@@ -173,7 +173,7 @@ class listener implements EventSubscriberInterface
       // Serveur
       'uri' => isset($_SERVER['HTTP_HOST']) ?
         (
-          ($_SERVER['REQUEST_SCHEME']??'').'://'.
+          ($_SERVER['REQUEST_SCHEME'] ?? '').'://'.
           ($_SERVER['HTTP_HOST'] ?? '').
           ($_SERVER['REQUEST_URI'] ?? '')
         ) : '',
@@ -210,7 +210,6 @@ class listener implements EventSubscriberInterface
 
     // Enregistrement de la trace
     $sql = 'INSERT INTO trace_requettes'.$db->sql_build_array('INSERT', $trace_data);
-//*DCMM*/var_dump($trace_data);
     $db->sql_query($sql);
 
     $event['error'] = $error;
@@ -299,10 +298,10 @@ class listener implements EventSubscriberInterface
     $template->assign_vars([
       'WHERE_SQL' => $where,
       'LIMIT' => $this->limit,
-      'OFFSET' => $_GET['offset']??'',
+      'OFFSET' => $_GET['offset'] ?? '',
       'NEXT' => http_build_query(array_filter(array_merge(
           $_GET, [
-            'offset' => ($_GET['offset']??0)+$this->limit,
+            'offset' => ($_GET['offset'] ?? 0)+$this->limit,
             'i' => null,
           ],
       ))),
@@ -332,16 +331,16 @@ class listener implements EventSubscriberInterface
       'user_last_confirm_key ' => null,
     ]));
 
-    $user = $row['user_id']??1 > 1 ? 
+    $user = $row['user_id']??1 > 1 ?
       '<a href="'.$this->forum_root.'memberlist.php?mode=viewprofile&u='.$row['user_id'].'">user</a>'
       :'user';
     $point = empty($row['trace_id_point']) ? 'point' :
       '<a href="/point/'.$row['trace_id_point'].'">point</a>';
     $commentaire = empty($row['id_commentaire']) ? 'commentaire' :
       '<a href="/point/'.($row['id_point']??0).'#C'.$row['id_commentaire'].'">commentaire</a>';
-    $post = empty($row['post_id']) ? 'post' : 
+    $post = empty($row['post_id']) ? 'post' :
       '<a href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'#'.$row['post_id'].'">post</a>';
-    if(!empty($row['post_id']))
+    if(!empty($row['trace_id_point']))
       $post = "$point et son premier $post";
 
     $traduction_appel = [
@@ -443,7 +442,7 @@ class listener implements EventSubscriberInterface
           null,
       ],
       [ // FAI
-        $row['host'] ??'',
+        $row['host'] ?? '',
         '<a title="Fiche de l\'ASN"'.
           'href="https://ipinfo.io/'.($row['asn_id'] ?? $row['ip'] ?? '').'">'.
           ($row['asn_name'] ?? $row['host'] ?? $row['ip'] ?? '').'</a>',
@@ -497,6 +496,7 @@ class listener implements EventSubscriberInterface
     // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
     if(!empty($args['p']))
       $args['post_id'] = $args['p'];
+
     if(!empty($args['u'])) {
       $args['user_id'] = $args['u'];
       $args['uri'] = 'register';
