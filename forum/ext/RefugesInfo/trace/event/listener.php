@@ -29,11 +29,6 @@ Traces avec tri
 user
 */
 
-//TODO Relecture code
-//TODO comparaison www
-//TODO espaces en fin de ligne
-//TODO fichiers de la base geo
-//TODO INSTALL : désactiver + supprimer données + activer ext traces
 //BEST statistique sur les posts/comptes supprimés
 
 namespace RefugesInfo\trace\event;
@@ -491,8 +486,6 @@ class listener implements EventSubscriberInterface
 
   private function where($args)
   {
-    //BEST anonymous SQL jointures point / commentaire /Auteur (nom si non conecté) ??? + pour forum ? / nom point / texte commentaire
-
     // Arguments pour mcp_post_additional_options & core.memberlist_view_profile
     if(!empty($args['p']))
       $args['post_id'] = $args['p'];
