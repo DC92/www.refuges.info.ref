@@ -1,16 +1,16 @@
-https://www.refuges.info/api/point?id=5314&format=kml&detail=complet&nb_points=1
-Délai : 0.536 s.
+https://dom.refuges.info/api/point?id=5314&format=kml&detail=complet&nb_points=1
+Délai : 0.549 s.
 
 <?xml version="1.0" encoding="utf-8"?><kml xmlns="http://earth.google.com/kml/2.1">
   <Document>
   <name>points.kml</name>
   <description>The data included in this document is from www.refuges.info. The data is made available under CC By-Sa 2.0</description>
 <!-- Liste des styles  (en gros, les icones possibles) -->
-  <Style id='cabane_manqueunmur_a48_eau_x'>
+  <Style id='cabane_manqueunmur_a48_eau'>
     <IconStyle>
     <hotSpot x='0.5' y='0.5' xunits='fraction' yunits='fraction' />
       <Icon>
-        <href>https://www.refuges.info/images/icones/cabane_manqueunmur_a48_eau_x.png</href>
+        <href>https://dom.refuges.info/images/icones/cabane_manqueunmur_a48_eau.png</href>
       </Icon>
     </IconStyle>
   </Style>
@@ -34,7 +34,7 @@ Un parking le long de la N230, extrémité Nord du lac, est accolé à la cabane
 OT de Vielha ?<br>
 </p>
               <br>
-            <center><a href='https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/'>Détails</a></center>
+            <center><a href='https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/'>Détails</a></center>
         ]]>
       </description>
       <LookAt>
@@ -44,13 +44,13 @@ OT de Vielha ?<br>
         <tilt>40</tilt>
         <heading>50</heading>
       </LookAt>
-        <styleUrl>#cabane_manqueunmur_a48_eau_x</styleUrl>
+        <styleUrl>#cabane_manqueunmur_a48_eau</styleUrl>
       <Point>
         <coordinates>0.76305,42.59774,0</coordinates>
       </Point>
       <ExtendedData>
           <Data name="url">
-          <value>https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/</value>
+          <value>https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/</value>
           </Data>
       </ExtendedData>
   </Placemark>

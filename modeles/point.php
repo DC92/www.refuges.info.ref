@@ -417,9 +417,6 @@ function infos_points($conditions)
           $properties->type['sym'] = $point->symbole;
       }
 
-      // Ajoute l'altitude dans le triplet de coordonnées geojson
-      $point_final->geojson = str_replace("]}", ",$point->altitude]}", $point->geojson);
-
       $properties->coord = [
         'alt' => $point->altitude,
         'long' => $point->longitude,

@@ -1,5 +1,5 @@
-https://www.refuges.info/api/point?id=5314&format=xml&detail=simple&nb_points=1
-Délai : 0.528 s.
+https://dom.refuges.info/api/point?id=5314&format=xml&detail=simple&nb_points=1
+Délai : 0.584 s.
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <nodes>
@@ -9,10 +9,10 @@ Délai : 0.528 s.
 <type>
 <id>7</id>
 <valeur>cabane non gardée</valeur>
-<icone>cabane_manqueunmur_a48_eau_x</icone>
+<icone>cabane_manqueunmur_a48_eau</icone>
 </type>
-<sym>Crossing</sym>
-<lien>https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/</lien>
+<sym>Fishing Hot Spot Facility</sym>
+<lien>https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/</lien>
 <coord>
 <alt>1450</alt>
 <long>0.76305</long>
@@ -28,11 +28,12 @@ Délai : 0.528 s.
 </valeur>
 </places>
 <etat>
-<valeur>Détruite</valeur>
-<id>detruit</id>
+<valeur>
+</valeur>
+<id>ouverture</id>
 </etat>
 <date>
-<derniere_modif>2025-12-11 16:51:26.101529+01</derniere_modif>
+<derniere_modif>2017-07-11 12:35:22.94866+02</derniere_modif>
 <creation>2015-10-06 17:58:21+02</creation>
 </date>
 <remarque>
@@ -48,7 +49,7 @@ L&#039;intérieur de la cabane est en sale état, mais il doit être possible d&
 <valeur>Un parking le long de la N230, extrémité Nord du lac, est accolé à la cabane.</valeur>
 </acces>
 <proprio>
-<nom>Auprès de qui se renseigner / accessibilité</nom>
+<nom>Propriétaire / accessibilité</nom>
 <valeur>OT de Vielha ?</valeur>
 </proprio>
 <createur>
@@ -99,11 +100,11 @@ L&#039;intérieur de la cabane est en sale état, mais il doit être possible d&
 </valeur>
 </latrines>
 <bois>
-<nom>Forêt à moins de 100m</nom>
+<nom>Bois à proximité</nom>
 <valeur>1</valeur>
 </bois>
 <eau>
-<nom>Eau à moins de 100m</nom>
+<nom>Eau à proximité</nom>
 <valeur>1</valeur>
 </eau>
 </info_comp>

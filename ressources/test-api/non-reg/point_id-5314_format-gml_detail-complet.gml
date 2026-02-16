@@ -1,5 +1,5 @@
-https://www.refuges.info/api/point?id=5314&format=gml&detail=complet&nb_points=1
-Délai : 0.546 s.
+https://dom.refuges.info/api/point?id=5314&format=gml&detail=complet&nb_points=1
+Délai : 0.558 s.
 
 <?xml version="1.0" encoding="UTF-8" ?><wfs:FeatureCollection
   xmlns:wfs="http://www.opengis.net/wfs"
@@ -12,8 +12,8 @@ Délai : 0.546 s.
     <point_wri>
         <nom>Refugi Baserca</nom>
         <type>cabane non gardée</type>
-        <icone>cabane_manqueunmur_a48_eau_x</icone>
-        <url>https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/</url>
+        <icone>cabane_manqueunmur_a48_eau</icone>
+        <url>https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/</url>
         <altitude>1450</altitude>
         <gml:Point>
             <gml:coordinates decimal="." cs="," ts=" ">0.76305,42.59774</gml:coordinates>

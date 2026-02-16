@@ -1,285 +1,179 @@
-https://www.refuges.info/api/contributions?format=rss&format_texte=html&massif=5066&nb_points=1
-Délai : 0.685 s.
+https://dom.refuges.info/api/contributions?format=rss&format_texte=html&massif=5066&nb_points=1
+Délai : 0.809 s.
 
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <title>Refuges.info</title>
-  <link>https://www.refuges.info/</link>
-  <atom:link href="https://www.refuges.info/api/contributions?format=rss&amp;format_texte=html&amp;massif=5066&amp;nb_points=1" rel="self" type="application/rss+xml" />
+  <link>https://dom.refuges.info/</link>
+  <atom:link href="https://dom.refuges.info/api/contributions?format=rss&amp;format_texte=html&amp;massif=5066&amp;nb_points=1" rel="self" type="application/rss+xml" />
   <description>The data included in this document is from www.refuges.info. The data is made available under CC By-Sa 2.0</description>
   <language>fr</language>
   <image>
-    <url>https://www.refuges.info/images/icone-rss.svg</url>
+    <url>https://dom.refuges.info/images/icone-rss.svg</url>
     <title>Refuges.info</title>
-    <link>https://www.refuges.info/</link>
+    <link>https://dom.refuges.info/</link>
     <height>64</height>
     <width>64</width>
   </image>
 
         <item>
         <title>Commentaire : Refugi Baserca</title>
-        <link><a href="https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C52533">https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C52533</a></link>
-        <guid><a href="https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C52533">https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C52533</a>7325</guid>
-        <pubDate>Thu, 11 Dec 2025 16:30:56 +0100</pubDate>
-        <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C52533&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de Wouter</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C52533&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de Wouter                          </p>
-            
-                          ]]></description>
-      </item> 
-        <item>
-        <title>Commentaire : Refugi nou de Besiberri</title>
-        <link><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51929">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51929</a></link>
-        <guid><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51929">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51929</a>4291</guid>
-        <pubDate>Thu, 23 Oct 2025 17:11:36 +0200</pubDate>
-        <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51929&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51929&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/51929-originale.jpeg?1761232296"><img src="https://www.refuges.info/photos_points/51929-reduite.jpeg?1761232296" /></a>
-                          </p>
-            
-                          ]]></description>
-      </item> 
-        <item>
-        <title>Commentaire : Refugi nou de Besiberri</title>
-        <link><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51928">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51928</a></link>
-        <guid><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51928">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51928</a>1313</guid>
-        <pubDate>Thu, 23 Oct 2025 17:11:07 +0200</pubDate>
-        <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51928&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51928&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/51928-originale.jpeg?1761232267"><img src="https://www.refuges.info/photos_points/51928-reduite.jpeg?1761232267" /></a>
-                          </p>
-            
-                          ]]></description>
-      </item> 
-        <item>
-        <title>Commentaire : Refugi nou de Besiberri</title>
-        <link><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51927">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51927</a></link>
-        <guid><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51927">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51927</a>3268</guid>
-        <pubDate>Thu, 23 Oct 2025 17:11:02 +0200</pubDate>
-        <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51927&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C51927&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/51927-originale.jpeg?1761232262"><img src="https://www.refuges.info/photos_points/51927-reduite.jpeg?1761232262" /></a>
-                          </p>
-            
-                          ]]></description>
-      </item> 
-        <item>
-        <title>Commentaire : Refugi nou de Besiberri</title>
-        <link><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48631">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48631</a></link>
-        <guid><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48631">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48631</a>8496</guid>
-        <pubDate>Tue, 25 Feb 2025 12:08:57 +0100</pubDate>
-        <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48631&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=9198&quot;&gt;Alix_Ladin&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48631&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=9198&quot;&gt;Alix_Ladin&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/48631-originale.jpeg?1740481737"><img src="https://www.refuges.info/photos_points/48631-reduite.jpeg?1740481738" /></a>
-                          </p>
-            
-                          ]]></description>
-      </item> 
-        <item>
-        <title>Commentaire : Refugi nou de Besiberri</title>
-        <link><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48630">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48630</a></link>
-        <guid><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48630">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48630</a>5876</guid>
-        <pubDate>Tue, 25 Feb 2025 12:06:33 +0100</pubDate>
-        <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48630&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=9198&quot;&gt;Alix_Ladin&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/#C48630&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=9198&quot;&gt;Alix_Ladin&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/48630-originale.jpeg?1740481593"><img src="https://www.refuges.info/photos_points/48630-reduite.jpeg?1740481594" /></a>
-                          </p>
-            
-                          ]]></description>
-      </item> 
-        <item>
-        <title>Point : Refugi nou de Besiberri</title>
-        <link><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/</a></link>
-        <guid><a href="https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/">https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/</a>8814</guid>
-        <pubDate>Tue, 25 Feb 2025 12:04:49 +0100</pubDate>
-        <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/10273/cabane-non-gardee/Refugi-nou-de-Besiberri/&quot;&gt;Ajout d&#039;une cabane non gardée&lt;/a&gt;&lt;/b&gt; par &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=9198&quot;&gt;Alix_Ladin&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'><b>Remarques :</b> Table fixé au sol, bancs fixés contre le mur + tabourets<br>
-Poste de secours<br>
-<br>
-Eau à chercher en dessous ou au-dessus sur les sentiers<br><b>Accès :</b> Depuis le parking du refuge de Conangles<br>
-Compter environ 2h/2h15</p>
-                          ]]></description>
-      </item> 
-        <item>
-        <title>Point : Réservoir incendie pradell</title>
-        <link><a href="https://www.refuges.info/point/9972/point-d-eau/reservoir-incendie-pradell/">https://www.refuges.info/point/9972/point-d-eau/reservoir-incendie-pradell/</a></link>
-        <guid><a href="https://www.refuges.info/point/9972/point-d-eau/reservoir-incendie-pradell/">https://www.refuges.info/point/9972/point-d-eau/reservoir-incendie-pradell/</a>6406</guid>
-        <pubDate>Sat, 24 Aug 2024 23:44:13 +0200</pubDate>
-        <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/9972/point-d-eau/reservoir-incendie-pradell/&quot;&gt;Ajout d&#039;un point d&#039;eau&lt;/a&gt;&lt;/b&gt; par &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=8614&quot;&gt;zemola&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'><b>Remarques :</b> Point d&#039;eau utilisé au cours de la traversée intégrale des crêtes de la serra del Cadi, petit filet d&#039;eau alimentant un abreuvoir et un réservoir incendie non couvert. Pastilles de purification.<br><b>Accès :</b> Sur la piste nommée pista del Cadi à environ 1950 m d&#039;altitude</p>
-                          ]]></description>
-      </item> 
-        <item>
-        <title>Commentaire : Refuge de Colomina</title>
-        <link><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C41345">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C41345</a></link>
-        <guid><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C41345">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C41345</a>9153</guid>
-        <pubDate>Fri, 05 May 2023 10:51:53 +0200</pubDate>
-        <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C41345&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C41345&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;                          </p>
-            
-                          ]]></description>
-      </item> 
-        <item>
-        <title>Commentaire : Refugi Baserca</title>
-        <link><a href="https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C25476">https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C25476</a></link>
-        <guid><a href="https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C25476">https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C25476</a>9753</guid>
+        <link><a href="https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C25476">https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C25476</a></link>
+        <guid><a href="https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C25476">https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C25476</a>4908</guid>
         <pubDate>Tue, 11 Jul 2017 12:10:48 +0200</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C25476&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1557&quot;&gt;leosw&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/#C25476&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1557&quot;&gt;leosw&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/25476-originale.jpeg?1499767848"><img src="https://www.refuges.info/photos_points/25476-reduite.jpeg?1499767849" /></a>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C25476&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1557&quot;&gt;leosw&lt;/a&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C25476&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1557&quot;&gt;leosw&lt;/a&gt;                            <br><a href="https://dom.refuges.info/photos_points/25476-originale.jpeg?1771273957"><img src="https://dom.refuges.info/photos_points/25476-reduite.jpeg?1771273957" /></a>
                           </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Fontaine de la Roca</title>
-        <link><a href="https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23258">https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23258</a></link>
-        <guid><a href="https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23258">https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23258</a>4247</guid>
+        <link><a href="https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23258">https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23258</a></link>
+        <guid><a href="https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23258">https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23258</a>8501</guid>
         <pubDate>Mon, 11 Jul 2016 21:45:23 +0200</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23258&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de fhidvegi</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23258&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de fhidvegi                          </p>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23258&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de fhidvegi</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23258&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de fhidvegi                          </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Fontaine de la Roca</title>
-        <link><a href="https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23255">https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23255</a></link>
-        <guid><a href="https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23255">https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23255</a>5242</guid>
+        <link><a href="https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23255">https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23255</a></link>
+        <guid><a href="https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23255">https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23255</a>6766</guid>
         <pubDate>Mon, 11 Jul 2016 16:48:26 +0200</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23255&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1483&quot;&gt;fhidvegi&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23255&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1483&quot;&gt;fhidvegi&lt;/a&gt;                          </p>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23255&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1483&quot;&gt;fhidvegi&lt;/a&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23255&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1483&quot;&gt;fhidvegi&lt;/a&gt;                          </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Fontaine Terrers</title>
-        <link><a href="https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/#C23254">https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/#C23254</a></link>
-        <guid><a href="https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/#C23254">https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/#C23254</a>1733</guid>
+        <link><a href="https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/#C23254">https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/#C23254</a></link>
+        <guid><a href="https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/#C23254">https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/#C23254</a>6376</guid>
         <pubDate>Mon, 11 Jul 2016 16:42:08 +0200</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/#C23254&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/#C23254&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;                            <br><a href="https://www.refuges.info/photos_points/23254-originale.jpeg?1468248128"><img src="https://www.refuges.info/photos_points/23254-reduite.jpeg?1468248128" /></a>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/#C23254&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/#C23254&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;                            <br><a href="https://dom.refuges.info"><img src="https://dom.refuges.info" /></a>
                           </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Point : Fontaine Terrers</title>
-        <link><a href="https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/">https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/</a></link>
-        <guid><a href="https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/">https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/</a>6181</guid>
+        <link><a href="https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/">https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/</a></link>
+        <guid><a href="https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/">https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/</a>2591</guid>
         <pubDate>Mon, 11 Jul 2016 16:41:23 +0200</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5566/point-d-eau/fontaine-Terrers/&quot;&gt;Ajout d&#039;un point d&#039;eau&lt;/a&gt;&lt;/b&gt; par fhidvegi</big></b><br>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5566/point-d-eau/Fontaine-Terrers/&quot;&gt;Ajout d&#039;un point d&#039;eau&lt;/a&gt;&lt;/b&gt; par fhidvegi</big></b><br>
                         <p style='color:grey;'><b>Remarques :</b> probablement toute l&#039;année<br><b>Accès :</b> GR 107</p>
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Fontaine de la Roca</title>
-        <link><a href="https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23253">https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23253</a></link>
-        <guid><a href="https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23253">https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23253</a>7719</guid>
+        <link><a href="https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23253">https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23253</a></link>
+        <guid><a href="https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23253">https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23253</a>4816</guid>
         <pubDate>Mon, 11 Jul 2016 16:39:23 +0200</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23253&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/#C23253&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;                            <br><a href="https://www.refuges.info/photos_points/23253-originale.jpeg?1468247963"><img src="https://www.refuges.info/photos_points/23253-reduite.jpeg?1468247964" /></a>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23253&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/#C23253&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt;                            <br><a href="https://dom.refuges.info"><img src="https://dom.refuges.info" /></a>
                           </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Point : Fontaine de la Roca</title>
-        <link><a href="https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/">https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/</a></link>
-        <guid><a href="https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/">https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/</a>3042</guid>
+        <link><a href="https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/">https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/</a></link>
+        <guid><a href="https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/">https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/</a>2918</guid>
         <pubDate>Mon, 11 Jul 2016 16:38:20 +0200</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5565/point-d-eau/fontaine-de-la-Roca/&quot;&gt;Ajout d&#039;un point d&#039;eau&lt;/a&gt;&lt;/b&gt; par fhidvegi</big></b><br>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5565/point-d-eau/Fontaine-de-la-Roca/&quot;&gt;Ajout d&#039;un point d&#039;eau&lt;/a&gt;&lt;/b&gt; par fhidvegi</big></b><br>
                         <p style='color:grey;'><b>Remarques :</b> <br><b>Accès :</b> GR 150</p>
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Refuge de Colomina</title>
-        <link><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22568">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22568</a></link>
-        <guid><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22568">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22568</a>3918</guid>
+        <link><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22568">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22568</a></link>
+        <guid><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22568">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22568</a>3300</guid>
         <pubDate>Tue, 01 Mar 2016 00:03:34 +0100</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22568&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22568&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/22568-originale.jpeg?1456787014"><img src="https://www.refuges.info/photos_points/22568-reduite.jpeg?1456787347" /></a>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22568&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22568&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://dom.refuges.info"><img src="https://dom.refuges.info" /></a>
                           </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Refuge de Colomina</title>
-        <link><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22567">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22567</a></link>
-        <guid><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22567">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22567</a>8080</guid>
+        <link><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22567">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22567</a></link>
+        <guid><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22567">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22567</a>6280</guid>
         <pubDate>Tue, 01 Mar 2016 00:03:30 +0100</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22567&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22567&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/22567-originale.jpeg?1456787010"><img src="https://www.refuges.info/photos_points/22567-reduite.jpeg?1456787049" /></a>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22567&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22567&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://dom.refuges.info"><img src="https://dom.refuges.info" /></a>
                           </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Refuge de Colomina</title>
-        <link><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22566">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22566</a></link>
-        <guid><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22566">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22566</a>8268</guid>
+        <link><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22566">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22566</a></link>
+        <guid><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22566">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22566</a>8126</guid>
         <pubDate>Tue, 01 Mar 2016 00:03:25 +0100</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22566&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22566&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/22566-originale.jpeg?1456787005"><img src="https://www.refuges.info/photos_points/22566-reduite.jpeg?1456787072" /></a>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22566&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22566&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://dom.refuges.info"><img src="https://dom.refuges.info" /></a>
                           </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Refuge de Colomina</title>
-        <link><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22565">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22565</a></link>
-        <guid><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22565">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22565</a>2468</guid>
+        <link><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22565">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22565</a></link>
+        <guid><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22565">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22565</a>5858</guid>
         <pubDate>Tue, 01 Mar 2016 00:03:21 +0100</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22565&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22565&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/22565-originale.jpeg?1456787001"><img src="https://www.refuges.info/photos_points/22565-reduite.jpeg?1456787201" /></a>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22565&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22565&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://dom.refuges.info"><img src="https://dom.refuges.info" /></a>
                           </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Refuge de Colomina</title>
-        <link><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22564">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22564</a></link>
-        <guid><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22564">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22564</a>9111</guid>
+        <link><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22564">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22564</a></link>
+        <guid><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22564">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22564</a>486</guid>
         <pubDate>Tue, 01 Mar 2016 00:03:16 +0100</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22564&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22564&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/22564-originale.jpeg?1456786996"><img src="https://www.refuges.info/photos_points/22564-reduite.jpeg?1456787433" /></a>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22564&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22564&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://dom.refuges.info"><img src="https://dom.refuges.info" /></a>
                           </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Commentaire : Refuge de Colomina</title>
-        <link><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22563">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22563</a></link>
-        <guid><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22563">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22563</a>3954</guid>
+        <link><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22563">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22563</a></link>
+        <guid><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22563">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22563</a>1266</guid>
         <pubDate>Tue, 01 Mar 2016 00:03:02 +0100</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22563&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
-                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/#C22563&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://www.refuges.info/photos_points/22563-originale.jpeg?1456786982"><img src="https://www.refuges.info/photos_points/22563-reduite.jpeg?1456787558" /></a>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22563&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/#C22563&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;                            <br><a href="https://dom.refuges.info"><img src="https://dom.refuges.info" /></a>
                           </p>
             
                           ]]></description>
       </item> 
         <item>
         <title>Point : Refuge de Colomina</title>
-        <link><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/</a></link>
-        <guid><a href="https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/">https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/</a>9902</guid>
+        <link><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/</a></link>
+        <guid><a href="https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/">https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/</a>4023</guid>
         <pubDate>Mon, 29 Feb 2016 23:45:05 +0100</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5464/refuge-garde/refuge-de-Colomina/&quot;&gt;Ajout d&#039;un refuge gardé&lt;/a&gt;&lt;/b&gt; par &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5464/refuge-garde/Refuge-de-Colomina/&quot;&gt;Ajout d&#039;un refuge gardé&lt;/a&gt;&lt;/b&gt; par &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=2324&quot;&gt;Alain Malfondet&lt;/a&gt;</big></b><br>
                         <p style='color:grey;'><b>Remarques :</b> <span style="color: green"><b>Ce refuge a fait l&#039;objet de rénovation en 2010 (voir infos : <a href="http://www.revue-pyrenees.com/spip.php?article940">AMÉLIORATIONS AU REFUGE COLOMINA</a>).</b></span><br>
 <br>
 <b>Période de gardiennage :</b><br>
@@ -294,8 +188,8 @@ Compter environ 2h/2h15</p>
  - Couchage en dortoirs (matelas, couvertures, oreiller)<br>
  - Repas<br>
  - Poêle dans la salle commune<br>
- - Douche (en été)<br><b>Accès :</b> Ce refuge est dans le Parc Nacional d’Aigüestortes i Estany de Sant Maurici (dans la partie périphérique), comme c&#039;est un peu long à dire on abrège par <span style="color: blue"><b>les Encantats</b></span> (en référence aux 2 magnifiques aiguilles qui dominent le beau Lac de Sant Maurici).<br>
-<a href="https://www.pyrenees-pireneus.com/Tourisme-Pyrenees/Hebergements-Pyrenees/Refuges-Cabanes/Espagne/Catalogne/Refuges-Encantats.php">Infos sur les refuges des Encantats.</a><br>
+ - Douche (en été)<br><b>Accès :</b> Ce refuge est dans le <a href="http://www.spain.info/fr/que-quieres/naturaleza/espacios-naturales/parque_nacional_de_aiguestortes_i_estany_de_sant_maurici.html">Parc Nacional d’Aigüestortes i Estany de Sant Maurici</a> (dans la partie périphérique), comme c&#039;est un peu long à dire on abrège par <span style="color: blue"><b>les Encantats</b></span> (en référence aux 2 magnifiques aiguilles qui dominent le beau Lac de Sant Maurici).<br>
+<a href="http://www.pyrenees-pireneus.com/Hebergements/Refuges/Espagne/Val-Aran/Refuges_Encantats.htm">Infos sur les refuges des Encantats.</a><br>
 <br>
 Refuge situé dans le Pallars Jussa, dans la Vall Fosca, sur la rive sud de l&#039;Estany de Colomina, dans la région lacustre la plus grandiose du Parc avec des lacs immenses ...<br>
 <br>
@@ -317,16 +211,27 @@ Le circuit <a href="http://www.carrosdefoc.com/">Carros de Foc</a> passe par ce 
       </item> 
         <item>
         <title>Point : Refugi Baserca</title>
-        <link><a href="https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/">https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/</a></link>
-        <guid><a href="https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/">https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/</a>7782</guid>
+        <link><a href="https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/">https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/</a></link>
+        <guid><a href="https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/">https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/</a>1270</guid>
         <pubDate>Tue, 06 Oct 2015 17:58:21 +0200</pubDate>
         <description><![CDATA[
-          <b><big>&lt;b&gt;&lt;a href=&quot;https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/&quot;&gt;Ajout d&#039;une cabane non gardée&lt;/a&gt;&lt;/b&gt; par &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1557&quot;&gt;leosw&lt;/a&gt;</big></b><br>
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/&quot;&gt;Ajout d&#039;une cabane non gardée&lt;/a&gt;&lt;/b&gt; par &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1557&quot;&gt;leosw&lt;/a&gt;</big></b><br>
                         <p style='color:grey;'><b>Remarques :</b> Cabane en bordure de l&#039;étang de Baserca.<br>
 En très grande partie détruite, mais il est possible de s&#039;abriter sous un bout de toit en cas d&#039;orage.<br>
 <br>
 L&#039;auvent est tombé.<br>
 L&#039;intérieur de la cabane est en sale état, mais il doit être possible d&#039;y dormir (si l&#039;on a pas peur de voir le toit tomber lui aussi).<br><b>Accès :</b> Un parking le long de la N230, extrémité Nord du lac, est accolé à la cabane.</p>
+                          ]]></description>
+      </item> 
+        <item>
+        <title>Commentaire : Refugi Baserca</title>
+        <link><a href="https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C21787">https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C21787</a></link>
+        <guid><a href="https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C21787">https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C21787</a>2593</guid>
+        <pubDate>Tue, 06 Oct 2015 17:58:21 +0200</pubDate>
+        <description><![CDATA[
+          <b><big>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C21787&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1141&quot;&gt;Claude Mauguier&lt;/a&gt;</big></b><br>
+                        <p style='color:grey;'>&lt;b&gt;&lt;a href=&quot;https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/#C21787&quot;&gt;Commentaire&lt;/a&gt;&lt;/b&gt; de &lt;a href=&quot;/forum/memberlist.php?mode=viewprofile&amp;u=1141&quot;&gt;Claude Mauguier&lt;/a&gt;                          </p>
+            
                           ]]></description>
       </item> 
   
