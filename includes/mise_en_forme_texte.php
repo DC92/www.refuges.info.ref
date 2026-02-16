@@ -419,15 +419,15 @@ function date_format_francais($unix_ts)
 // Utilisés par l'API
 // Ça permet de mettre convertir tout un objet
 function updatebbcode2html(&$html, $key) {
-    if (!($html === FALSE OR $html === TRUE OR $html === NULL) && $key != 'url') 
+    if (is_string($html) && $key != 'url') 
         $html=bbcode2html($html,0,1,0); 
 }
 function updatebbcode2markdown(&$html, $key) {
-    if (!($html === FALSE OR $html === TRUE OR $html === NULL) && $key != 'url')
+    if (is_string($html) && $key != 'url') 
         $html=bbcode2markdown($html);
 }
 function updatebbcode2txt(&$html, $key) {
-    if (!($html === FALSE OR $html === TRUE OR $html === NULL) && $key != 'url')
+    if (is_string($html) && $key != 'url') 
         $html=bbcode2txt($html);
 }
 function updatebool2char(&$html) { 
@@ -435,4 +435,41 @@ function updatebool2char(&$html) {
         $html='0';  
     elseif($html===TRUE) 
         $html='1'; 
+}
+
+/* Filtre suivant les paramètres utilisé par l'API
+   $properties = [
+     'id' => 123,
+     'nom' => 'cabane',
+     'type' => ['id' => 7, 'icone' => '/image/cabane.png'],
+   ];
+   $filtre = ['icones' => [
+     'id' => true,
+     'nom' => true,
+     'type' => ['id' => true, 'icone' => true],
+   ]];
+*/
+function filtre_recursif($properties, $filtre) {
+  if(is_scalar($properties) || is_bool($filtre))
+    return $properties;
+
+  $props = (array)$properties; // On transforme toutes les entrées en array car elle sont parfois object
+  $obj = new stdClass();
+  foreach ($filtre as $cle => $valeur)
+    // Cas des tableaux : on prend tout le contenu de ce niveau
+    if($cle=='*') {
+      $tablo=[];
+      foreach($properties AS $p)
+        $tablo[]= filtre_recursif($p, $valeur);
+      return $tablo;
+    }
+    // Cas normal
+    elseif(!empty($props[$cle]) && $valeur!==false &&
+      (!isset($props[$cle]['valeur']) || !empty($props[$cle]['valeur']))) { // Elimine les properties->valeur = ""
+        if(is_string($valeur)) // Renommage de la variable
+          $obj->$valeur = filtre_recursif($props[$cle], $valeur);
+        else
+          $obj->$cle = filtre_recursif($props[$cle], $valeur);
+      }
+  return $obj;
 }

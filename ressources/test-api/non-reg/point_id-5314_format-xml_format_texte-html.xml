@@ -1,0 +1,122 @@
+https://www.refuges.info/api/point?id=5314&format=xml&format_texte=html&nb_points=1
+Délai : 0.571 s.
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<nodes>
+<node>
+<id>5314</id>
+<nom>Refugi Baserca</nom>
+<type>
+<id>7</id>
+<valeur>cabane non gardée</valeur>
+<icone>cabane_manqueunmur_a48_eau_x</icone>
+</type>
+<sym>Crossing</sym>
+<lien>&lt;a href=&quot;https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/&quot;&gt;https://www.refuges.info/point/5314/cabane-non-gardee/refugi-Baserca/&lt;/a&gt;</lien>
+<coord>
+<alt>1450</alt>
+<long>0.76305</long>
+<lat>42.59774</lat>
+<precision>
+<nom>Coordonnées pointées sur photos aériennes</nom>
+<type>7</type>
+</precision>
+</coord>
+<places>
+<nom>Places prévues pour dormir</nom>
+<valeur>
+</valeur>
+</places>
+<etat>
+<valeur>Détruite</valeur>
+<id>detruit</id>
+</etat>
+<date>
+<derniere_modif>2025-12-11 16:51:26.101529+01</derniere_modif>
+<creation>2015-10-06 17:58:21+02</creation>
+</date>
+<remarque>
+<nom>Remarque</nom>
+<valeur>Cabane en bordure de l&amp;#039;étang de Baserca.&lt;br&gt;
+En très grande partie détruite, mais il est possible de s&amp;#039;abriter sous un bout de toit en cas d&amp;#039;orage.&lt;br&gt;
+&lt;br&gt;
+L&amp;#039;auvent est tombé.&lt;br&gt;
+L&amp;#039;intérieur de la cabane est en sale état, mais il doit être possible d&amp;#039;y dormir (si l&amp;#039;on a pas peur de voir le toit tomber lui aussi).</valeur>
+</remarque>
+<acces>
+<nom>Accès</nom>
+<valeur>Un parking le long de la N230, extrémité Nord du lac, est accolé à la cabane.</valeur>
+</acces>
+<proprio>
+<nom>Auprès de qui se renseigner / accessibilité</nom>
+<valeur>OT de Vielha ?</valeur>
+</proprio>
+<createur>
+<id>1557</id>
+<nom>leosw</nom>
+</createur>
+<article>
+<demonstratif>cette</demonstratif>
+<defini>la</defini>
+<partitif>d&amp;#039;une</partitif>
+</article>
+<info_comp>
+<site_officiel>
+<nom>Site Internet</nom>
+<url>
+</url>
+<valeur>
+</valeur>
+</site_officiel>
+<manque_un_mur>
+<nom>Manque un mur</nom>
+<valeur>1</valeur>
+</manque_un_mur>
+<cheminee>
+<nom>Cheminée</nom>
+<valeur>
+</valeur>
+</cheminee>
+<poele>
+<nom>Poêle</nom>
+<valeur>
+</valeur>
+</poele>
+<couvertures>
+<nom>Couvertures</nom>
+<valeur>
+</valeur>
+</couvertures>
+<places_matelas>
+<nom>Places sur Matelas</nom>
+<nb>
+</nb>
+<valeur>Sans</valeur>
+</places_matelas>
+<latrines>
+<nom>Latrines</nom>
+<valeur>
+</valeur>
+</latrines>
+<bois>
+<nom>Forêt à moins de 100m</nom>
+<valeur>1</valeur>
+</bois>
+<eau>
+<nom>Eau à moins de 100m</nom>
+<valeur>1</valeur>
+</eau>
+</info_comp>
+<description>
+<valeur>Cabane en bordure de l&amp;#039;étang de Baserca.&lt;br&gt;
+En très grande partie détruite, mais il est possible de s&amp;#039;abriter sous un bout de toit en cas d&amp;#039;orage.&lt;br&gt;
+&lt;br&gt;
+L&amp;#039;auvent est tombé.&lt;br&gt;
+L&amp;#039;intérieur de la cabane est en sale état, mais il doit être possible d&amp;#039;y dormir (si l&amp;#039;on a pas peur de voir le toit tomber lui aussi).&lt;br&gt;
+Un parking le long de la N230, extrémité Nord du lac, est accolé à la cabane.&lt;br&gt;
+OT de Vielha ?&lt;br&gt;
+</valeur>
+</description>
+</node>
+<copyright>The data included in this document is from www.refuges.info. The data is made available under CC By-Sa 2.0</copyright>
+</nodes>

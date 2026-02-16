@@ -20,7 +20,8 @@ if (!defined('IN_PHPBB')) // Sauf dans le forum
 
   // Pour avoir accés aux variables globales $_SERVER, ...
   $request->enable_super_globals();
-}
+
+//} On n'exécute pas les lignes suivantes quand on n'a pas besoin de l'identification forum (API)
 
 // Infos utilisateur
 $infos_identification = new stdClass;
@@ -37,6 +38,7 @@ if (!est_connecte()) {
     $infos_identification->creation_time .
     $user->data['user_form_salt'] .
     'login');
+}
 }
 
 function est_connecte()

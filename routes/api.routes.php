@@ -11,6 +11,7 @@
  *          controleur.
  * 
 **************************************************/
+define('IN_PHPBB', true); // DOM 02/2026 pour éviter l'identification forum
 
 // Cible sera le contenu de l'URL entre /api/ et ?argument=
 $cible = $controlleur->url_decoupee[1] ?? '';

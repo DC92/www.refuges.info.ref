@@ -1,0 +1,23 @@
+https://www.refuges.info/api/commentaires?id_point=5314&format_texte=html&nb_points=1
+Délai : 0.59 s, Les données ont été triées par clés et beautifiées pour simplifier la comparaison.
+
+{
+  "0": {
+    "auteur_commentaire": "Wouter",
+    "date_commentaire": "2025-12-11 16:30:56.48909+01",
+    "id_commentaire": "52533",
+    "id_point": "5314",
+    "texte_commentaire": "summer 2024: burnt down\/destroyed. Completely unusable."
+  },
+  "1": {
+    "auteur_commentaire": "leosw",
+    "date_commentaire": "2017-07-11 12:10:48.950535+02",
+    "id_commentaire": "25476",
+    "id_point": "5314",
+    "photo-originale": "\/photos_points\/25476-vignette.jpeg?1499767849",
+    "photo-reduite": "\/photos_points\/25476-reduite.jpeg?1499767849",
+    "photo-vignette": "\/photos_points\/25476-vignette.jpeg?1499767849",
+    "texte_commentaire": "Le toit de son meilleur c\u00f4t\u00e9.<br>\r\nDe face, il est tomb\u00e9."
+  },
+  "copyright": "The data included in this document is from www.refuges.info. The data is made available under CC By-Sa 2.0"
+}
