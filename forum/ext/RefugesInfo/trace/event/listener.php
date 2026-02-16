@@ -61,6 +61,7 @@ class listener implements EventSubscriberInterface
       'user_id' => 'number',
       'user_name' => 'text',
       'asn_id' => 'text',
+      'ip' => 'text',
       'uri' => 'text', // Pour profile user
       'to_check' => 'number',
       'topic_id' => 'number',
@@ -113,7 +114,7 @@ class listener implements EventSubscriberInterface
     $geodata_city = $reader_city->city($ip);
 
     // Except when load the registration page
-    if($eventName === 'core.ucp_register_modify_template_data' && !$_POST['new_password'])
+    if($eventName === 'core.ucp_register_modify_template_data' && empty($_POST['new_password']))
       return;
 
     // Exclusion de certains ASN
@@ -185,13 +186,13 @@ class listener implements EventSubscriberInterface
       // Infos enregistrées à la création du user
       // Sont gardées dans la table au cas où on supprimerait le user
       'user_id' => intval($data['user_id'] ?? 0),
-      'user_name' => $data['username'] ?? $data['nom_createur'] ?? '',
+      'user_name' => $user->data['username'] ?? $data['nom_createur'] ?? '',
       'user_email' => $data['user_email'] ?? $data['email'] ?? '',
       'user_lang' => $data['user_lang'] ?? $data['lang'] ?? '',
       'user_timezone' => $data['user_timezone'] ?? $data['tz'] ?? '',
       'ip_enregistrement' => $data['user_ip'] ?? '',
       'host_enregistrement' => gethostbyaddr($data['user_ip'] ?? $data['session_ip'] ?? $_SERVER['REMOTE_ADDR'] ?? ''),
-      'creator_name' => ($data['poster_id'] ?? 0) > 1 ? $data['username'] : 'Anonymous',
+      'creator_name' => ($data['poster_id'] ?? 0) > 1 ? $event['username'] : 'Anonymous',
       'creator_id' => intval($data['poster_id'] ?? 0),
 
       // ASN / FAI
@@ -334,7 +335,7 @@ class listener implements EventSubscriberInterface
     $commentaire = empty($row['id_commentaire']) ? 'commentaire' :
       '<a href="/point/'.($row['id_point']??0).'#C'.$row['id_commentaire'].'">commentaire</a>';
     $post = empty($row['post_id']) ? 'post' :
-      '<a href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'#'.$row['post_id'].'">post</a>';
+      '<a href="'.$this->forum_root.'viewtopic.php?p='.$row['post_id'].'#p'.$row['post_id'].'">post</a>';
     if(!empty($row['trace_id_point']))
       $post = "$point et son premier $post";
 
@@ -502,17 +503,26 @@ class listener implements EventSubscriberInterface
 
     foreach($this->argument_names as $name => $type)
       if(isset($args[$name]))
-        foreach(explode(',', $args[$name]) as $k => $v) {
-          $vs = array_reverse(explode('!', $v ?? '')); // Separate the ! at the beginning
-          $requ = isset($vs[1]) ? ' != ' : ' = ';
-          $rnot = isset($vs[1]) ? ' NOT' : '';
+        foreach(explode('.', $args[$name]) as $v) {
+          $conditions_ou = [];
 
-          if($type === 'number')
-            $conditions[] = $name.$requ.intval($vs[0]);
-          elseif($vs[0] === 'null')
-            $conditions[] = "$name IS$rnot NULL";
+          foreach(explode('|', $v) as $k => $vv) {
+            $vs = array_reverse(explode('!', $vv ?? '')); // Separate the ! at the beginning
+            $requ = isset($vs[1]) ? ' != ' : ' = ';
+            $rnot = isset($vs[1]) ? ' NOT' : '';
+
+            if($type === 'number')
+              $conditions_ou[] = $name.$requ.intval($vs[0]);
+            elseif($vs[0] === 'null')
+              $conditions_ou[] = "$name IS$rnot NULL";
+            else
+              $conditions_ou[] = "$name$rnot LIKE '%{$vs[0]}%'";
+          }
+
+          if(sizeof($conditions_ou) < 2)
+            $conditions[] = $conditions_ou[0];
           else
-            $conditions[] = "$name$rnot LIKE '%{$vs[0]}%'";
+            $conditions[] = '('.implode(' OR ', $conditions_ou).')';
         }
 
     return $conditions ? ' WHERE '.implode(' AND ', $conditions) : '';
