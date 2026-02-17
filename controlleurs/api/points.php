@@ -224,7 +224,7 @@ foreach ($points_bruts as $i=>$point) {
       'coord' => ['alt' => true],
       'places' => true,
       'etat' => ['valeur' => true],
-    ]);
+    ];
 
     $filtre['complet'] = array_merge($filtre['simple'], [
       'coord' => true, // On écrase le précédent
@@ -238,7 +238,7 @@ foreach ($points_bruts as $i=>$point) {
       'description' => true,
     ]);
 
-    if($req->format == 'geojson')
+    if(in_array($req->format, ['geojson','rss']))
       $points->$i = filtre_recursif($point->properties, $filtre[$req->detail]);
     else
       $points->$i = $point->properties;

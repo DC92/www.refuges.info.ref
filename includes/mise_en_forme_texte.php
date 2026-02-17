@@ -431,9 +431,9 @@ function updatebbcode2txt(&$html, $key) {
         $html=bbcode2txt($html);
 }
 function updatebool2char(&$html) { 
-    if($html===FALSE) 
+    if ($html===FALSE) 
         $html='0';  
-    elseif($html===TRUE) 
+    elseif ($html===TRUE) 
         $html='1'; 
 }
 
@@ -450,26 +450,28 @@ function updatebool2char(&$html) {
    ]];
 */
 function filtre_recursif($properties, $filtre) {
-  if(is_scalar($properties) || is_bool($filtre))
+  if (is_scalar($properties) || is_bool($filtre))
     return $properties;
 
   $props = (array)$properties; // On transforme toutes les entrées en array car elle sont parfois object
   $obj = new stdClass();
   foreach ($filtre as $cle => $valeur)
     // Cas des tableaux : on prend tout le contenu de ce niveau
-    if($cle=='*') {
+    if ($cle=='*') {
       $tablo=[];
       foreach($properties AS $p)
         $tablo[]= filtre_recursif($p, $valeur);
       return $tablo;
     }
     // Cas normal
-    elseif(!empty($props[$cle]) && $valeur!==false &&
-      (!isset($props[$cle]['valeur']) || !empty($props[$cle]['valeur']))) { // Elimine les properties->valeur = ""
-        if(is_string($valeur)) // Renommage de la variable
+    elseif (!empty($props[$cle])) {
+        if (is_string($valeur)) // Renommage de la variable
           $obj->$valeur = filtre_recursif($props[$cle], $valeur);
-        else
-          $obj->$cle = filtre_recursif($props[$cle], $valeur);
+        else {
+          $obj_cle = filtre_recursif($props[$cle], $valeur);
+          if (!empty((array)$obj_cle))
+            $obj->$cle = $obj_cle;
+       }
       }
   return $obj;
 }
