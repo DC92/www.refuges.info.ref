@@ -216,14 +216,10 @@ foreach ($points_bruts as $i=>$point) {
     // les champs qu'on veut voir figurer dans la réponse de l'API
     // si besoin en renommant ce champ
 
-    $filtre = ['icones' => [
+    $filtre['simple'] =  [
       'nom' => true,
-      'type' => ['icone' => true],
-    ]];
-
-    $filtre['simple'] = array_merge($filtre['icones'], [
-      'id' => true, // On écrase le précédent
-      'type' => true, // On écrase le précédent
+      'id' => true,
+      'type' => true,
       'lien' => true,
       'coord' => ['alt' => true],
       'places' => true,

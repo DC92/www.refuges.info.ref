@@ -443,9 +443,9 @@ function updatebool2char(&$html) {
      'nom' => 'cabane',
      'type' => ['id' => 7, 'icone' => '/image/cabane.png'],
    ];
-   $filtre = ['icones' => [
+   $filtre = ['simple' => [
      'id' => true,
-     'nom' => true,
+     'nom' => false,
      'type' => ['id' => true, 'icone' => true],
    ]];
 */
