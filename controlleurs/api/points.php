@@ -151,7 +151,14 @@ if($req->type_points != "all") {
   $params->ids_types_point = str_replace($val->type_points, $val->type_points_id, $req->type_points);
 }
 
-$params->avec_infos_fiche = true;
+if($req->detail != 'icone') {
+  $params->avec_infos_fiche = true;
+}
+
+if($req->detail == 'complet') {
+  $params->avec_infos_creation = true;
+  $params->avec_infos_complementaires = true;
+}
 
 $points_bruts = new stdClass();
 $points = new stdClass();
@@ -212,19 +219,26 @@ foreach ($points_bruts as $i=>$point) {
     }
 
     // Dom 01/2026 : filtre des détails
-    // On paramètre, pour chaque niveau de détail
+    // On paramètre, pour chaque niveau de détail,
     // les champs qu'on veut voir figurer dans la réponse de l'API
     // si besoin en renommant ce champ
 
-    $filtre['simple'] =  [
+    // Uniquement affichage d'une icône cliquable avec son nom
+    $filtre = ['icones' => [
       'nom' => true,
+      'type' => ['icone' => true],
+    ]];
+
+    // Carte actuelle WRI
+    $filtre['simple'] = array_merge($filtre['icones'], [
+      'nom' => true, // On écrase le précédent
       'id' => true,
-      'type' => true,
+      'type' => true, // On écrase le précédent
       'lien' => true,
       'coord' => ['alt' => true],
       'places' => true,
       'etat' => ['valeur' => true],
-    ];
+    ]);
 
     $filtre['complet'] = array_merge($filtre['simple'], [
       'coord' => true, // On écrase le précédent
@@ -233,9 +247,11 @@ foreach ($points_bruts as $i=>$point) {
       'proprio' => true,
       'acces' => true,
       'remarque' => true,
-      'createur' => true,
+      'places' => true,
       'info_comp' => true,
       'description' => true,
+      'article' => true,
+      'createur' => true,
     ]);
 
     if(in_array($req->format, ['geojson','rss']))
