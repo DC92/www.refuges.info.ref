@@ -217,8 +217,9 @@ $config_wri['api_format_points'] = Array
 );
 
 $config_wri['api_format_detail'] = [
-  'simple' => "simple",
-  'complet' => "complet",
+  'icones' => "long, lat, nom, type, id & icone",
+  'simple' => "idem + état, places & lien",
+  'complet' => "toutes les informations disponibles sur les points",
 ];
     
 /******** Nom du fichier contenant les points exportés **********/
