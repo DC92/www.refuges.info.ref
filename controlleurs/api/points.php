@@ -175,6 +175,7 @@ $filtre['simple'] = array_merge($filtre['icones'], [
   'nom' => true, // On écrase le précédent
   'id' => true,
   'type' => true, // On écrase le précédent
+  'sym' => true,
   'lien' => true,
   'coord' => ['alt' => true],
   'places' => true,
@@ -188,11 +189,39 @@ $filtre['complet'] = array_merge($filtre['simple'], [
   'proprio' => true,
   'acces' => true,
   'remarque' => true,
-  'infos_complementaires' => 'info_comp',
+  'info_comp' => true,
   'description' => true,
   'article' => true,
   'createur' => true,
 ]);
+
+function filtre_recursif($properties, $filtre) {
+  // On est arrivé à la fin des règles
+  if (is_scalar($properties) || is_scalar($filtre) || is_object($filtre))
+    return $properties;
+
+  $props = (array)$properties; // On transforme toutes les entrées en array car elle sont parfois object
+  $obj = [];
+
+  foreach ($filtre as $cle_filtre => $sous_filtre)
+    // Cas des tableaux : on prend tout le contenu de ce niveau
+    if ($cle_filtre == '*') {
+      $tablo=[];
+      foreach($properties AS $p)
+        $tablo[]= filtre_recursif($p, $sous_filtre);
+      return $tablo;
+    }
+    // Cas normal
+    elseif (isset($props[$cle_filtre]))
+      $obj[$cle_filtre] = filtre_recursif($props[$cle_filtre], $sous_filtre);
+
+  return $obj;
+}
+
+$points_bruts = new stdClass();
+$points = new stdClass();
+
+$points_bruts = infos_points($params);
 
 /****************************** INFOS GÉNÉRALES ******************************/
 /*
@@ -201,9 +230,6 @@ selon qu'elle est csv, gpx, etc.ça consome plus de RAM bien sûr et plus de CPU
 Seule exception à ça, le cas du format "geojson" :
 Car c'est celui utilisé par la carte et que le fichier est généré par un json_encode($point) qui deviendrait trop gros pour les usages en mobilité et débit pourri.
 */
-
-$points = new stdClass();
-$points_bruts = infos_points($params);
 
 foreach ($points_bruts as $i=>$point) {
   if(isset ($point->nb_points)) // cas des clusters
@@ -226,7 +252,7 @@ foreach ($points_bruts as $i=>$point) {
 
     // Dom 01/2026 : transfert du formattage dans le /modele/point.php
     if (!empty($point->infos_complementaires))
-      $point->properties->infos_complementaires = $point->infos_complementaires;
+      $point->properties->info_comp = $point->infos_complementaires;
 
     // En geojson, utilisé par la carte, on a pas besoin de tout ça, autant simplifier pour réduire le temps de chargement,
     // sauf si on appel explicitement le mode complet avec &detail=complet
@@ -255,19 +281,6 @@ foreach ($points_bruts as $i=>$point) {
       $points->$i = filtre_recursif($point->properties, $filtre[$req->detail]);
     else
       $points->$i = $point->properties;
-
-if(0){////////////////////
-/*DCMM*/var_dump($filtre[$req->detail]);
-/*DCMM*/var_dump($point->properties);
-/*DCMM*/var_dump($points->$i);
-}/////////////////////////
-
-if(0){////////////////////
-/*DCMM*/var_dump($req->detail);
-/*DCMM*/var_dump($filtre[$req->detail]['etat']);
-/*DCMM*/var_dump($point->properties->etat);
-/*DCMM*/var_dump($points->$i['etat']);
-}/////////////////////////
 
     /****************************** FORMATAGE DU TEXTE ******************************/
     // On transforme le texte dans la correcte syntaxe

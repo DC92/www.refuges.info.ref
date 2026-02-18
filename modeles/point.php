@@ -410,11 +410,11 @@ function infos_points($conditions)
       {
         case 'fermeture':
         case 'detruit':
-          $properties->type['sym'] = "Crossing";
+          $properties->sym = "Crossing";
           break;
         case 'cle_a_recuperer': // TODO : trouver un symbole
         default:
-          $properties->type['sym'] = $point->symbole;
+          $properties->sym = $point->symbole;
       }
 
       $properties->coord = [

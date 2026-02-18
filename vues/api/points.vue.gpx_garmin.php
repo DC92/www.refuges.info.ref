@@ -1,7 +1,7 @@
 <?php
 /*
 sly 05/12/2019 Ce format gpx est celui qui devrait être le plus adapté à basecamp et aux logiciels qui se comporte comme lui. viking par exemple.
-- les icônes spéciales garmin sont dans :  <sym><?=$point->type['sym']?></sym> 
+- les icônes spéciales garmin sont dans :  <sym><?=$point->sym?></sym> 
 - <cmt> est utilisés pour les remarques d'un point, je place donc tout dans cette balise
 - <src> est présente, mais je ne sais pas si c'est utilisé
 - j'ai viré les extensions
@@ -29,7 +29,7 @@ header("Content-Type: application/gpx+xml; UTF-8"); // rajout du charset
   <cmt><?=$point->type['valeur']?>
 <?=htmlspecialchars($point->description['valeur'])?></cmt>
   <link href="<?=$point->lien?>" />
-  <sym><?=$point->type['sym']?></sym>
+  <sym><?=$point->sym?></sym>
   <type><?=$point->type['valeur']?></type>
 </wpt>
 <?php } ?>

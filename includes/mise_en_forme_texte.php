@@ -431,52 +431,8 @@ function updatebbcode2txt(&$html, $key) {
         $html=bbcode2txt($html);
 }
 function updatebool2char(&$html) { 
-    if ($html===FALSE) 
+    if($html===FALSE) 
         $html='0';  
-    elseif ($html===TRUE) 
+    elseif($html===TRUE) 
         $html='1'; 
-}
-
-/* Filtre suivant les paramètres utilisé par l'API
-   $properties = [
-     'id' => 123,
-     'nom' => 'cabane',
-     'type' => ['id' => 7, 'icone' => '/image/cabane.png'],
-   ];
-   $filtre = ['simple' => [
-     'id' => true,
-     'nom' => false,
-     'type' => ['id' => true, 'icone' => true],
-   ]];
-*/
-function filtre_recursif($properties, $filtre) {
-  // On est arrivé à la fin des règles
-  if (is_scalar($properties) || is_scalar($filtre) || is_object($filtre))
-    return $properties;
-
-  $props = (array)$properties; // On transforme toutes les entrées en array car elle sont parfois object
-  $obj = [];
-
-if(0){////////////////////
-/*DCMM*/var_dump($filtre);
-/*DCMM*/var_dump($properties);
-/*DCMM*/var_dump($props);
-}/////////////////////////
-
-  foreach ($filtre as $cle_filtre => $sous_filtre)
-    // Cas des tableaux : on prend tout le contenu de ce niveau
-    if ($cle_filtre == '*') {
-      $tablo=[];
-      foreach($properties AS $p)
-        $tablo[]= filtre_recursif($p, $sous_filtre);
-      return $tablo;
-    }
-    // Cas normal
-    elseif (isset($props[$cle_filtre])) {
-      if (is_string($sous_filtre)) // Renommage de la variable
-        $obj[$sous_filtre] = filtre_recursif($props[$cle_filtre], $sous_filtre);
-      else
-        $obj[$cle_filtre] = filtre_recursif($props[$cle_filtre], $sous_filtre);
-    }
-  return $obj;
 }

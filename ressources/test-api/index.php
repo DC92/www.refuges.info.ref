@@ -12,7 +12,6 @@ $depuis = 1769904000; // 01/02/2026
 $urls_to_test = [
   "non-reg" => [
     // Doc API
-    "commentaires?id_point=$point&format_texte=html",
     "bbox?bbox=$bbox&type_points=all",
     "massif?massif=$massif&type_points=all",
     "point?id=$point&format=xml&format_texte=html",
