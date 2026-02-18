@@ -151,19 +151,48 @@ if($req->type_points != "all") {
   $params->ids_types_point = str_replace($val->type_points, $val->type_points_id, $req->type_points);
 }
 
-if($req->detail != 'icone') {
-  $params->avec_infos_fiche = true;
-}
+// Dom 01/2026 : filtre des détails
+// On paramètre, pour chaque niveau de détail,
+// les champs qu'on veut voir figurer dans la réponse de l'API
+// si besoin en renommant ce champ
+switch ($req->detail) {
+  case 'complet':
+    $params->avec_infos_creation = true;
+    $params->avec_infos_complementaires = true;
+  case 'simple':
+  case 'icone':
+    $params->avec_infos_fiche = true;
+};
 
-if($req->detail == 'complet') {
-  $params->avec_infos_creation = true;
-  $params->avec_infos_complementaires = true;
-}
+// Uniquement affichage d'une icône cliquable avec son nom
+$filtre = ['icones' => [
+  'nom' => true,
+  'type' => ['icone' => true],
+]];
 
-$points_bruts = new stdClass();
-$points = new stdClass();
+// Carte actuelle WRI
+$filtre['simple'] = array_merge($filtre['icones'], [
+  'nom' => true, // On écrase le précédent
+  'id' => true,
+  'type' => true, // On écrase le précédent
+  'lien' => true,
+  'coord' => ['alt' => true],
+  'places' => true,
+  'etat' => ['valeur' => true],
+]);
 
-$points_bruts = infos_points($params);
+$filtre['complet'] = array_merge($filtre['simple'], [
+  'coord' => true, // On écrase le précédent
+  'etat' => true, // On écrase le précédent
+  'date' => true,
+  'proprio' => true,
+  'acces' => true,
+  'remarque' => true,
+  'infos_complementaires' => 'info_comp',
+  'description' => true,
+  'article' => true,
+  'createur' => true,
+]);
 
 /****************************** INFOS GÉNÉRALES ******************************/
 /*
@@ -172,6 +201,9 @@ selon qu'elle est csv, gpx, etc.ça consome plus de RAM bien sûr et plus de CPU
 Seule exception à ça, le cas du format "geojson" :
 Car c'est celui utilisé par la carte et que le fichier est généré par un json_encode($point) qui deviendrait trop gros pour les usages en mobilité et débit pourri.
 */
+
+$points = new stdClass();
+$points_bruts = infos_points($params);
 
 foreach ($points_bruts as $i=>$point) {
   if(isset ($point->nb_points)) // cas des clusters
@@ -194,7 +226,7 @@ foreach ($points_bruts as $i=>$point) {
 
     // Dom 01/2026 : transfert du formattage dans le /modele/point.php
     if (!empty($point->infos_complementaires))
-      $point->properties->info_comp = $point->infos_complementaires;
+      $point->properties->infos_complementaires = $point->infos_complementaires;
 
     // En geojson, utilisé par la carte, on a pas besoin de tout ça, autant simplifier pour réduire le temps de chargement,
     // sauf si on appel explicitement le mode complet avec &detail=complet
@@ -218,46 +250,24 @@ foreach ($points_bruts as $i=>$point) {
       $point->properties->description['valeur']=$description;
     }
 
-    // Dom 01/2026 : filtre des détails
-    // On paramètre, pour chaque niveau de détail,
-    // les champs qu'on veut voir figurer dans la réponse de l'API
-    // si besoin en renommant ce champ
-
-    // Uniquement affichage d'une icône cliquable avec son nom
-    $filtre = ['icones' => [
-      'nom' => true,
-      'type' => ['icone' => true],
-    ]];
-
-    // Carte actuelle WRI
-    $filtre['simple'] = array_merge($filtre['icones'], [
-      'nom' => true, // On écrase le précédent
-      'id' => true,
-      'type' => true, // On écrase le précédent
-      'lien' => true,
-      'coord' => ['alt' => true],
-      'places' => true,
-      'etat' => ['valeur' => true],
-    ]);
-
-    $filtre['complet'] = array_merge($filtre['simple'], [
-      'coord' => true, // On écrase le précédent
-      'etat' => true, // On écrase le précédent
-      'date' => true,
-      'proprio' => true,
-      'acces' => true,
-      'remarque' => true,
-      'places' => true,
-      'info_comp' => true,
-      'description' => true,
-      'article' => true,
-      'createur' => true,
-    ]);
-
+    // Filtre des détails
     if(in_array($req->format, ['geojson','rss']))
       $points->$i = filtre_recursif($point->properties, $filtre[$req->detail]);
     else
       $points->$i = $point->properties;
+
+if(0){////////////////////
+/*DCMM*/var_dump($filtre[$req->detail]);
+/*DCMM*/var_dump($point->properties);
+/*DCMM*/var_dump($points->$i);
+}/////////////////////////
+
+if(0){////////////////////
+/*DCMM*/var_dump($req->detail);
+/*DCMM*/var_dump($filtre[$req->detail]['etat']);
+/*DCMM*/var_dump($point->properties->etat);
+/*DCMM*/var_dump($points->$i['etat']);
+}/////////////////////////
 
     /****************************** FORMATAGE DU TEXTE ******************************/
     // On transforme le texte dans la correcte syntaxe

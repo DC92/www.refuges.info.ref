@@ -450,28 +450,33 @@ function updatebool2char(&$html) {
    ]];
 */
 function filtre_recursif($properties, $filtre) {
-  if (is_scalar($properties) || is_bool($filtre))
+  // On est arrivé à la fin des règles
+  if (is_scalar($properties) || is_scalar($filtre) || is_object($filtre))
     return $properties;
 
   $props = (array)$properties; // On transforme toutes les entrées en array car elle sont parfois object
-  $obj = new stdClass();
-  foreach ($filtre as $cle => $valeur)
+  $obj = [];
+
+if(0){////////////////////
+/*DCMM*/var_dump($filtre);
+/*DCMM*/var_dump($properties);
+/*DCMM*/var_dump($props);
+}/////////////////////////
+
+  foreach ($filtre as $cle_filtre => $sous_filtre)
     // Cas des tableaux : on prend tout le contenu de ce niveau
-    if ($cle=='*') {
+    if ($cle_filtre == '*') {
       $tablo=[];
       foreach($properties AS $p)
-        $tablo[]= filtre_recursif($p, $valeur);
+        $tablo[]= filtre_recursif($p, $sous_filtre);
       return $tablo;
     }
     // Cas normal
-    elseif (!empty($props[$cle])) {
-        if (is_string($valeur)) // Renommage de la variable
-          $obj->$valeur = filtre_recursif($props[$cle], $valeur);
-        else {
-          $obj_cle = filtre_recursif($props[$cle], $valeur);
-          if (!empty((array)$obj_cle))
-            $obj->$cle = $obj_cle;
-       }
-      }
+    elseif (isset($props[$cle_filtre])) {
+      if (is_string($sous_filtre)) // Renommage de la variable
+        $obj[$sous_filtre] = filtre_recursif($props[$cle_filtre], $sous_filtre);
+      else
+        $obj[$cle_filtre] = filtre_recursif($props[$cle_filtre], $sous_filtre);
+    }
   return $obj;
 }

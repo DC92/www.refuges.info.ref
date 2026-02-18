@@ -428,7 +428,6 @@ function infos_points($conditions)
       ];
 
       $properties->lien = lien_point($point);
-      $properties->lien_site = $point->site_officiel;
 
       if (!empty($conditions->avec_infos_creation)) { // Conditionel car couteux en temps
         $properties->createur['id'] = $point->id_createur;
@@ -459,7 +458,7 @@ function infos_points($conditions)
 
       if (!empty($conditions->avec_infos_fiche)) {
         $properties->etat = [
-          'nom' => 'Etat', //TODO : générer automatiquement ?
+          'nom' => 'Etat', //TODO : $point->equivalent_etat ???
           'valeur' => texte_non_ouverte($point),
           'id' => $point->conditions_utilisation,
         ];
@@ -467,6 +466,9 @@ function infos_points($conditions)
           'nom' => $point->equivalent_proprio,
           'valeur' => $point->proprio,
         ];
+        if ($point->site_officiel)
+          $properties->proprio['valeur'] .=  "\nSite officiel: [url=$point->site_officiel]$properties->nom[/url]";
+
         $properties->places = [
           'nom' => $point->equivalent_places,
           'valeur' => $point->places,
