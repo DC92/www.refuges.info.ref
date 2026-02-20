@@ -466,9 +466,6 @@ function infos_points($conditions)
           'nom' => $point->equivalent_proprio,
           'valeur' => $point->proprio,
         ];
-        if ($point->site_officiel)
-          $properties->proprio['valeur'] .=  "\nSite officiel: [url=$point->site_officiel]$properties->nom[/url]";
-
         $properties->places = [
           'nom' => $point->equivalent_places,
           'valeur' => $point->places,
@@ -487,7 +484,7 @@ function infos_points($conditions)
       // Dom 01/2026 : simplifié et transféré depuis controlleurs/point.php pour pouvoir être utilisé dans l'API
       // Formatage des informations complèmentaires
       if (!empty($conditions->avec_infos_complementaires)) {
-        $champs=array_merge($config_wri['champs_entier_ou_sait_pas_points'],$config_wri['champs_trinaires_points'],['site_officiel']);
+        $champs=array_merge($config_wri['champs_entier_ou_sait_pas_points'],$config_wri['champs_trinaires_points']);
         $point_final->infos_complementaires = [];
 
         foreach ($champs as $champ)
@@ -501,12 +498,6 @@ function infos_points($conditions)
             ];  
             switch ($champ)
             {
-              case 'site_officiel':
-                if ($point->$champ!="") {
-                  $val['url'] = $point->$champ;
-                  $val['valeur'] = '[url='.$point->$champ.']'.protege(mb_ucfirst($point->nom)).'[/url]';
-                } break;
-
               case 'places_matelas' : case 'places' :
                 if($point->$champ === NULL )
                   $val['valeur'] = '<strong>Inconnu</strong>';
@@ -727,18 +718,6 @@ function modification_ajout_point($point,$id_utilisateur_qui_modifie=0)
     return erreur("Le nom ne peut être vide");
   if ( preg_match("/[\<\>\]\[\;]/",$point->nom) )
     return erreur("Le nom contient un des caractères non autorisé suivant : [ ] < > ;");
-
-  if( isset($point->site_officiel) )
-  {
-    // Pensez bien qu'un modérateur puisse vouloir remettre à "" le site n'existant plus
-    if ($point->site_officiel=="")
-      $champs_sql['site_officiel'] = "''";
-    //cas du site un peu particulier ou l'internaute n'aura pas forcément pensé à mettre http://
-    elseif ( !preg_match("/https?:\/\//",$point->site_officiel))
-      $champs_sql['site_officiel'] = $pdo->quote('http://'.$point->site_officiel);
-    else
-      $champs_sql['site_officiel'] = $pdo->quote($point->site_officiel);
-  }
 
   // On met à jour la date de dernière modification. PGSQL peut le faire, avec un trigger..
   $champs_sql['date_derniere_modification'] = 'NOW()';
