@@ -1,6 +1,6 @@
 <?php
 
-$serveur = "https://dom2.refuges.info/";
+$serveur = "https://dom.refuges.info/";
 $formats = ['geojson','kml','gml','gpx','csv','xml','rss'];
 $format_texte = ['bbcode','texte','markdown'];
 $detail = ['simple','complet'];

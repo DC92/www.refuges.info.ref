@@ -1,5 +1,5 @@
-https://dom2.refuges.info/api/polygones?type_polygon=1&bbox=-Infinity,-90,Infinity,90&nb_points=1
-Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour simplifier la comparaison.
+https://dom.refuges.info/api/polygones?type_polygon=1&bbox=-Infinity,-90,Infinity,90&nb_points=1
+Délai : 0.587 s, Les données ont été triées par clés et beautifiées pour simplifier la comparaison.
 
 {
   "copyright": "The data included in this document is from www.refuges.info. The data is made available under CC By-Sa 2.0",
@@ -126,7 +126,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#c0302f",
         "id": 744,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/744\/massif\/Aconcagua\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/744\/massif\/Aconcagua\/",
         "nom": "Aconcagua",
         "partitif": "de l'",
         "type": {
@@ -219,7 +219,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#8f0090",
         "id": 43,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/43\/massif\/Adamello-Presanella\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/43\/massif\/Adamello-Presanella\/",
         "nom": "Adamello-Presanella",
         "partitif": "de",
         "type": {
@@ -568,7 +568,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#2e31bf",
         "id": 5065,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5065\/massif\/Aigestortes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5065\/massif\/Aigestortes\/",
         "nom": "Aig\u00fcestortes",
         "partitif": "d'",
         "type": {
@@ -653,7 +653,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#00918e",
         "id": 12,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/12\/massif\/Aiguilles-rouges\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/12\/massif\/Aiguilles-rouges\/",
         "nom": "Aiguilles rouges",
         "partitif": "des",
         "type": {
@@ -702,7 +702,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#32bf2e",
         "id": 5075,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5075\/massif\/Alberes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5075\/massif\/Alberes\/",
         "nom": "Alb\u00e8res",
         "partitif": "des",
         "type": {
@@ -971,7 +971,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#928d00",
         "id": 427,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/427\/massif\/Alpes-Carniques\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/427\/massif\/Alpes-Carniques\/",
         "nom": "Alpes Carniques",
         "partitif": "des",
         "type": {
@@ -1672,7 +1672,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bf2d33",
         "id": 404,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/404\/massif\/Alpes-Cottiennes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/404\/massif\/Alpes-Cottiennes\/",
         "nom": "Alpes Cottiennes",
         "partitif": "des",
         "type": {
@@ -1797,7 +1797,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#8c0093",
         "id": 5112,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5112\/massif\/Alpes-de-Nouvelle-Zelande\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5112\/massif\/Alpes-de-Nouvelle-Zelande\/",
         "nom": "Alpes de Nouvelle Z\u00e9lande",
         "partitif": "des",
         "type": {
@@ -1978,7 +1978,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#2c34bf",
         "id": 339,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/339\/massif\/Alpes-Juliennes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/339\/massif\/Alpes-Juliennes\/",
         "nom": "Alpes Juliennes",
         "partitif": "des",
         "type": {
@@ -2207,7 +2207,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#00948b",
         "id": 407,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/407\/massif\/Alpes-Lepontiennes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/407\/massif\/Alpes-Lepontiennes\/",
         "nom": "Alpes L\u00e9pontiennes",
         "partitif": "des",
         "type": {
@@ -2304,7 +2304,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#35bf2b",
         "id": 405,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/405\/massif\/Alpes-maritimes-et-ligures\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/405\/massif\/Alpes-maritimes-et-ligures\/",
         "nom": "Alpes maritimes et ligures",
         "partitif": "des",
         "type": {
@@ -2569,7 +2569,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#958a00",
         "id": 45,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/45\/massif\/Alpes-Pennines-Haut-Valais\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/45\/massif\/Alpes-Pennines-Haut-Valais\/",
         "nom": "Alpes Pennines, Haut Valais",
         "partitif": "des",
         "type": {
@@ -2978,7 +2978,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bf2a36",
         "id": 361,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/361\/massif\/Andorre\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/361\/massif\/Andorre\/",
         "nom": "Andorre",
         "partitif": "de l'",
         "type": {
@@ -4219,7 +4219,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#890096",
         "id": 369,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/369\/massif\/Aragon\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/369\/massif\/Aragon\/",
         "nom": "Aragon",
         "partitif": "de l'",
         "type": {
@@ -4368,7 +4368,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#2937bf",
         "id": 5091,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5091\/massif\/Arana-Huetor-Nevada\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5091\/massif\/Arana-Huetor-Nevada\/",
         "nom": "Arana, Hu\u00e9tor, Nevada",
         "partitif": "de",
         "type": {
@@ -4493,7 +4493,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#009788",
         "id": 5079,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5079\/massif\/Ardennes-Eifel-Hunsrck\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5079\/massif\/Ardennes-Eifel-Hunsrck\/",
         "nom": "Ardennes, Eifel, Hunsr\u00fcck",
         "partitif": "",
         "type": {
@@ -4618,7 +4618,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#38bf28",
         "id": 3314,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/3314\/massif\/Arlberg-Allgau\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/3314\/massif\/Arlberg-Allgau\/",
         "nom": "Arlberg-Allg\u00e4u",
         "partitif": "",
         "type": {
@@ -4735,7 +4735,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#988700",
         "id": 397,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/397\/massif\/Aubrac-Margeride-Lozere\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/397\/massif\/Aubrac-Margeride-Lozere\/",
         "nom": "Aubrac, Margeride, Loz\u00e8re",
         "partitif": "",
         "type": {
@@ -4832,7 +4832,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bf2739",
         "id": 54,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/54\/massif\/Avant-pays-savoyard\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/54\/massif\/Avant-pays-savoyard\/",
         "nom": "Avant-pays savoyard",
         "partitif": "de l'",
         "type": {
@@ -5121,7 +5121,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#860099",
         "id": 5070,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5070\/massif\/Basses-Tauern\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5070\/massif\/Basses-Tauern\/",
         "nom": "Basses Tauern",
         "partitif": "",
         "type": {
@@ -5202,7 +5202,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#263abf",
         "id": 5128,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5128\/massif\/basse-terre\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5128\/massif\/basse-terre\/",
         "nom": "basse terre",
         "partitif": "de",
         "type": {
@@ -5327,7 +5327,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#009a85",
         "id": 14,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/14\/massif\/Bauges\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/14\/massif\/Bauges\/",
         "nom": "Bauges",
         "partitif": "des",
         "type": {
@@ -5396,7 +5396,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#3bbf25",
         "id": 5093,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5093\/massif\/Baza-Filabres\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5093\/massif\/Baza-Filabres\/",
         "nom": "Baza, Filabres",
         "partitif": "de",
         "type": {
@@ -5817,7 +5817,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#9b8300",
         "id": 367,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/367\/massif\/Bearn\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/367\/massif\/Bearn\/",
         "nom": "B\u00e9arn",
         "partitif": "du",
         "type": {
@@ -5954,7 +5954,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#be243c",
         "id": 11,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/11\/massif\/Beaufortain\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/11\/massif\/Beaufortain\/",
         "nom": "Beaufortain",
         "partitif": "du",
         "type": {
@@ -6099,7 +6099,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#82019b",
         "id": 5088,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5088\/massif\/Bejar-Paramero-Gredos\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5088\/massif\/Bejar-Paramero-Gredos\/",
         "nom": "Bejar, Paramero, Gredos",
         "partitif": "Sierras de ",
         "type": {
@@ -6240,7 +6240,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#233dbe",
         "id": 7,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/7\/massif\/Belledonne\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/7\/massif\/Belledonne\/",
         "nom": "Belledonne",
         "partitif": "de",
         "type": {
@@ -6321,7 +6321,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#019c81",
         "id": 342,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/342\/massif\/Bergell-Bernina\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/342\/massif\/Bergell-Bernina\/",
         "nom": "Bergell-Bernina",
         "partitif": "du",
         "type": {
@@ -7146,7 +7146,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#3ebe22",
         "id": 368,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/368\/massif\/Bigorre\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/368\/massif\/Bigorre\/",
         "nom": "Bigorre",
         "partitif": "de",
         "type": {
@@ -7223,7 +7223,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#9d8001",
         "id": 3,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/3\/massif\/Bornes-Aravis\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/3\/massif\/Bornes-Aravis\/",
         "nom": "Bornes-Aravis",
         "partitif": "des",
         "type": {
@@ -7328,7 +7328,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#be213f",
         "id": 452,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/452\/massif\/Bourbonnais-Forez-Livradois\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/452\/massif\/Bourbonnais-Forez-Livradois\/",
         "nom": "Bourbonnais, Forez, Livradois",
         "partitif": "du",
         "type": {
@@ -7605,7 +7605,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#7f019e",
         "id": 49,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/49\/massif\/Buech-Gapencais\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/49\/massif\/Buech-Gapencais\/",
         "nom": "Bu\u00ebch-Gapen\u00e7ais",
         "partitif": "du",
         "type": {
@@ -7702,7 +7702,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#2040be",
         "id": 53,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/53\/massif\/Bugey\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/53\/massif\/Bugey\/",
         "nom": "Bugey",
         "partitif": "du",
         "type": {
@@ -7759,7 +7759,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#019f7e",
         "id": 5052,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5052\/massif\/Calanques\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5052\/massif\/Calanques\/",
         "nom": "Calanques",
         "partitif": "des",
         "type": {
@@ -7976,7 +7976,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#42bd20",
         "id": 365,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/365\/massif\/Capcir\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/365\/massif\/Capcir\/",
         "nom": "Capcir",
         "partitif": "du",
         "type": {
@@ -8181,7 +8181,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#a07d02",
         "id": 425,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/425\/massif\/Cembra-Lagorai\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/425\/massif\/Cembra-Lagorai\/",
         "nom": "Cembra, Lagorai",
         "partitif": "du",
         "type": {
@@ -8314,7 +8314,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bd1f43",
         "id": 17,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/17\/massif\/Cerces-Ambin\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/17\/massif\/Cerces-Ambin\/",
         "nom": "Cerces-Ambin",
         "partitif": "des",
         "type": {
@@ -8743,7 +8743,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#7c02a1",
         "id": 5058,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5058\/massif\/Cerdagne\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5058\/massif\/Cerdagne\/",
         "nom": "Cerdagne",
         "partitif": "la",
         "type": {
@@ -8916,7 +8916,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#1e44bd",
         "id": 399,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/399\/massif\/Cevennes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/399\/massif\/Cevennes\/",
         "nom": "C\u00e9vennes",
         "partitif": "des",
         "type": {
@@ -8985,7 +8985,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#02a27b",
         "id": 20,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/20\/massif\/Chablais\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/20\/massif\/Chablais\/",
         "nom": "Chablais",
         "partitif": "du",
         "type": {
@@ -9062,7 +9062,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#45bd1d",
         "id": 2,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/2\/massif\/Chartreuse\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/2\/massif\/Chartreuse\/",
         "nom": "Chartreuse",
         "partitif": "de la",
         "type": {
@@ -9171,7 +9171,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#a27a02",
         "id": 5116,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5116\/massif\/Cheviot-Dales-Pennines\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5116\/massif\/Cheviot-Dales-Pennines\/",
         "nom": "Cheviot, Dales, Pennines",
         "partitif": "des",
         "type": {
@@ -9280,7 +9280,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bc1c46",
         "id": 5119,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5119\/massif\/Cirque-de-Cilaos\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5119\/massif\/Cirque-de-Cilaos\/",
         "nom": "Cirque de Cilaos",
         "partitif": "du",
         "type": {
@@ -9381,7 +9381,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#7803a3",
         "id": 5120,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5120\/massif\/Cirque-de-Mafat\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5120\/massif\/Cirque-de-Mafat\/",
         "nom": "Cirque de Mafat",
         "partitif": "du",
         "type": {
@@ -9522,7 +9522,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#1b47bc",
         "id": 5121,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5121\/massif\/cirque-de-Salazie\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5121\/massif\/cirque-de-Salazie\/",
         "nom": "cirque de Salazie",
         "partitif": "du",
         "type": {
@@ -9607,7 +9607,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#03a477",
         "id": 403,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/403\/massif\/Combrailles-Millevaches\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/403\/massif\/Combrailles-Millevaches\/",
         "nom": "Combrailles, Millevaches",
         "partitif": "de",
         "type": {
@@ -10116,7 +10116,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#48bc1a",
         "id": 366,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/366\/massif\/Comminges\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/366\/massif\/Comminges\/",
         "nom": "Comminges",
         "partitif": "du",
         "type": {
@@ -10373,7 +10373,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#a57603",
         "id": 5061,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5061\/massif\/Conflent\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5061\/massif\/Conflent\/",
         "nom": "Conflent",
         "partitif": "du",
         "type": {
@@ -10482,7 +10482,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bb1a49",
         "id": 5094,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5094\/massif\/Cordillere-Cantabrique\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5094\/massif\/Cordillere-Cantabrique\/",
         "nom": "Cordill\u00e8re Cantabrique",
         "partitif": "",
         "type": {
@@ -11107,7 +11107,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#7504a6",
         "id": 337,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/337\/massif\/Corse\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/337\/massif\/Corse\/",
         "nom": "Corse",
         "partitif": "de la",
         "type": {
@@ -11192,7 +11192,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#194abb",
         "id": 379,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/379\/massif\/Cote-chalonnaise-Maconnais-Lyonnais\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/379\/massif\/Cote-chalonnaise-Maconnais-Lyonnais\/",
         "nom": "C\u00f4te chalonnaise, M\u00e2connais-Lyonnais",
         "partitif": "des",
         "type": {
@@ -11897,7 +11897,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#04a674",
         "id": 364,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/364\/massif\/Couserans\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/364\/massif\/Couserans\/",
         "nom": "Couserans",
         "partitif": "du",
         "type": {
@@ -11982,7 +11982,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#4cbb18",
         "id": 5100,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5100\/massif\/Cumbria-Lake-District\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5100\/massif\/Cumbria-Lake-District\/",
         "nom": "Cumbria (Lake District)",
         "partitif": "",
         "type": {
@@ -12095,7 +12095,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#a77304",
         "id": 5092,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5092\/massif\/Demanda-Urbion-Cebollera-Becette-Moncayo\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5092\/massif\/Demanda-Urbion-Cebollera-Becette-Moncayo\/",
         "nom": "Demanda, Urbion, Cebollera, Becette, Moncayo",
         "partitif": "de",
         "type": {
@@ -12192,7 +12192,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#ba174d",
         "id": 15,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/15\/massif\/Devoluy-Trieves\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/15\/massif\/Devoluy-Trieves\/",
         "nom": "D\u00e9voluy-Tri\u00e8ves",
         "partitif": "du",
         "type": {
@@ -12277,7 +12277,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#7205a8",
         "id": 29,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/29\/massif\/Diablerets-Grimsel\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/29\/massif\/Diablerets-Grimsel\/",
         "nom": "Diablerets-Grimsel",
         "partitif": "de",
         "type": {
@@ -12518,7 +12518,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#174eba",
         "id": 46,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/46\/massif\/Diois\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/46\/massif\/Diois\/",
         "nom": "Diois",
         "partitif": "du",
         "type": {
@@ -12631,7 +12631,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#05a971",
         "id": 414,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/414\/massif\/Dolomites-de-Brenta\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/414\/massif\/Dolomites-de-Brenta\/",
         "nom": "Dolomites de Brenta",
         "partitif": "des",
         "type": {
@@ -12880,7 +12880,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#4fba16",
         "id": 5055,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5055\/massif\/Donezan\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5055\/massif\/Donezan\/",
         "nom": "Donezan",
         "partitif": "du",
         "type": {
@@ -13041,7 +13041,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#aa6f06",
         "id": 48,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/48\/massif\/Drome-sud-Baronnies-Luberon\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/48\/massif\/Drome-sud-Baronnies-Luberon\/",
         "nom": "Dr\u00f4me sud-Baronnies-Luberon",
         "partitif": "des",
         "type": {
@@ -13128,6 +13128,10 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
               [
                 6.41,
                 45.04
+              ],
+              [
+                6.30905,
+                45.12346
               ],
               [
                 6.17497,
@@ -13230,7 +13234,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b91550",
         "id": 18,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/18\/massif\/Ecrins\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/18\/massif\/Ecrins\/",
         "nom": "Ecrins",
         "partitif": "des",
         "type": {
@@ -13335,7 +13339,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#6e06aa",
         "id": 743,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/743\/massif\/El-Cocuy\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/743\/massif\/El-Cocuy\/",
         "nom": "El Cocuy",
         "partitif": "de",
         "type": {
@@ -13432,7 +13436,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#1451b9",
         "id": 401,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/401\/massif\/Espinouze-Lacaune-Montagne-Noire\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/401\/massif\/Espinouze-Lacaune-Montagne-Noire\/",
         "nom": "Espinouze, Lacaune, Montagne Noire",
         "partitif": "de l'",
         "type": {
@@ -13565,7 +13569,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#06ab6d",
         "id": 5060,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5060\/massif\/Fenouilledes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5060\/massif\/Fenouilledes\/",
         "nom": "Fenouill\u00e8des",
         "partitif": "du",
         "type": {
@@ -13670,7 +13674,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#52b814",
         "id": 5122,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5122\/massif\/Foret-de-Bebour\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5122\/massif\/Foret-de-Bebour\/",
         "nom": "For\u00eat de B\u00e9bour",
         "partitif": "de la",
         "type": {
@@ -13787,7 +13791,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#ac6c07",
         "id": 5080,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5080\/massif\/Foret-Noire\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5080\/massif\/Foret-Noire\/",
         "nom": "For\u00eat Noire",
         "partitif": "de la",
         "type": {
@@ -14024,7 +14028,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b81354",
         "id": 360,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/360\/massif\/Girona\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/360\/massif\/Girona\/",
         "nom": "Girona",
         "partitif": "de",
         "type": {
@@ -14241,7 +14245,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#6b07ac",
         "id": 430,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/430\/massif\/Goldberg-Ankogel-Kreuzeck\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/430\/massif\/Goldberg-Ankogel-Kreuzeck\/",
         "nom": "Goldberg, Ankogel, Kreuzeck",
         "partitif": "",
         "type": {
@@ -14534,7 +14538,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#1255b7",
         "id": 422,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/422\/massif\/Grandes-Dolomites\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/422\/massif\/Grandes-Dolomites\/",
         "nom": "Grandes Dolomites",
         "partitif": "des",
         "type": {
@@ -14679,7 +14683,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#08ad6a",
         "id": 16,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/16\/massif\/Grandes-Rousses---Arves\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/16\/massif\/Grandes-Rousses---Arves\/",
         "nom": "Grandes Rousses - Arves",
         "partitif": "des",
         "type": {
@@ -14768,7 +14772,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#56b712",
         "id": 343,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/343\/massif\/Grisons-Est\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/343\/massif\/Grisons-Est\/",
         "nom": "Grisons Est",
         "partitif": "des",
         "type": {
@@ -15173,7 +15177,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#ae6808",
         "id": 412,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/412\/massif\/Grisons-Ouest\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/412\/massif\/Grisons-Ouest\/",
         "nom": "Grisons Ouest",
         "partitif": "des",
         "type": {
@@ -15322,7 +15326,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b71157",
         "id": 431,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/431\/massif\/Grossglockner-Schober\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/431\/massif\/Grossglockner-Schober\/",
         "nom": "Grossglockner, Schober",
         "partitif": "du",
         "type": {
@@ -15407,7 +15411,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#6709ae",
         "id": 3308,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/3308\/massif\/Haut-Atlas\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/3308\/massif\/Haut-Atlas\/",
         "nom": "Haut Atlas",
         "partitif": "du",
         "type": {
@@ -15848,7 +15852,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#1058b6",
         "id": 355,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/355\/massif\/Haute-Ariege\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/355\/massif\/Haute-Ariege\/",
         "nom": "Haute Ari\u00e9ge",
         "partitif": "de la",
         "type": {
@@ -15957,7 +15961,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#09af66",
         "id": 751,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/751\/massif\/Hautes-Vosges\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/751\/massif\/Hautes-Vosges\/",
         "nom": "Hautes-Vosges",
         "partitif": "des",
         "type": {
@@ -16046,7 +16050,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#59b610",
         "id": 5129,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5129\/massif\/haute-terre\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5129\/massif\/haute-terre\/",
         "nom": "haute terre",
         "partitif": "de",
         "type": {
@@ -17931,7 +17935,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b0650a",
         "id": 5502,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5502\/massif\/Haute-vallee-de-l-Ariege-Donezan-Pays-de-Sault\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5502\/massif\/Haute-vallee-de-l-Ariege-Donezan-Pays-de-Sault\/",
         "nom": "Haute vall\u00e9e de l'Ari\u00e8ge, Donezan, Pays de Sault",
         "partitif": "de la",
         "type": {
@@ -18084,7 +18088,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b50f5b",
         "id": 5108,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5108\/massif\/Highlands-centre\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5108\/massif\/Highlands-centre\/",
         "nom": "Highlands centre",
         "partitif": "des",
         "type": {
@@ -18317,7 +18321,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#640ab0",
         "id": 5107,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5107\/massif\/Highlands-ouest\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5107\/massif\/Highlands-ouest\/",
         "nom": "Highlands ouest",
         "partitif": "des",
         "type": {
@@ -18542,7 +18546,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0e5cb4",
         "id": 5109,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5109\/massif\/Highlands-sud\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5109\/massif\/Highlands-sud\/",
         "nom": "Highlands sud",
         "partitif": "des",
         "type": {
@@ -18703,7 +18707,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0bb163",
         "id": 5110,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5110\/massif\/Hokkaido---Japon\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5110\/massif\/Hokkaido---Japon\/",
         "nom": "Hokkaido - Japon",
         "partitif": "de ",
         "type": {
@@ -18872,7 +18876,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#5db40e",
         "id": 5102,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5102\/massif\/iles-Hebrides-exterieures\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5102\/massif\/iles-Hebrides-exterieures\/",
         "nom": "\u00eeles H\u00e9brides ext\u00e9rieures",
         "partitif": "des",
         "type": {
@@ -19045,7 +19049,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b2620b",
         "id": 5103,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5103\/massif\/iles-Hebrides-interieures-Skye-Muck\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5103\/massif\/iles-Hebrides-interieures-Skye-Muck\/",
         "nom": "\u00eeles H\u00e9brides int\u00e9rieures (Skye > Muck)",
         "partitif": "des",
         "type": {
@@ -19290,7 +19294,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b30d5e",
         "id": 5104,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5104\/massif\/iles-Hebrides-interieures-sud\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5104\/massif\/iles-Hebrides-interieures-sud\/",
         "nom": "\u00eeles H\u00e9brides int\u00e9rieures sud",
         "partitif": "des",
         "type": {
@@ -19343,7 +19347,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#600cb2",
         "id": 5117,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5117\/massif\/iles-Orcades-et-Shetland\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5117\/massif\/iles-Orcades-et-Shetland\/",
         "nom": "\u00efles Orcades et Shetland",
         "partitif": "des",
         "type": {
@@ -19432,7 +19436,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0d5fb3",
         "id": 5095,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5095\/massif\/Invernadeiro-Cabrera-Montezinho\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5095\/massif\/Invernadeiro-Cabrera-Montezinho\/",
         "nom": "Invernadeiro, Cabrera, Montezinho",
         "partitif": "de",
         "type": {
@@ -19497,7 +19501,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0db35f",
         "id": 5072,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5072\/massif\/Jaizkibel\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5072\/massif\/Jaizkibel\/",
         "nom": "Jaizkibel",
         "partitif": "du",
         "type": {
@@ -19666,7 +19670,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#60b20c",
         "id": 27,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/27\/massif\/Jura-et-avant-pays-comtois\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/27\/massif\/Jura-et-avant-pays-comtois\/",
         "nom": "Jura et avant-pays comtois",
         "partitif": "du",
         "type": {
@@ -19879,7 +19883,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b35e0d",
         "id": 5073,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5073\/massif\/Kaisergebirge-Loferer-Leoganger\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5073\/massif\/Kaisergebirge-Loferer-Leoganger\/",
         "nom": "Kaisergebirge-Loferer-Leoganger",
         "partitif": "des",
         "type": {
@@ -20012,7 +20016,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b20b62",
         "id": 338,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/338\/massif\/Karawanken---Alpes-kamniques\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/338\/massif\/Karawanken---Alpes-kamniques\/",
         "nom": "Karawanken - Alpes kamniques",
         "partitif": "des",
         "type": {
@@ -20053,7 +20057,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#5d0eb4",
         "id": 5083,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5083\/massif\/Kerguelen-Crozet-Amsterdam-TAAF\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5083\/massif\/Kerguelen-Crozet-Amsterdam-TAAF\/",
         "nom": "Kerguelen, Crozet, Amsterdam (TAAF)",
         "partitif": "des",
         "type": {
@@ -20218,7 +20222,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0b63b1",
         "id": 6,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/6\/massif\/Lauziere-et-Grand-Arc\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/6\/massif\/Lauziere-et-Grand-Arc\/",
         "nom": "Lauzi\u00e8re et Grand Arc",
         "partitif": "de la",
         "type": {
@@ -20587,7 +20591,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0eb45c",
         "id": 5066,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5066\/massif\/Lleida-Lerida\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5066\/massif\/Lleida-Lerida\/",
         "nom": "Lleida (L\u00e9rida)",
         "partitif": "de",
         "type": {
@@ -20656,7 +20660,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#64b00a",
         "id": 5098,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5098\/massif\/Magina-Alta-Coloma\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5098\/massif\/Magina-Alta-Coloma\/",
         "nom": "M\u00e0gina, Alta Coloma",
         "partitif": "de",
         "type": {
@@ -20717,7 +20721,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b55b0f",
         "id": 3310,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/3310\/massif\/Maures---Esterel\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/3310\/massif\/Maures---Esterel\/",
         "nom": "Maures - Esterel",
         "partitif": "des",
         "type": {
@@ -20758,7 +20762,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b00a65",
         "id": 5136,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5136\/massif\/Mediterranee\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5136\/massif\/Mediterranee\/",
         "nom": "M\u00e9diterran\u00e9e",
         "partitif": "de la",
         "type": {
@@ -21067,7 +21071,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#5910b6",
         "id": 25,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/25\/massif\/Mercantour-Argentera\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/25\/massif\/Mercantour-Argentera\/",
         "nom": "Mercantour Argentera",
         "partitif": "du",
         "type": {
@@ -21108,7 +21112,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0966af",
         "id": 5138,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5138\/massif\/mm\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5138\/massif\/mm\/",
         "nom": "mm",
         "partitif": "",
         "type": {
@@ -21177,7 +21181,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#10b658",
         "id": 5126,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5126\/massif\/montagne-pelee\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5126\/massif\/montagne-pelee\/",
         "nom": "montagne pel\u00e9e",
         "partitif": "de la",
         "type": {
@@ -21402,7 +21406,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#67ae09",
         "id": 8,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/8\/massif\/Mont-Blanc\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/8\/massif\/Mont-Blanc\/",
         "nom": "Mont Blanc",
         "partitif": "du",
         "type": {
@@ -21563,7 +21567,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b75711",
         "id": 26,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/26\/massif\/Mont-Cenis-Grand-Paradis\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/26\/massif\/Mont-Cenis-Grand-Paradis\/",
         "nom": "Mont Cenis-Grand Paradis",
         "partitif": "des",
         "type": {
@@ -21652,7 +21656,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#ae0868",
         "id": 5074,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5074\/massif\/Morvan-Langres\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5074\/massif\/Morvan-Langres\/",
         "nom": "Morvan, Langres",
         "partitif": "du",
         "type": {
@@ -21717,7 +21721,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#5612b7",
         "id": 5145,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5145\/massif\/New-croix\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5145\/massif\/New-croix\/",
         "nom": "New croix",
         "partitif": "",
         "type": {
@@ -21762,7 +21766,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#086aad",
         "id": 5146,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5146\/massif\/nn133\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5146\/massif\/nn133\/",
         "nom": "nn133",
         "partitif": "",
         "type": {
@@ -21803,7 +21807,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#12b755",
         "id": 5147,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5147\/massif\/nnn222\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5147\/massif\/nnn222\/",
         "nom": "nnn222",
         "partitif": "",
         "type": {
@@ -21844,7 +21848,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#6bac07",
         "id": 5148,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5148\/massif\/nnn333\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5148\/massif\/nnn333\/",
         "nom": "nnn333",
         "partitif": "",
         "type": {
@@ -21885,7 +21889,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b85413",
         "id": 5149,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5149\/massif\/nnn444\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5149\/massif\/nnn444\/",
         "nom": "nnn444",
         "partitif": "",
         "type": {
@@ -21926,7 +21930,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#ac076c",
         "id": 5150,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5150\/massif\/nnn555\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5150\/massif\/nnn555\/",
         "nom": "nnn555",
         "partitif": "",
         "type": {
@@ -21967,7 +21971,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#5214b8",
         "id": 5151,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5151\/massif\/nnn666\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5151\/massif\/nnn666\/",
         "nom": "nnn666",
         "partitif": "",
         "type": {
@@ -22204,7 +22208,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#066dab",
         "id": 5071,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5071\/massif\/Nockberg\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5071\/massif\/Nockberg\/",
         "nom": "Nockberg",
         "partitif": "du",
         "type": {
@@ -22249,7 +22253,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#14b951",
         "id": 5160,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5160\/massif\/Nomdd\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5160\/massif\/Nomdd\/",
         "nom": "Nomdd",
         "partitif": "",
         "type": {
@@ -22294,7 +22298,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#6eaa06",
         "id": 5144,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5144\/massif\/Nom-nouveau\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5144\/massif\/Nom-nouveau\/",
         "nom": "Nom nouveau",
         "partitif": "",
         "type": {
@@ -22567,7 +22571,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#b95015",
         "id": 5106,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5106\/massif\/Nord-Ecosse\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5106\/massif\/Nord-Ecosse\/",
         "nom": "Nord Ecosse",
         "partitif": "de",
         "type": {
@@ -22612,7 +22616,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#aa066f",
         "id": 51,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/51\/massif\/Nouvelle-Caledonie\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/51\/massif\/Nouvelle-Caledonie\/",
         "nom": "Nouvelle Cal\u00e9donie",
         "partitif": "de la",
         "type": {
@@ -22709,7 +22713,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#4f16ba",
         "id": 44,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/44\/massif\/Ortler-Cevedale\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/44\/massif\/Ortler-Cevedale\/",
         "nom": "Ortler-Cevedale",
         "partitif": "de",
         "type": {
@@ -22846,7 +22850,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0571a9",
         "id": 413,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/413\/massif\/Otztal-Stubai\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/413\/massif\/Otztal-Stubai\/",
         "nom": "\u00d6tztal Stubai",
         "partitif": "de l'",
         "type": {
@@ -22891,7 +22895,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#17ba4e",
         "id": 5164,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5164\/massif\/Paris\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5164\/massif\/Paris\/",
         "nom": "Paris",
         "partitif": "",
         "type": {
@@ -23168,7 +23172,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#72a805",
         "id": 356,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/356\/massif\/Pays-Basque\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/356\/massif\/Pays-Basque\/",
         "nom": "Pays Basque",
         "partitif": "du",
         "type": {
@@ -23333,7 +23337,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#ba4d17",
         "id": 5059,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5059\/massif\/Pays-de-Foix\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5059\/massif\/Pays-de-Foix\/",
         "nom": "Pays de Foix",
         "partitif": "du",
         "type": {
@@ -23506,7 +23510,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#a70473",
         "id": 5099,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5099\/massif\/Pays-de-Galles-Cymru\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5099\/massif\/Pays-de-Galles-Cymru\/",
         "nom": "Pays de Galles (Cymru)",
         "partitif": "du",
         "type": {
@@ -23763,7 +23767,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#4c18bb",
         "id": 5050,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5050\/massif\/Pays-de-Sault\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5050\/massif\/Pays-de-Sault\/",
         "nom": "Pays de Sault",
         "partitif": "du",
         "type": {
@@ -23912,7 +23916,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0474a6",
         "id": 5057,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5057\/massif\/Pays-d-Olmes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5057\/massif\/Pays-d-Olmes\/",
         "nom": "Pays d'Olmes",
         "partitif": "du",
         "type": {
@@ -24273,7 +24277,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#19bb4a",
         "id": 426,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/426\/massif\/Petites-Dolomites-et-Prealpes-Venetes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/426\/massif\/Petites-Dolomites-et-Prealpes-Venetes\/",
         "nom": "Petites Dolomites et Pr\u00e9alpes V\u00e9n\u00e8tes",
         "partitif": "des",
         "type": {
@@ -24422,7 +24426,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#75a604",
         "id": 400,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/400\/massif\/Petits-et-Grands-Causses\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/400\/massif\/Petits-et-Grands-Causses\/",
         "nom": "Petits et Grands Causses",
         "partitif": "des",
         "type": {
@@ -24511,7 +24515,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bb491a",
         "id": 5078,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5078\/massif\/Pfalzerwald\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5078\/massif\/Pfalzerwald\/",
         "nom": "Pf\u00e4lzerwald",
         "partitif": "du",
         "type": {
@@ -24672,7 +24676,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#a50376",
         "id": 398,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/398\/massif\/Pilat-Velay-Vivarais\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/398\/massif\/Pilat-Velay-Vivarais\/",
         "nom": "Pilat, Velay, Vivarais",
         "partitif": "du",
         "type": {
@@ -24741,7 +24745,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#481abc",
         "id": 28,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/28\/massif\/Piton-de-la-Fournaise\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/28\/massif\/Piton-de-la-Fournaise\/",
         "nom": "Piton de la Fournaise",
         "partitif": "de la",
         "type": {
@@ -24822,7 +24826,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#0377a4",
         "id": 5123,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5123\/massif\/plaine-des-Chicots\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5123\/massif\/plaine-des-Chicots\/",
         "nom": "plaine des Chicots",
         "partitif": "de la",
         "type": {
@@ -25051,7 +25055,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#1bbc47",
         "id": 5068,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5068\/massif\/Prealpes-Baviere---Tyrol\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5068\/massif\/Prealpes-Baviere---Tyrol\/",
         "nom": "Pr\u00e9alpes Bavi\u00e8re - Tyrol",
         "partitif": "de",
         "type": {
@@ -25164,7 +25168,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#78a303",
         "id": 3311,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/3311\/massif\/Prealpes-de-Grasse\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/3311\/massif\/Prealpes-de-Grasse\/",
         "nom": "Pr\u00e9alpes de Grasse",
         "partitif": "des",
         "type": {
@@ -25389,7 +25393,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bc461c",
         "id": 42,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/42\/massif\/Prealpes-de-Haute-Provence\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/42\/massif\/Prealpes-de-Haute-Provence\/",
         "nom": "Pr\u00e9alpes de Haute-Provence",
         "partitif": "des",
         "type": {
@@ -25494,7 +25498,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#a2027a",
         "id": 5130,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5130\/massif\/Prealpes-de-Nice\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5130\/massif\/Prealpes-de-Nice\/",
         "nom": "Pr\u00e9alpes de Nice",
         "partitif": "des",
         "type": {
@@ -25751,7 +25755,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#451dbd",
         "id": 428,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/428\/massif\/Prealpes-du-Frioul\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/428\/massif\/Prealpes-du-Frioul\/",
         "nom": "Pr\u00e9alpes du Frioul",
         "partitif": "des",
         "type": {
@@ -25892,7 +25896,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#027ba2",
         "id": 411,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/411\/massif\/Prealpes-Lombardes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/411\/massif\/Prealpes-Lombardes\/",
         "nom": "Pr\u00e9alpes Lombardes",
         "partitif": "des",
         "type": {
@@ -25985,7 +25989,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#1ebd44",
         "id": 344,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/344\/massif\/Prealpes-suisses\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/344\/massif\/Prealpes-suisses\/",
         "nom": "Pr\u00e9alpes suisses",
         "partitif": "des",
         "type": {
@@ -26090,7 +26094,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#7ca102",
         "id": 396,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/396\/massif\/Puys-Sancy-Cantal\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/396\/massif\/Puys-Sancy-Cantal\/",
         "nom": "Puys, Sancy, Cantal",
         "partitif": "du",
         "type": {
@@ -26179,7 +26183,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bd431f",
         "id": 402,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/402\/massif\/Quercy-Rouergue\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/402\/massif\/Quercy-Rouergue\/",
         "nom": "Quercy, Rouergue",
         "partitif": "du",
         "type": {
@@ -26908,7 +26912,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#a0027d",
         "id": 22,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/22\/massif\/Queyras\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/22\/massif\/Queyras\/",
         "nom": "Queyras",
         "partitif": "du",
         "type": {
@@ -27173,7 +27177,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#4220bd",
         "id": 5105,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5105\/massif\/Rannoch-Cairngorms-Moray\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5105\/massif\/Rannoch-Cairngorms-Moray\/",
         "nom": "Rannoch, Cairngorms, Moray",
         "partitif": "des",
         "type": {
@@ -27314,7 +27318,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#017e9f",
         "id": 408,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/408\/massif\/Rhatikon-Silvretta\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/408\/massif\/Rhatikon-Silvretta\/",
         "nom": "Rh\u00e4tikon, Silvretta",
         "partitif": "des",
         "type": {
@@ -27531,7 +27535,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#20be40",
         "id": 429,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/429\/massif\/Ries-Gross-Venediger\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/429\/massif\/Ries-Gross-Venediger\/",
         "nom": "Ries, Gross Venediger",
         "partitif": "du",
         "type": {
@@ -27936,7 +27940,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#7f9e01",
         "id": 5056,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5056\/massif\/Sabarthes\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5056\/massif\/Sabarthes\/",
         "nom": "Sabarth\u00e8s",
         "partitif": "du",
         "type": {
@@ -28109,7 +28113,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#be3f21",
         "id": 5081,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5081\/massif\/Salzkammergut---Totesgebirge\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5081\/massif\/Salzkammergut---Totesgebirge\/",
         "nom": "Salzkammergut - Totesgebirge",
         "partitif": "des",
         "type": {
@@ -28234,7 +28238,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#9d0180",
         "id": 432,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/432\/massif\/Santis---Sargans\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/432\/massif\/Santis---Sargans\/",
         "nom": "S\u00e4ntis - Sargans",
         "partitif": "du",
         "type": {
@@ -28379,7 +28383,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#3e22be",
         "id": 423,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/423\/massif\/Sarntal-Sarentina\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/423\/massif\/Sarntal-Sarentina\/",
         "nom": "Sarntal, Sarentina",
         "partitif": "du",
         "type": {
@@ -28600,7 +28604,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#01819c",
         "id": 5101,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5101\/massif\/Scottish-Lowlands\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5101\/massif\/Scottish-Lowlands\/",
         "nom": "Scottish Lowlands",
         "partitif": "des",
         "type": {
@@ -28685,7 +28689,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#23be3d",
         "id": 5097,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5097\/massif\/Segura-Velez-Calares-del-Mundo\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5097\/massif\/Segura-Velez-Calares-del-Mundo\/",
         "nom": "Segura, V\u00e9lez, Calares del Mundo",
         "partitif": "Sierras de ",
         "type": {
@@ -28750,7 +28754,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#829b01",
         "id": 5516,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5516\/massif\/Serra-de-Monchique\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5516\/massif\/Serra-de-Monchique\/",
         "nom": "Serra de Monchique",
         "partitif": "de la",
         "type": {
@@ -28843,7 +28847,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#be3c24",
         "id": 5089,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5089\/massif\/Sierra-de-Guadarrama\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5089\/massif\/Sierra-de-Guadarrama\/",
         "nom": "Sierra de Guadarrama",
         "partitif": "de la",
         "type": {
@@ -28916,7 +28920,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#9b0083",
         "id": 5086,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5086\/massif\/Sierra-de-la-Tramuntana\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5086\/massif\/Sierra-de-la-Tramuntana\/",
         "nom": "Sierra de la Tramuntana",
         "partitif": "de la",
         "type": {
@@ -28997,7 +29001,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#3b25bf",
         "id": 5096,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5096\/massif\/Sierras-de-Teruel\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5096\/massif\/Sierras-de-Teruel\/",
         "nom": "Sierras de Teruel",
         "partitif": "des",
         "type": {
@@ -29102,7 +29106,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#00859a",
         "id": 5090,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5090\/massif\/Sierras-Lujar---Contraviesa\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5090\/massif\/Sierras-Lujar---Contraviesa\/",
         "nom": "Sierras L\u00f9jar - Contraviesa",
         "partitif": "de",
         "type": {
@@ -29223,7 +29227,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#26bf3a",
         "id": 55,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/55\/massif\/Ste-Victoire-Artuby-Verdon\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/55\/massif\/Ste-Victoire-Artuby-Verdon\/",
         "nom": "Ste Victoire Artuby Verdon",
         "partitif": "de",
         "type": {
@@ -29300,7 +29304,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#869900",
         "id": 5127,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5127\/massif\/sud-de-la-Martinique\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5127\/massif\/sud-de-la-Martinique\/",
         "nom": "sud de la Martinique",
         "partitif": "du",
         "type": {
@@ -29673,7 +29677,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bf3927",
         "id": 406,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/406\/massif\/Suisse-Centrale\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/406\/massif\/Suisse-Centrale\/",
         "nom": "Suisse Centrale",
         "partitif": "de la",
         "type": {
@@ -29778,7 +29782,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#980087",
         "id": 19,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/19\/massif\/Taillefer-Matheysine\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/19\/massif\/Taillefer-Matheysine\/",
         "nom": "Taillefer-Matheysine",
         "partitif": "du",
         "type": {
@@ -29883,7 +29887,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#3828bf",
         "id": 433,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/433\/massif\/Terres-Froides-Chambaran-Bas-Dauphine\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/433\/massif\/Terres-Froides-Chambaran-Bas-Dauphine\/",
         "nom": "Terres Froides, Chambaran, Bas Dauphin\u00e9",
         "partitif": "des",
         "type": {
@@ -30188,7 +30192,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#008897",
         "id": 52,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/52\/massif\/Tessin-lac-Majeur\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/52\/massif\/Tessin-lac-Majeur\/",
         "nom": "Tessin, lac Majeur",
         "partitif": "du",
         "type": {
@@ -30381,7 +30385,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#29bf37",
         "id": 5069,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5069\/massif\/Tuxer---Kitzbhel\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5069\/massif\/Tuxer---Kitzbhel\/",
         "nom": "Tuxer - Kitzb\u00fchel",
         "partitif": "",
         "type": {
@@ -31114,7 +31118,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#899600",
         "id": 24,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/24\/massif\/Ubaye\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/24\/massif\/Ubaye\/",
         "nom": "Ubaye",
         "partitif": "de l'",
         "type": {
@@ -31455,7 +31459,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bf362a",
         "id": 5064,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5064\/massif\/Val-d-Aran\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5064\/massif\/Val-d-Aran\/",
         "nom": "Val d'Aran",
         "partitif": "le",
         "type": {
@@ -31588,7 +31592,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#95008a",
         "id": 5062,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5062\/massif\/Valespir\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5062\/massif\/Valespir\/",
         "nom": "Valespir",
         "partitif": "du",
         "type": {
@@ -31917,7 +31921,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#352bbf",
         "id": 5063,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/5063\/massif\/Vall-d-Aneu\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/5063\/massif\/Vall-d-Aneu\/",
         "nom": "Vall d'\u00c0neu",
         "partitif": "de",
         "type": {
@@ -32138,7 +32142,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#008b94",
         "id": 424,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/424\/massif\/Vallee-de-l-Adige\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/424\/massif\/Vallee-de-l-Adige\/",
         "nom": "Vall\u00e9e de l'Adige",
         "partitif": "de la",
         "type": {
@@ -32343,7 +32347,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#2cbf34",
         "id": 9,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/9\/massif\/Vanoise\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/9\/massif\/Vanoise\/",
         "nom": "Vanoise",
         "partitif": "de la",
         "type": {
@@ -32444,7 +32448,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#8c9300",
         "id": 4,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/4\/massif\/Vercors\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/4\/massif\/Vercors\/",
         "nom": "Vercors",
         "partitif": "du",
         "type": {
@@ -32549,7 +32553,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#bf332d",
         "id": 752,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/752\/massif\/Vosges-Centrales\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/752\/massif\/Vosges-Centrales\/",
         "nom": "Vosges Centrales",
         "partitif": "des",
         "type": {
@@ -32662,7 +32666,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#92008d",
         "id": 753,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/753\/massif\/Vosges-du-Nord\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/753\/massif\/Vosges-du-Nord\/",
         "nom": "Vosges du Nord",
         "partitif": "des",
         "type": {
@@ -32867,7 +32871,7 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
       "properties": {
         "couleur": "#322ebf",
         "id": 421,
-        "lien": "https:\/\/dom2.refuges.info\/nav\/421\/massif\/Zillertal-Aurina\/",
+        "lien": "https:\/\/dom.refuges.info\/nav\/421\/massif\/Zillertal-Aurina\/",
         "nom": "Zillertal, Aurina",
         "partitif": "des",
         "type": {
@@ -32880,6 +32884,6 @@ Délai : 0.61 s, Les données ont été triées par clés et beautifiées pour s
     }
   ],
   "generator": "Refuges.info API",
-  "timestamp": "2026-02-20T20:41:09+01:00",
+  "timestamp": "2026-02-20T21:16:08+01:00",
   "type": "FeatureCollection"
 }
