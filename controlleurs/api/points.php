@@ -151,10 +151,10 @@ if($req->type_points != "all") {
   $params->ids_types_point = str_replace($val->type_points, $val->type_points_id, $req->type_points);
 }
 
-// Dom 01/2026 : filtre des détails
-// On paramètre, pour chaque niveau de détail,
+/****************************** FILTRE DES DÉTAILS ******************************/
+// Dom 01/2026 : On paramètre, pour chaque niveau de détail
 // les champs qu'on veut voir figurer dans la réponse de l'API
-// si besoin en renommant ce champ
+
 switch ($req->detail) {
   case 'complet':
     $params->avec_infos_creation = true;
@@ -164,6 +164,7 @@ switch ($req->detail) {
     $params->avec_infos_fiche = true;
 };
 
+/* Définition des informations transmises pour chaque option "detail" */
 // Uniquement affichage d'une icône cliquable avec son nom
 $filtre = ['icones' => [
   'nom' => true,
@@ -174,27 +175,38 @@ $filtre = ['icones' => [
 $filtre['simple'] = array_merge($filtre['icones'], [
   'nom' => true, // On écrase le précédent
   'id' => true,
+  'coord' => ['alt' => true],
   'type' => true, // On écrase le précédent
   'sym' => true,
-  'lien' => true,
-  'coord' => ['alt' => true],
-  'places' => true,
   'etat' => ['valeur' => true],
+  'places' => true,
+  'lien' => true,
 ]);
 
 $filtre['complet'] = array_merge($filtre['simple'], [
   'coord' => true, // On écrase le précédent
   'etat' => true, // On écrase le précédent
   'date' => true,
+  'createur' => true,
   'proprio' => true,
   'acces' => true,
   'remarque' => true,
-  'info_comp' => true,
+  'info_comp' => [
+    'bois_a_proximite' => 'bois', // On renomme
+    'cheminee' => true,
+    'couvertures' => true,
+    'eau_a_proximite' => 'eau',
+    'latrines' => true,
+    'manque_un_mur' => true,
+    'places' => true,
+    'places_matelas' => true,
+    'poele' => true,
+  ],
   'description' => true,
   'article' => true,
-  'createur' => true,
 ]);
 
+/* Petite fonction qui réalise le filtrage en fonction des définitions ci-dessus */
 function filtre_recursif($properties, $filtre) {
   // On est arrivé à la fin des règles
   if (is_scalar($properties) || is_scalar($filtre) || is_object($filtre))
@@ -217,6 +229,9 @@ function filtre_recursif($properties, $filtre) {
 
   return $obj;
 }
+
+
+/****************************** RÉCUPÉRATION DES POINTS ******************************/
 
 $points_bruts = new stdClass();
 $points = new stdClass();
