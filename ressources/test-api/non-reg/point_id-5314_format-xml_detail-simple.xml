@@ -1,5 +1,5 @@
-https://dom.refuges.info/api/point?id=5314&format=xml&detail=simple&nb_points=1
-Délai : 0.584 s.
+https://dom2.refuges.info/api/point?id=5314&format=xml&detail=simple&nb_points=1
+Délai : 0.524 s.
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <nodes>
@@ -9,10 +9,10 @@ Délai : 0.584 s.
 <type>
 <id>7</id>
 <valeur>cabane non gardée</valeur>
-<icone>cabane_manqueunmur_a48_eau</icone>
+<icone>cabane_manqueunmur_eau_cle</icone>
 </type>
 <sym>Fishing Hot Spot Facility</sym>
-<lien>https://dom.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/</lien>
+<lien>https://dom2.refuges.info/point/5314/cabane-non-gardee/Refugi-Baserca/</lien>
 <coord>
 <alt>1450</alt>
 <long>0.76305</long>
@@ -24,16 +24,14 @@ Délai : 0.584 s.
 </coord>
 <places>
 <nom>Places prévues pour dormir</nom>
-<valeur>
-</valeur>
+<valeur>10</valeur>
 </places>
 <etat>
-<valeur>
-</valeur>
-<id>ouverture</id>
+<valeur>Clés à récupérer</valeur>
+<id>cle_a_recuperer</id>
 </etat>
 <date>
-<derniere_modif>2017-07-11 12:35:22.94866+02</derniere_modif>
+<derniere_modif>2026-02-19 20:38:33.356535+01</derniere_modif>
 <creation>2015-10-06 17:58:21+02</creation>
 </date>
 <remarque>
@@ -50,7 +48,9 @@ L&#039;intérieur de la cabane est en sale état, mais il doit être possible d&
 </acces>
 <proprio>
 <nom>Propriétaire / accessibilité</nom>
-<valeur>OT de Vielha ?</valeur>
+<valeur>OT de Vielha ?
+Site officiel: [url=https://chemineur.fr/viewtopic.php?t=3219]Refugi Baserca[/url]
+Site officiel: [url=https://chemineur.fr/viewtopic.php?t=3219]Refugi Baserca[/url]</valeur>
 </proprio>
 <createur>
 <id>1557</id>
@@ -62,13 +62,6 @@ L&#039;intérieur de la cabane est en sale état, mais il doit être possible d&
 <partitif>d&#039;une</partitif>
 </article>
 <info_comp>
-<site_officiel>
-<nom>Site Internet</nom>
-<url>
-</url>
-<valeur>
-</valeur>
-</site_officiel>
 <manque_un_mur>
 <nom>Manque un mur</nom>
 <valeur>1</valeur>
@@ -90,9 +83,8 @@ L&#039;intérieur de la cabane est en sale état, mais il doit être possible d&
 </couvertures>
 <places_matelas>
 <nom>Places sur Matelas</nom>
-<nb>
-</nb>
-<valeur>Sans</valeur>
+<nb>2</nb>
+<valeur>2</valeur>
 </places_matelas>
 <latrines>
 <nom>Latrines</nom>
@@ -109,13 +101,17 @@ L&#039;intérieur de la cabane est en sale état, mais il doit être possible d&
 </eau>
 </info_comp>
 <description>
-<valeur>Cabane en bordure de l&#039;étang de Baserca.
+<valeur>Places prévues pour dormir: 10
+Places sur Matelas: 2
+Cabane en bordure de l&#039;étang de Baserca.
 En très grande partie détruite, mais il est possible de s&#039;abriter sous un bout de toit en cas d&#039;orage.
 
 L&#039;auvent est tombé.
 L&#039;intérieur de la cabane est en sale état, mais il doit être possible d&#039;y dormir (si l&#039;on a pas peur de voir le toit tomber lui aussi).
 Un parking le long de la N230, extrémité Nord du lac, est accolé à la cabane.
 OT de Vielha ?
+Site officiel: [url=https://chemineur.fr/viewtopic.php?t=3219]Refugi Baserca[/url]
+Site officiel: [url=https://chemineur.fr/viewtopic.php?t=3219]Refugi Baserca[/url]
 </valeur>
 </description>
 </node>
