@@ -166,26 +166,24 @@ switch ($req->detail) {
 
 /* Définition des informations transmises pour chaque option "detail" */
 // Uniquement affichage d'une icône cliquable avec son nom
-$filtre = ['icones' => [
-  'nom' => true,
-  'type' => ['icone' => true],
-]];
 
-// Carte actuelle WRI
-$filtre['simple'] = array_merge($filtre['icones'], [
-  'nom' => true, // On écrase le précédent
+// Utilisé par la carte actuelle WRI
+$filtre['simple'] = [
+  'nom' => true,
   'id' => true,
   'coord' => ['alt' => true],
-  'type' => true, // On écrase le précédent
+  'type' => true,
   'sym' => true,
   'etat' => ['valeur' => true],
   'places' => true,
   'lien' => true,
-]);
+];
 
 $filtre['complet'] = array_merge($filtre['simple'], [
-  'coord' => true, // On écrase le précédent
-  'etat' => true, // On écrase le précédent
+  // Complète avec les autres valeurs
+  'coord' => true,
+  'etat' => true,
+  // Nouveaux
   'date' => true,
   'createur' => true,
   'proprio' => true,
@@ -224,8 +222,13 @@ function filtre_recursif($properties, $filtre) {
       return $tablo;
     }
     // Cas normal
-    elseif (isset($props[$cle_filtre]))
-      $obj[$cle_filtre] = filtre_recursif($props[$cle_filtre], $sous_filtre);
+    elseif (isset($props[$cle_filtre]) && // Si la valeur existe
+      !empty($sous_filtre)) // Sauf si 'id' => false
+    {
+      // Renommage de la variable
+      $cle = is_string($sous_filtre) ? $sous_filtre : $cle_filtre;
+      $obj[$cle] = filtre_recursif($props[$cle_filtre], $sous_filtre);
+    }
 
   return $obj;
 }
