@@ -217,7 +217,6 @@ $config_wri['api_format_points'] = Array
 );
 
 $config_wri['api_format_detail'] = [
-  'icones' => "long, lat, nom, type, id & icone",
   'simple' => "idem + état, places & lien",
   'complet' => "toutes les informations disponibles sur les points",
 ];
