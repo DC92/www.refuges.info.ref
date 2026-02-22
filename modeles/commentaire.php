@@ -180,7 +180,7 @@ function infos_commentaires ($conditions)
             $commentaire->photo[$taille]=$chemin_photo;
             // Le filemtime a pour but, après une modification sur la photo, d'éviter que les caches navigateurs ne s'activent
             $commentaire->lien_photo[$taille]=$config_wri['rep_web_photos_points'].$nom_fichier_photo."?".filemtime($chemin_photo);
-            $commentaire->lien_photo_reduite=$config_wri['rep_web_photos_points'].$nom_fichier_photo;
+            $commentaire->lien_photo_reduite=$config_wri['rep_web_photos_points'].$nom_fichier_photo."?".filemtime($chemin_photo);
             break; // pas besoin de tester toute les extensions, on en a trouvé une
           }
         }
